@@ -1,0 +1,8 @@
+* {
+  font-family: poppinsbold;
+}
+
+.p-dialog .p-dialog-footer {
+  background-color: green !important;
+  color: white !important;
+}

@@ -1,0 +1,263 @@
+<router-outlet (activate)="onOutletActivate()" (deactivate)="onOutletDeactivate()"></router-outlet>
+<!-- Main div -->
+<div *ngIf="isOutletEmpty">
+
+
+  <div class="h-screen gap-3 bg-gray-200 px-10 pl-24 pt-4" style="display: flex; flex-direction: column">
+    <!-- Top Bar -->
+    <div class="mb-3 ml-10 flex h-16 items-center justify-between gap-5 rounded-lg bg-white px-4 shadow-md">
+      <p class="whitespace-nowrap font-bold">Gestion des Planifications :</p>
+
+
+      <div class="flex items-center gap-3">
+        <input type="search" placeholder="Search "
+          class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
+
+        <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
+
+        <div class="h-10 w-10 rounded-full bg-gray-200"></div>
+      </div>
+    </div>
+    <!-- Top bar ending -->
+
+    <div class="text-gray-500">
+      <p class="ml-10 text-sm">Planifications ></p>
+    </div>
+
+    <div class="mt-2 grid  grid-cols-4 gap-12 px-10">
+      <!-- card 1 -->
+      <div *ngFor="let Planificaion of planifications" class="max-w-sm">
+        <!--Trimestre  Modal -->
+        <p-dialog header="Crée Un Trimestre:" [(visible)]="visible2" [style]="{ width: '25rem' }">
+          <form #addTrimestreForm="ngForm" (ngSubmit)="onaddTrimestre(addTrimestreForm,Planificaion)">
+            <div class="align-items-center mb-3 flex gap-3 mt-2">
+              <label for="username" class="font-se mibold w-6rem">Titre Trimestre : </label>
+              <input pInputText name="nomtrimestre" required ngModel class="flex-auto" placeholder="Optional"
+                autocomplete="off" />
+            </div>
+            <div class="justify-content-end flex gap-10">
+              <p-button label="Annuler" severity="secondary" (onClick)="visible2 = false" />
+              <p-button label="Ajouter" [disabled]="addTrimestreForm.invalid" type="submit" (onClick)="show()"
+                (onClick)="visible2 = false" />
+            </div>
+          </form>
+        </p-dialog>
+        <div class="flex h-full flex-col rounded-lg bg-teal-400 p-8 dark:bg-[#7BB125]">
+          <div class="mb-3 flex items-center w-[21rem]">
+            <div
+              class="mr-3 inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-800 text-white">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M3 9H21M17 13.0014L7 13M10.3333 17.0005L7 17M7 3V5M17 3V5M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z"
+                    stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+              </svg>
+            </div>
+            <p class="text-sm whitespace-nowrap  font-medium text-white dark:text-white">
+              {{Planificaion.titreplanification}} {{Planificaion.dateplanification }}
+            </p>
+
+            <button class="ml-12 flex items-center justify-end w-full pr-4" (click)="OnSuprimer(Planificaion)">
+              <svg class="w-5  hover:w-8 group  transition-all duration-200" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
+                    stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9" stroke="#ffffff" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+              </svg>
+
+
+            </button>
+          </div>
+
+
+
+          <div class="flex flex-grow flex-col justify-between">
+
+            <div>
+              @if (Planificaion.trimestre[0]?.nomtrimestre) {
+              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[0]?.id]"
+                class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[0]?.nomtrimestre}}
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  class="ml-2 h-4 w-4" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              }@else {
+              <button
+                class=" w-full mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white"
+                (click)="showDialog2()">
+                <p>Ajouter Trimestre</p>
+                <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <title></title>
+                    <g id="Complete">
+                      <g data-name="add" id="add-2">
+                        <g>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="12" x2="12" y1="19" y2="5"></line>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="5" x2="19" y1="12" y2="12"></line>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+
+              }
+            </div>
+            <div>
+              @if (Planificaion.trimestre[1]?.nomtrimestre) {
+              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[1]?.id]"
+                class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[1]?.nomtrimestre}}
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  class="ml-2 h-4 w-4" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              }@else {
+              <button
+                class=" w-full mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white"
+                (click)="showDialog2()">
+                <p>Ajouter Trimestre</p>
+                <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <title></title>
+                    <g id="Complete">
+                      <g data-name="add" id="add-2">
+                        <g>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="12" x2="12" y1="19" y2="5"></line>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="5" x2="19" y1="12" y2="12"></line>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+
+              }
+            </div>
+            <div>
+              @if (Planificaion.trimestre[2]?.nomtrimestre) {
+              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[2]?.id]"
+                class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[2]?.nomtrimestre}}
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  class="ml-2 h-4 w-4" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              }@else {
+              <button
+                class=" w-full mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white"
+                (click)="showDialog2()">
+                <p>Ajouter Trimestre</p>
+                <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <title></title>
+                    <g id="Complete">
+                      <g data-name="add" id="add-2">
+                        <g>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="12" x2="12" y1="19" y2="5"></line>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="5" x2="19" y1="12" y2="12"></line>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+
+              }
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <!--Add Planification Card-->
+      <div class="max-w-sm ">
+        <div
+          class="flex h-56  w-[23.5rem] flex-col items-center justify-center rounded-lg bg-teal-400 dark:bg-gray-600">
+          <button (click)="showDialog()" class="rounded-full bg-[#9B9CA1] hover:bg-blue-600">
+            <svg class="h-28 w-28 transition-all duration-300 hover:h-32 hover:w-32" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg" fill="#000000">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g id="Complete">
+                  <g data-name="add" id="add-2">
+                    <g>
+                      <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        x1="12" x2="12" y1="19" y2="5"></line>
+                      <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        x1="5" x2="19" y1="12" y2="12"></line>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+
+
+
+      <p-toast position="bottom-right" />
+      <!--Planification Modal -->
+      <p-dialog header="Ajouter Planificaion :" [(visible)]="visible" [style]="{ width: '25rem' }">
+        <span class="p-text-secondary mb-5 block">Cette fonctionnalité a été crée pour le cas où vous souhaitez
+          réintégrer les anciennes planifications.
+        </span>
+
+        <form #addplanificationForm="ngForm" (ngSubmit)="onaddplanification(addplanificationForm)">
+          <div class="align-items-center mb-3 flex gap-3">
+            <label for="username" class="font-se mibold w-6rem font-semibold whitespace-nowrap">Titre Planification
+            </label>
+            <input pInputText name="titreplanification" required ngModel id=" username" placeholder=" titre"
+              autocomplete="off" />
+          </div>
+          <div class="align-items-center mb-5 flex gap-3">
+            <label for="email" class="w-6rem whitespace-nowrap font-semibold">Date de Planificaion :
+            </label>
+            <input type="date" name="dateplanification" ngModel required="date" class="w-5 flex-auto" placeholder="2025"
+              autocomplete="off" />
+          </div>
+          <div class="justify-content-end flex gap-10">
+            <p-button label="Annuler" severity="secondary" (onClick)="visible = false" />
+            <p-button label="Ajouter" [disabled]="addplanificationForm.invalid" type="submit" (onClick)="show()"
+              (onClick)="visible = false" />
+          </div>
+        </form>
+      </p-dialog>
+
+
+
+
+      <!--Modal -->
+
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,7 @@
+<div class="w-full">
+  <ul>
+    <li *ngFor="let Collaborateur of collaborateurs">
+      <button (click)=" AssignCollaborateurToProjet(Collaborateur.id, projetId)">{{Collaborateur.email}}</button>
+    </li>
+  </ul>
+</div>

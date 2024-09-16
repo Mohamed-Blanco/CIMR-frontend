@@ -1,0 +1,5 @@
+:host ::ng-deep .myPass .p-password-meter {
+    border: 1px solid red;
+    height: 15px;
+    border-radius: 10px;
+}

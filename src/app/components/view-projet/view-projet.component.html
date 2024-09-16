@@ -1,0 +1,600 @@
+<!--<div > <div *ngIf="project$ | async as project">-->
+<p-toast position="bottom-right" />
+<div class="bg-gray-200 min-h-screen">
+  <div>
+    <div>
+      <div class="justify-between  bg-gray-200 px-10 pl-24 pt-4" style="display: flex; flex-direction: column">
+        <!-- Top Bar -->
+        <div class=" ml-10 flex h-16 items-center justify-between gap-5 rounded-lg bg-white px-4 shadow-md">
+          <p class="font-bold">{{ projets?.titre }} :</p>
+          <div class="flex items-center gap-3">
+            <input type="search" placeholder="Search "
+              class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
+            <p-button (onClick)="showDialog()" label="+" />
+            <!-- Buttons -->
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between h-10 ">
+        <div class="flex items-center gap-3">
+          <div class="h-4 w-[3px] rounded-xl bg-gray-100"></div>
+
+          <!-- Buttons -->
+
+          <!-- Action Modal -->
+
+          <!-- Button trigger modal -->
+          <!-- Prime Ng Modal -->
+
+          <p-dialog header="Crée Action :" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+            <app-add-action *ngIf="visible" (showDialog)="showDialog()" [projet]="projets"></app-add-action>
+          </p-dialog>
+          <p-dialog header="Modifier l'Action :" [modal]="true" [(visible)]="visibleedit" [style]="{ width: '25rem' }">
+            <app-edit-action *ngIf="visibleedit" (showEdit)="showEdit()" [action]="ActionToedit"></app-edit-action>
+          </p-dialog>
+
+
+        </div>
+      </div>
+
+      <!-- Table of Dashboard -->
+
+      <!-- Table of content -->
+
+      <!-- component -->
+      <div class="flex h-full justify-end pl-24">
+        <div class="ml-10 mr-10 h-full w-full rounded-lg bg-white  shadow-md">
+
+
+
+          <!-- Action Component For Loop-->
+          <div class="h-full  w-full overflow-y-scroll rounded-lg border-[1px] bg-white-200">
+            <div *ngFor="let actions of Actions; let i = index">
+              @if (actions.etat === "Action En cours") {
+              <!-- Action Core Component -->
+              <div class="relative flex items-center justify-between">
+                @if (dropmenu) {
+                <div id="drop{{ i }}"
+                  class="absolute right-8 top-24 rounded-lg bg-white text-sm opacity-0 shadow-md transition-all duration-200">
+                  <ul class="flex flex-col">
+                    <li class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                      Consulter
+                      <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
+                          <path
+                            d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                            stroke="#33363F" stroke-width="2"></path>
+                        </g>
+                      </svg>
+                    </li>
+                    <button type="button" (click)="showEdit()" (click)="PassAction(actions)"
+                      class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                      Modifier
+                      <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                            stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                      </svg>
+                    </button>
+                    <button class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100"
+                      (click)="OnSuprimer(actions)">
+                      Suprimer
+                      <svg class="w-[1.3rem]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
+                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9" stroke="#000000" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                      </svg>
+                    </button>
+                  </ul>
+                </div>
+                }
+
+                <div class="flex w-full rounded-lg">
+                  <div class="ml-2 mt-2 flex w-28 items-center justify-center whitespace-nowrap">
+                    <p class="whitespace-nowrap text-sm">
+                      {{ actions.datelimite | date }}
+                    </p>
+                  </div>
+                  <div class="relative w-10 border-r-[4px] border-gray-400">
+                    <button (click)="SetCompleted(actions)"
+                      class="absolute right-[-16px] top-[45%] flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 p-2 shadow-md">
+                      <p>
+                        <svg class="h-6 transition-all duration-300 hover:h-10" viewBox="0 0 24 24" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                          <g id="SVGRepo_iconCarrier">
+                            <path
+                              d="M12 6C12.5523 6 13 6.44772 13 7V13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13V7C11 6.44772 11.4477 6 12 6Z"
+                              fill="#ffffff"></path>
+                            <path
+                              d="M12 16C11.4477 16 11 16.4477 11 17C11 17.5523 11.4477 18 12 18C12.5523 18 13 17.5523 13 17C13 16.4477 12.5523 16 12 16Z"
+                              fill="#ffffff"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z"
+                              fill="#ffffff"></path>
+                          </g>
+                        </svg>
+                      </p>
+                    </button>
+                  </div>
+
+                  <div class="w-full pl-10">
+                    <div class="m-5 rounded-lg bg-gray-400 shadow-md">
+                      <div class="ml-7 mr-3 flex items-center justify-between pt-2 text-white">
+                        <p class="whitespace-nowrap ">
+                          {{ actions.nomaction }}
+                        </p>
+                        <button class="rounded-lg px-1 py-1 text-white transition-colors duration-200"
+                          (click)="OnDropMenu(i)">
+                          <svg class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div>
+                        <p class="px-4 pb-4 whitespace-pre-wrap text-sm">{{ actions.contenue }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+              <!-- Action Component -->
+              @if (actions.etat === "Action Terminé") {
+              <div class="relative flex items-center justify-between">
+                <div class="flex w-full rounded-lg">
+                  <div class="ml-2 mt-2 flex w-28 items-center justify-center whitespace-nowrap text-sm">
+                    <p>{{ actions.datelimite | date }}</p>
+                  </div>
+                  <div class="relative w-10 border-r-[4px] border-green-400">
+                    <button (click)="SetCompleted(actions)"
+                      class="absolute right-[-16px] top-[45%] flex h-7 w-7 items-center justify-center rounded-full bg-green-400 p-2 shadow-md">
+                      <p>
+                        <svg class="h-8 transition-all duration-300 hover:h-10" viewBox="0 0 24 24" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                          <g id="SVGRepo_iconCarrier">
+                            <circle cx="12" cy="12" r="8" fill="#ffffff" fill-opacity="0.24"></circle>
+                            <path d="M8.5 11L11.3939 13.8939C11.4525 13.9525 11.5475 13.9525 11.6061 13.8939L19.5 6"
+                              stroke="#ffffff" stroke-width="1.2"></path>
+                            <path
+                              d="M19.3578 10.5465C19.6899 12.2277 19.4363 13.9719 18.6391 15.4889C17.8419 17.0059 16.5493 18.2041 14.9763 18.8842C13.4033 19.5642 11.6449 19.6851 9.99369 19.2267C8.34247 18.7682 6.89803 17.7582 5.90077 16.3646C4.90351 14.9709 4.41358 13.2778 4.51251 11.567C4.61144 9.85619 5.29327 8.23085 6.44453 6.96147C7.59578 5.6921 9.14703 4.85527 10.8401 4.59024C12.5331 4.32521 14.2659 4.64797 15.75 5.50481"
+                              stroke="#ffffff" stroke-linecap="round"></path>
+                          </g>
+                        </svg>
+                      </p>
+                    </button>
+                  </div>
+
+                  <div class="w-full pl-10">
+                    <div class="m-5 rounded-lg bg-green-400 shadow-md">
+                      <!-- Drop Down : -->
+                      @if (dropmenu) {
+
+                      <div id="drop{{ i }}"
+                        class="absolute right-8 top-24  rounded-lg bg-white text-sm opacity-0 shadow-md transition-all duration-200">
+                        <ul class="flex flex-col">
+                          <li class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                            Consulter
+                            <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                              <g id="SVGRepo_iconCarrier">
+                                <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
+                                <path
+                                  d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                  stroke="#33363F" stroke-width="2"></path>
+                              </g>
+                            </svg>
+                          </li>
+
+                          <button (click)="showEdit()" (click)="PassAction(actions)"
+                            class="z-20 flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                            Modifier
+                            <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
+                              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                              <g id="SVGRepo_iconCarrier">
+                                <path
+                                  d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                                  stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                              </g>
+                            </svg>
+                          </button>
+                          <button class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100"
+                            (click)="OnSuprimer(actions)">
+                            Suprimer
+                            <svg class="w-[1.3rem]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                              <g id="SVGRepo_iconCarrier">
+                                <path
+                                  d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
+                                  stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                                <path d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9" stroke="#000000"
+                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                              </g>
+                            </svg>
+                          </button>
+                        </ul>
+                      </div>
+                      }
+                      <!-- Drop Down : -->
+                      <div class="ml-7 mr-3 flex items-center justify-between pt-2 text-white">
+                        <p>{{ actions.nomaction }}</p>
+                        <button (click)="OnDropMenu(i)"
+                          class="rounded-lg px-1 py-1 text-white transition-colors duration-200">
+                          <svg class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="px-4 pb-4 whitespace-pre-wrap">
+                        <p class="text-sm">{{ actions.contenue }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+              <!-- Action Component -->
+              @if (actions.etat === "Pas encore Commencé") {
+              <div class="relative flex items-center justify-between">
+                @if (dropmenu) {
+
+                <div id="drop{{ i }}"
+                  class="absolute right-8 top-24  rounded-lg bg-white text-sm opacity-0 shadow-md transition-all duration-200">
+                  <ul class="flex flex-col">
+                    <li class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                      Consulter
+                      <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
+                          <path
+                            d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                            stroke="#33363F" stroke-width="2"></path>
+                        </g>
+                      </svg>
+                    </li>
+
+                    <button (click)="showEdit()" (click)="PassAction(actions)"
+                      class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                      Modifier
+                      <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                            stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                      </svg>
+                    </button>
+                    <button (click)="OnSuprimer(actions)"
+                      class="flex justify-between gap-2 rounded-lg px-4 py-2 hover:bg-gray-100">
+                      Suprimer
+                      <svg class="w-[1.3rem]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
+                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9" stroke="#000000" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                      </svg>
+                    </button>
+                  </ul>
+                </div>
+                }
+                <div class="flex w-full rounded-lg">
+                  <div class="ml-2 mt-2 flex w-28 items-center justify-center whitespace-nowrap text-sm">
+                    <p>{{ actions.datelimite | date }}</p>
+                  </div>
+                  <div class="relative w-10 border-r-[4px] border-[#FFC728]">
+                    <button (click)="SetUncompleted(actions)"
+                      class="absolute right-[-16px] top-[45%] flex h-7 w-7 items-center justify-center rounded-full bg-[#FFC728] p-2 shadow-md">
+                      <p>
+                        <svg class="h-8 transition-all duration-300 hover:h-10" viewBox="0 0 24 24" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                          <g id="SVGRepo_iconCarrier">
+                            <circle cx="12" cy="12" r="8" fill="#ffffff" fill-opacity="0.24"></circle>
+                            <path d="M8.5 11L11.3939 13.8939C11.4525 13.9525 11.5475 13.9525 11.6061 13.8939L19.5 6"
+                              stroke="#ffffff" stroke-width="1.2"></path>
+                            <path
+                              d="M19.3578 10.5465C19.6899 12.2277 19.4363 13.9719 18.6391 15.4889C17.8419 17.0059 16.5493 18.2041 14.9763 18.8842C13.4033 19.5642 11.6449 19.6851 9.99369 19.2267C8.34247 18.7682 6.89803 17.7582 5.90077 16.3646C4.90351 14.9709 4.41358 13.2778 4.51251 11.567C4.61144 9.85619 5.29327 8.23085 6.44453 6.96147C7.59578 5.6921 9.14703 4.85527 10.8401 4.59024C12.5331 4.32521 14.2659 4.64797 15.75 5.50481"
+                              stroke="#ffffff" stroke-linecap="round"></path>
+                          </g>
+                        </svg>
+                      </p>
+                    </button>
+                  </div>
+
+                  <div class="w-full pl-10">
+                    <div class="m-5 min-h-1 rounded-lg bg-[#FFC728] shadow-md">
+                      <div class="ml-7 mr-3 flex items-center justify-between pt-2 text-white">
+                        <p>{{ actions.nomaction }}</p>
+                        <button (click)="OnDropMenu(i)"
+                          class="rounded-lg px-1 py-1 text-white transition-colors duration-200">
+                          <svg class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="px-4 pb-4 whitespace-pre-wrap">
+                        <p class="text-sm">{{ actions.contenue }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+          <!-- Overview-->
+        </div>
+
+        <!-- Time line Component -->
+        <!-- Table d'information -->
+        <div class="flex-col">
+          <!--</div>-->
+          <div class="mb-4 pr-10">
+            <div class="mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow-lg md:max-w-lg">
+              <div class="md:flex">
+                <div class="w-full p-4">
+                  <div class="relative flex justify-between">
+                    <p>Collaborateurs :</p>
+                    <button type="button" class="flex w-9 justify-center" data-bs-toggle="modal"
+                      data-bs-target="#AffecterModal">
+                      <img src="assets/images/adduser.svg"
+                        class="h-6 w-6 transition-all ease-in-out hover:h-9 hover:w-9" alt="" />
+                    </button>
+                    <!-- Modal Debut -->
+                    <!-- Button trigger modal -->
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="AffecterModal" tabindex="-1" aria-labelledby="AffecterModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="AffecterModalLabel">
+                              Modal title
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <app-affecter-collaborateur [projetId]="projets.id"></app-affecter-collaborateur>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                              Close
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                              Save changes
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal Debut -->
+                  </div>
+                  <ul>
+                    <li *ngIf="collaborateurs?.length == 0"
+                      class="items-center justify-center flex text-xs h-14 text-[#7BB125]">
+                      Aucun collaborateur n'est
+                      partie
+                      de ce
+                      projet
+                    </li>
+                    <li *ngFor="let collaborateur of collaborateurs"
+                      class="mt-2 flex cursor-pointer items-center justify-between rounded bg-gray-100 p-2 shadow-md transition hover:shadow-lg">
+                      <div class="ml-2 flex">
+                        <img src="https://i.imgur.com/aq39RMA.jpg" width="40" height="40" class="rounded-full" />
+                        <div class="ml-2 flex flex-col">
+                          <span class="font-medium text-black">{{ collaborateur.nom }}
+                            {{ collaborateur.prenom }}</span>
+                          <span class="w-32 truncate text-sm text-gray-400">{{
+                            collaborateur.email
+                            }}</span>
+                        </div>
+                      </div>
+                      <div class="flex flex-col items-center">
+                        <span class="text-gray-300">11:26</span>
+                        <i class="fa fa-star text-green-400"></i>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mr-10 max-h-[470px] rounded-lg border border-gray-200 bg-white shadow-md">
+            <div class="p-3">
+              <div class="overflow-x-auto">
+                <table class="table-auto">
+                  <thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-400">
+                    <tr>
+                      <th class="whitespace-nowrap p-2">
+                        <div class="text-left font-semibold">Column Nom</div>
+                      </th>
+                      <th class="whitespace-nowrap p-2">
+                        <div class="text-left font-semibold">Column Value</div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100 text-sm">
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            Entitee demandeuse :
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.departement?.titre }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            Charge Estimee :
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.chargeestimee }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            Integration-coordination :
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.integrationcoordination }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            Controle-Qualité
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.controlequalite }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            DevAS400 :
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.chargeAS400 }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">DeVNTIC :</div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.chargeAS400 }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">Analyse :</div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.analyse }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">Infra :</div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.infra }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            Date d'enregistrement :
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.creele }}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="flex items-center">
+                          <div class="font-medium text-gray-800">
+                            A Retenir :
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap p-2">
+                        <div class="text-left">
+                          {{ projets?.aretenir }}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
