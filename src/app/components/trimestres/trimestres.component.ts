@@ -43,8 +43,9 @@ export class TrimestresComponent implements OnInit {
 
   visible2!: boolean;
 
-  showDialog2() {
+  showDialog2(Planification: Planification) {
     this.visible2 = true;
+    this.PlanificationToAddIn = Planification;
   }
 
   isOutletEmpty = true;
@@ -95,7 +96,7 @@ export class TrimestresComponent implements OnInit {
 
 
 
-  onaddTrimestre(onaddTrimestre: NgForm, planif: Planification): void {
+  onaddTrimestre(onaddTrimestre: NgForm): void {
 
 
     let trimestreRequest: Trimestre = new Trimestre();
@@ -103,7 +104,7 @@ export class TrimestresComponent implements OnInit {
     console.log(trimestreRequest);
 
     let planificationRequest: Planification = new Planification();
-    planificationRequest.id = planif.id;
+    planificationRequest = this.PlanificationToAddIn;
 
     trimestreRequest.planification = planificationRequest;
 
@@ -121,6 +122,8 @@ export class TrimestresComponent implements OnInit {
         },
       );
   }
+
+  PlanificationToAddIn  !: Planification;
 
 
 

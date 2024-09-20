@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Projet } from '../models/projet';
 import { envirenement } from '../app/envirenement/envirenement';
 import { Collaborateur } from '../models/collaborateur';
+import { ProjetCollaborateur } from '../models/ProjetCollaborateur';
 
 
 @Injectable({
@@ -43,14 +44,17 @@ export class ProjteService {
         return this.http.put<Projet>(`${this.apiServerUrl}/Projet/remarque`, projet);
     }
 
-    public getCollaborateurs(id: number): Observable<Collaborateur[]> {
+    public getCollaborateurs(id: number | null): Observable<Collaborateur[]> {
         return this.http.get<Collaborateur[]>(`${this.apiServerUrl}/ProjetCollaborateur/projet/` + id + `/Collaborateurs`,);
     }
 
-    public assignCollaborateur(idCollaborateur: number, idProjet: number | null): Observable<any> {
-        return this.http.get<any>(`${this.apiServerUrl}/ProjetCollaborateur/assign/${idProjet}/${idCollaborateur}`);
+    public assignCollaborateur(collabprojet: ProjetCollaborateur): Observable<ProjetCollaborateur> {
+        return this.http.post<ProjetCollaborateur>(`${this.apiServerUrl}/ProjetCollaborateur/assign`, collabprojet);
     }
 
+    public removeCollaborateur(projetId: number | null, collaborateurId: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiServerUrl}/ProjetCollaborateur/remove/${projetId}/${collaborateurId}`);
+    }
 
 
 

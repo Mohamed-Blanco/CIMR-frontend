@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Collaborateur } from '../../../models/collaborateur';
 import { ProjteService } from '../../../services/projet.service';
 import { collaborateurservice } from '../../../services/collaborateurs.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ProjetCollaborateur } from '../../../models/ProjetCollaborateur';
+import { Projet } from '../../../models/projet';
 
 @Component({
   selector: 'app-affecter-collaborateur',
@@ -13,6 +15,8 @@ export class AffecterCollaborateurComponent implements OnInit {
 
   collaborateurs !: Collaborateur[];
   @Input() projetId !: number | null;
+  @Output("GetProjets") GetProjets: EventEmitter<any> = new EventEmitter();
+  collabprojet !: ProjetCollaborateur;
 
   public getCollaborateurs(id: number | null): void {
     this.collaborateurservice.getCollaborateursNotInProjet(id).subscribe(
@@ -38,16 +42,34 @@ export class AffecterCollaborateurComponent implements OnInit {
 
   }
 
-  AssignCollaborateurToProjet(idCollaborateur: number, idProjet: number | null) {
-    this.projetservice.assignCollaborateur(idCollaborateur, idProjet).subscribe(
-      (response: Collaborateur[]) => {
-        this.collaborateurs = response;
+
+  AssignCollaborateurToProjet(idCollaborateur: number) {
+    let collabProjetRequest = new ProjetCollaborateur();
+
+    let prReq = new Projet();
+    prReq.id = this.projetId;
+
+    let collReq = new Collaborateur();
+    collReq.id = idCollaborateur;
+
+    collabProjetRequest.projet = prReq;
+    collabProjetRequest.collaborateur = collReq;
+
+    this.projetservice.assignCollaborateur(collabProjetRequest).subscribe(
+      (response: ProjetCollaborateur) => {
+        console.log("Response : " + response);
+        this.getCollaborateurs(this.projetId);
+        this.GetProjets.emit();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       },
     );
   }
+
+
+
+
 
 
 }

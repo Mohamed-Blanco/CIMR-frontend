@@ -420,4 +420,33 @@ export class ProjetsComponent implements OnInit {
     const dragedData: Projet = this.projets[drageIndex];
     const dropedData: Projet = this.projets[dropIndex];
   }
+
+  getAllCharges() {
+    array.forEach(element => {
+
+    });
+  }
+
+  this.Actions.forEach(action => {
+    console.log("proccessing")
+    if (action.etat == "Action En cours") {
+
+      this.counts.encours++;
+    }
+    if (action.etat == "Action Terminé") {
+
+      this.counts.Finished++;
+    }
+    if (action.etat == "Pas encore Commencé") {
+
+      this.counts.notStarted++;
+    }
+    if (action.etat == "Pas terminer") {
+
+      this.counts.outdated++;
+    }
+
+  }
+  )
+  }
 }

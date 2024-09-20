@@ -45,9 +45,12 @@ export class EditActionComponent implements OnInit {
 
     console.log("Submited");
     if (this.form.valid) {
-      console.log('Form submitted', this.form.value);
 
       let ActionRequest: Action = new Action();
+
+      let projRequ = new Projet();
+      projRequ.id = this.action.projet.id;
+
       ActionRequest.id = this.action.id;
       ActionRequest.competence = this.SelectedCompetence;
       ActionRequest.charge = this.form.value.charge;
@@ -55,15 +58,17 @@ export class EditActionComponent implements OnInit {
       ActionRequest.nomaction = this.form.value.nomaction;
       ActionRequest.datelimite = this.form.value.datelimite;
       ActionRequest.dateaction = this.action.dateaction;
-      ActionRequest.projet = this.action.projet;
+      ActionRequest.projet = projRequ;
       ActionRequest.etat = "Pas encore Commencé";
 
 
-      console.log("Request" + ActionRequest);
+      console.log("Request" + JSON.stringify(ActionRequest));
+
 
 
       return this.actionservice.updateAction(ActionRequest).subscribe((response: Action) => {
         console.log(response);
+        this.showedit();
         this.showEdit.emit();
       }, (error: HttpErrorResponse) => {
         alert(error.message);
@@ -80,7 +85,7 @@ export class EditActionComponent implements OnInit {
 
 
   Annuler() {
-
+    this.showEdit.emit;
   }
 
 
@@ -89,6 +94,14 @@ export class EditActionComponent implements OnInit {
       severity: 'warn',
       summary: 'Echec',
       detail: 'Veuiller Remplir Tout les champs de votre Action',
+    });
+  }
+
+  showedit() {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Modifier',
+      detail: 'Votre Action a etait bien modifier',
     });
   }
 

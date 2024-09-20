@@ -1,7 +1,42 @@
-<div class="w-full">
-  <ul>
-    <li *ngFor="let Collaborateur of collaborateurs">
-      <button (click)=" AssignCollaborateurToProjet(Collaborateur.id, projetId)">{{Collaborateur.email}}</button>
-    </li>
-  </ul>
-</div>
+<div class=" flex flex-col w-[450px] pb-8  bg-gray-200">
+
+
+  <div class="justify-between  bg-gray-200 pt-4" style="display: flex; flex-direction: column">
+    <!-- Top Bar -->
+    <div class="  flex h-16 items-center justify-between  rounded-lg bg-white px-4 shadow-md">
+
+      <h1 class=" text-[#7BB125]">Collaborateurs :</h1>
+      <div class="flex items-center gap-4">
+        <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
+        <input type="search" placeholder="Search "
+          class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
+
+
+      </div>
+
+
+    </div>
+
+
+    <ul class=" pt-4">
+      <li *ngFor="let Collaborateur of collaborateurs" class="my-3">
+        <div
+          class=" flex justify-between items-center bg-white hover:shadow-lg transition-all duration-150 hover:mb-8 hover:bg-gray-200 py-2 px-4 rounded-lg shadow-md">
+          <div class="flex items-center ">
+            <img src="" alt="" class="w-10 h-10  bg-black rounded-full ">
+            <p class="px-4 ">{{Collaborateur.nom}} {{Collaborateur.prenom}} <br> <span
+                class="text-lg text-[#7BB125]">{{Collaborateur.compentence}}</span> </p>
+          </div>
+
+
+          <button (click)=" AssignCollaborateurToProjet(Collaborateur.id)" type="button" class="flex w-9 justify-center"
+            data-bs-toggle="modal" data-bs-target="#AffecterModal">
+            <img src="assets/images/adduser.svg" class="h-6 w-6 transition-all ease-in-out hover:h-9 hover:w-9"
+              alt="" />
+          </button>
+        </div>
+
+      </li>
+    </ul>
+
+  </div>

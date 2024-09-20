@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ProjteService } from '../../../services/projet.service';
 import { Projet } from '../../../models/projet';
@@ -30,14 +30,16 @@ export class ViewProjetComponent implements OnInit {
     this.visibleedit = !this.visibleedit
     this.getAllActions(this.id);
     console.log("Editing : ");
-    if (this.i % 2 == 0) {
-      this.ActionEdit();
-    }
+
   }
 
 
+  suprimer: boolean = false;
 
-
+  showDelete(action: Action) {
+    this.suprimer = true;
+    this.ActionToDelete = action;
+  }
 
   constructor(
     private projetsService: ProjteService,
@@ -91,7 +93,7 @@ export class ViewProjetComponent implements OnInit {
 
 
 
-  public getprojetCollaborateurs(id: number): void {
+  public getprojetCollaborateurs(id: number | null): void {
     this.projetsService.getCollaborateurs(id).subscribe(
       (response: Collaborateur[]) => {
         this.collaborateurs = response;
@@ -104,9 +106,13 @@ export class ViewProjetComponent implements OnInit {
     )
   }
 
-  OnSuprimer(action: Action): void {
-    console.log("Projet a suprimer : " + action);
-    this.actionservice.deleteAction(action.id).subscribe(
+  ActionToDelete !: Action;
+
+  OnSuprimer(): void {
+
+
+    console.log("Projet a suprimer : " + this.ActionToDelete);
+    this.actionservice.deleteAction(this.ActionToDelete.id).subscribe(
       (response: void) => {
         console.log("Projet Suprimer ! " + response);
         this.getAllActions(this.projets.id);
@@ -115,6 +121,7 @@ export class ViewProjetComponent implements OnInit {
         console.log(error.message);
       }
     )
+    this.ActionDeleted();
   }
 
 
@@ -127,8 +134,53 @@ export class ViewProjetComponent implements OnInit {
     console.log("Actions" + this.Actions);
 
 
+
   }
 
+
+  counts = {
+    encours: 0,
+    Finished: 0,
+    notStarted: 0,
+    outdated: 0
+  };
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['Actions']) {
+      this.updateCounts();
+    }
+  }
+
+  private updateCounts() {
+    this.counts = {
+      encours: 0,
+      Finished: 0,
+      notStarted: 0,
+      outdated: 0
+    };
+
+    this.Actions.forEach(action => {
+      console.log("proccessing")
+      if (action.etat == "Action En cours") {
+
+        this.counts.encours++;
+      }
+      if (action.etat == "Action Terminé") {
+
+        this.counts.Finished++;
+      }
+      if (action.etat == "Pas encore Commencé") {
+
+        this.counts.notStarted++;
+      }
+      if (action.etat == "Pas terminer") {
+
+        this.counts.outdated++;
+      }
+
+    }
+    )
+  }
 
   dropmenu: boolean = false;
   Actions !: Action[];
@@ -142,12 +194,17 @@ export class ViewProjetComponent implements OnInit {
 
   }
 
-  ActionEdit() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Votre Action a était Bien Ajouter ',
-    });
+  RemoveCollaborateurFromProjet(idCollaborateur: number) {
+
+    this.projetsService.removeCollaborateur(this.projets.id, idCollaborateur).subscribe(
+      (response: void) => {
+        console.log("Response : " + response);
+        this.getprojetCollaborateurs(this.projets.id);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
   }
 
 
@@ -159,6 +216,14 @@ export class ViewProjetComponent implements OnInit {
     });
   }
 
+  ActionDeleted() {
+    this.messageService.add({
+      severity: 'Contrast',
+      summary: 'Element Suprimer',
+      detail: 'Votre Action a était Bien Suprimer ',
+    });
+  }
+
   getAllActions(id: number | null): void {
     this.actionservice
       .getProjetActions(id)
@@ -166,7 +231,7 @@ export class ViewProjetComponent implements OnInit {
         (response: Action[]) => {
 
           this.Actions = response;
-
+          this.updateCounts();
         },
         (error: HttpErrorResponse) => {
           console.log(error.message);
