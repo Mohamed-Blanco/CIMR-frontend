@@ -1,0 +1,156 @@
+<!-- component -->
+<div class="h-screen flex">
+
+    <div class="w-[44.5%] relative flex justify-center items-center transition-all duration-300" id="Background">
+        <img class="absolute   w-[50%] z-50" src="../../../assets/images/logo.png">
+        <div
+            class="flex w-full h-full bg-gradient-to-tr opacity-80 from-[#7BB125]  to-[#7BB125] i justify-around items-center">
+
+
+        </div>
+    </div>
+
+    @if(viewlogin){
+    <div class="flex w-1/2 justify-center items-center bg-white">
+        <form class="  bg-white" (ngSubmit)="login()">
+            <h1 class="text-gray-800 font-bold text-2xl mb-1">Salut à nouveau !</h1>
+            <p class="text-sm font-normal text-gray-600 mb-7">Bienvenue de retour</p>
+            <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                </svg>
+                <input class="pl-2 outline-none border-none" type="email" name="email" [(ngModel)]="credentials.email"
+                    placeholder="Email Address" />
+            </div>
+            <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd" />
+                </svg>
+                <input class="pl-2 outline-none border-none" type="password" name="password"
+                    [(ngModel)]="credentials.password" placeholder="Password" />
+            </div>
+            <button type="submit"
+                class="block w-full bg-[#95C151] mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Login</button>
+            <span class="text-sm ml-2 hover:text-blue-500 cursor-pointer">Mot de passe oublié ?</span>
+            <span (click)="onSwitch()" class="text-sm ml-2 font-bold hover:text-[#95C151]  cursor-pointer">Registrer
+                ?</span>
+        </form>
+    </div>
+    }@else {
+    <div class="flex w-1/2 justify-center items-center bg-white">
+        <form #registerform="ngForm" class=" bg-white" (ngSubmit)="register(registerform)">
+            <div class="flex justify-between items-center">
+                <h1 class="text-gray-800 font-bold text-2xl mb-1">Register</h1>
+                <button (click)="onSwitch()" class=""><svg class="w-5 h-5" fill="#000000" version="1.1" id="Capa_1"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 30.725 30.725" xml:space="preserve">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <g>
+                                <path
+                                    d="M24.078,26.457c0.977,0.978,0.977,2.559,0,3.536c-0.488,0.488-1.128,0.731-1.77,0.731c-0.639,0-1.278-0.243-1.768-0.731 L5.914,15.362l14.629-14.63c0.977-0.977,2.559-0.976,3.535,0c0.977,0.977,0.977,2.56,0,3.536L12.984,15.362L24.078,26.457z">
+                                </path>
+                            </g>
+                        </g>
+                    </svg></button>
+            </div>
+            <p class="text-sm font-normal text-gray-600 mb-7">N'hésitez pas à vous inscrire pour créer un compte</p>
+            <div class="flex gap-10">
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4" id="email">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    <input required class="pl-2 outline-none border-none" type="email" name="email" ngModel
+                        placeholder="Email Address" />
+                </div>
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4" id="password">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    <input class="pl-2 outline-none border-none" type="password" name="password" ngModel
+                        placeholder="Password" />
+                </div>
+
+            </div>
+            <div class=" flex gap-10">
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4" id="nom">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    <input required class="pl-2 outline-none border-none" type="text" name="nom" ngModel
+                        placeholder="Nom" />
+                </div>
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4" id="prenom">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    <input required class="pl-2 outline-none border-none" type="text" name="prenom" ngModel
+                        placeholder="Prenom" />
+                </div>
+
+            </div>
+            <div class="flex  gap-10 justify-between">
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4" id="droitdecongee">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                    <input required class="pl-2 outline-none border-none" type="number" name="droitdecongee" ngModel
+                        placeholder="Nombre de jour Congee" />
+                </div>
+                <p-dropdown
+                    [style]="{'border-width': '2px', 'border-radius': '20px', 'height': '45px', 'width': '100%'}"
+                    [options]="listcompetence" class="w-full" [(ngModel)]="SelectedCompetence"
+                    [ngModelOptions]="{standalone: true}" optionLabel="titrecompetence"
+                    placeholder="Competence (optional)" />
+            </div>
+            <div class="mt-[26px]">
+
+
+
+
+                <p class="font-bold mb-2">Image de Profil</p>
+                <div class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pb-6 pt-5">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-[#7BB125]" stroke="currentColor" fill="none"
+                            viewBox="0 0 48 48" aria-hidden="true">
+                            <path
+                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="file-upload"
+                                class="flex justify-center rounded-md bg-white  text-[#7BB125] focus-within:outline-none focus-within:ring-2 focus-within:ring-[#7BB125] focus-within:ring-offset-2 hover:text-[#7BB125]">
+                                <span class="font-bold">Upload a file</span>
+                                <input id="file-upload" name="file-upload" type="file" class="sr-only" />
+                            </label>
+                            <p class="pl-1 text-black">or drag and drop</p>
+                        </div>
+                        <p class="text-xs text-black">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <button type="submit"
+                class="block w-full bg-[#95C151] mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Register</button>
+
+        </form>
+    </div>
+    }
+</div>

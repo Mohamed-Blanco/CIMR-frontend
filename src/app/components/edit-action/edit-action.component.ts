@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { actionservice } from '../../../services/action.service';
 import { Action } from '../../../models/action';
-import { competence } from '../../../models/competence';
+import { Competence } from '../../../models/competence';
 import { Projet } from '../../../models/projet';
 
 @Component({
@@ -18,7 +18,7 @@ export class EditActionComponent implements OnInit {
   @Input() action !: Action;
   @ViewChild('editActionForm') form!: NgForm;
   value!: string;
-  Competence !: competence[];
+  Competence !: Competence[];
   SelectedCompetence!: string;
   dateLIMITE !: String;
   constructor(private actionservice: actionservice, private messageService: MessageService) {
@@ -32,11 +32,11 @@ export class EditActionComponent implements OnInit {
     this.SelectedCompetence = this.action.competence;
 
     this.Competence = [
-      { name: "DEV AS400" },
-      { name: "DEV NTIC" },
-      { name: "DEV Analyse" },
-      { name: "Integration-Coordination" },
-      { name: "Controle-Qualite" },
+      { titrecompetence: "DEV AS400" },
+      { titrecompetence: "DEV NTIC" },
+      { titrecompetence: "DEV Analyse" },
+      { titrecompetence: "Integration-Coordination" },
+      { titrecompetence: "Controle-Qualite" },
     ]
   }
 

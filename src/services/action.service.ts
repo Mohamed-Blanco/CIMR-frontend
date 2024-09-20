@@ -27,9 +27,6 @@ export class actionservice {
     }
 
 
-
-
-
     public SetCompletedAction(action: Action) {
         return this.http.put<Action>(
             `${this.apiServerUrl}/Action/Completed`, action

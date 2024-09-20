@@ -97,19 +97,19 @@
           <tr class="">
             <td class="whitespace-nowrap px-5 py-2 text-sm">Dev NTIC</td>
             <td class="whitespace-nowrap px-5 text-sm">10</td>
-            <td class="whitespace-nowrap px-5 text-sm">31</td>
+            <td class="whitespace-nowrap px-5 text-sm">{{counts.DEVNTIC}}</td>
             <td class="whitespace-nowrap px-5 text-sm">50</td>
           </tr>
           <tr class="bg-[#F9FAFB]">
             <td class="whitespace-nowrap px-5 py-2 text-sm">Dev AS400</td>
             <td class="whitespace-nowrap px-5 text-sm">10</td>
-            <td class="whitespace-nowrap px-5 text-sm">31</td>
+            <td class="whitespace-nowrap px-5 text-sm">{{counts.DEVAS400}}</td>
             <td class="whitespace-nowrap px-5 text-sm">50</td>
           </tr>
           <tr class="">
             <td class="whitespace-nowrap px-5 py-2 text-sm">Analyse</td>
             <td class="whitespace-nowrap px-5 text-sm">10</td>
-            <td class="whitespace-nowrap px-5 text-sm">31</td>
+            <td class="whitespace-nowrap px-5 text-sm">{{counts.Analyse}}</td>
             <td class="whitespace-nowrap px-5 text-sm font-bold text-red-600">
               50
             </td>
@@ -119,7 +119,7 @@
               Integration-Coordination
             </td>
             <td class="whitespace-nowrap px-5 text-sm">10</td>
-            <td class="whitespace-nowrap px-5 text-sm">31</td>
+            <td class="whitespace-nowrap px-5 text-sm">{{counts.Intrgration}}</td>
             <td class="whitespace-nowrap px-5 text-sm">50</td>
           </tr>
           <tr class="text-md font-bold text-[#7BB125]">
@@ -133,7 +133,7 @@
     </div>
     <!-- Main Section -->
     <div id="dropitemmenu"
-      class="transtion-all fixed bottom-16 left-0 right-0 z-40 m-auto flex h-[3.4em] w-[600px] scale-0 items-center justify-between rounded-lg bg-[#7BB125] px-5 text-sm text-white shadow-md duration-300">
+      class="transtion-all fixed bottom-16 left-0 right-0  m-auto flex h-[3.4em] w-[600px] scale-0 items-center justify-between rounded-lg bg-[#7BB125] px-5 text-sm text-white shadow-md duration-300">
       <p class="whitespace-nowrap pr-3">0 fichier sélectionnée</p>
       <div class="my-5 h-6 border-t border-gray-200 sm:border-s sm:border-t-0 dark:border-gray-200"></div>
       <button class="mx-2 flex items-center gap-2 rounded-lg p-2 hover:bg-white/25" (click)="selectitems()">
@@ -301,7 +301,7 @@
 
               <!-- Drop down Menu -->
               <div *ngIf="dropdownstate[index]" id="editmenu{{ index }}"
-                class="absolute right-0 z-50 mt-2 rounded-md bg-white opacity-0 shadow-lg transition-all">
+                class="absolute right-0  mt-2 rounded-md bg-white opacity-0 shadow-lg transition-all">
                 <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
                   <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                   <button data-bs-toggle="modal" data-bs-target="#editprojet" (click)="OnEdit(projet)"
@@ -321,7 +321,7 @@
                 </div>
 
                 <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
-                  <a [routerLink]="['/projets/viewprojet', projet?.id]" *ngFor="let col of getId()"
+                  <a [routerLink]="['viewprojet', projet?.id]" *ngFor="let col of getId()"
                     class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
                     id="menu-item-6">View
                     <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

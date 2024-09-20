@@ -6,6 +6,7 @@ import { CollaborateursModule } from './components/collaborateurs/collaborateurs
 import { AddCollaborateurModule } from './components/add-collaborateur/add-collaborateur.module';
 import { NavigationModule } from './components/navigation/navigation.module';
 import {
+  HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -28,9 +29,15 @@ import { ViewCollaborateurModule } from './components/view-collaborateur/view-co
 import { EditCollaborateurComponent } from './components/edit-collaborateur/edit-collaborateur.component';
 import { EditCollaborateurModule } from './components/edit-collaborateur/edit-collaborateur.module';
 import { EditActionModule } from './components/edit-action/edit-action.module';
+import { AuthentificationComponent } from './components/authentification/authentification.component';
+import { AuthentificationModule } from './components/authentification/authentification.module';
+import { AuthInterceptor } from '../services/auth-interceptor.service';
+import { HomecomponentComponent } from './components/homecomponent/homecomponent.component';
+import { HomecomponentModule } from './components/homecomponent/homecomponent.module';
+import { CompleterProfilComponent } from './components/completer-profil/completer-profil.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CompleterProfilComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -47,9 +54,13 @@ import { EditActionModule } from './components/edit-action/edit-action.module';
     EditProjetModule,
     ViewCollaborateurModule,
     EditCollaborateurModule,
-    EditActionModule
+    EditActionModule,
+    AuthentificationModule,
+    HomecomponentModule
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, [provideHttpClient(withInterceptorsFromDi())
+    ],],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

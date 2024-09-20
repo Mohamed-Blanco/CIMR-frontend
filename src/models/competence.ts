@@ -1,7 +1,12 @@
 
 
 
-export interface competence {
+export class Competence {
 
-    name: String;
+    constructor() {
+
+    }
+
+    titrecompetence !: String;
+
 }

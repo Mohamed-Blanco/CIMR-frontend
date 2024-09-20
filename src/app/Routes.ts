@@ -5,34 +5,51 @@ import { TrimestresComponent } from './components/trimestres/trimestres.componen
 import { get } from 'http';
 import { ViewProjetComponent } from './components/view-projet/view-projet.component';
 import { ViewCollaborateurComponent } from './components/view-collaborateur/view-collaborateur.component';
+import { AuthentificationComponent } from './components/authentification/authentification.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { HomecomponentComponent } from './components/homecomponent/homecomponent.component';
+import { CompleterProfilComponent } from './components/completer-profil/completer-profil.component';
 
 const routes: Routes = [
   {
-    path: 'collaborateurs',
-    component: CollaborateursComponent,
+    path: 'Home',
+    component: HomecomponentComponent, canActivate: [AuthGuard],
     children: [
-      { path: 'viewcollaborateur', component: ViewCollaborateurComponent },
+      {
+        path: 'collaborateurs',
+        component: CollaborateursComponent,
+        children: [
+          { path: 'viewcollaborateur', component: ViewCollaborateurComponent },
+        ],
+      },
+      {
+        path: 'Planification',
+        component: TrimestresComponent,
+        children: [{
+          path: 'Trimestre/:idTrimestre', component: ProjetsComponent, children: [{
+            path: 'viewprojet/:id', component: ViewProjetComponent
+          }],
+        }],
+      },
+      {
+        path: 'projets',
+        component: ProjetsComponent, children: [{
+          path: 'viewprojet/:id', component: ViewProjetComponent
+        }],
+      },
+      {
+        path: 'Completervotreprofil',
+        component: CompleterProfilComponent
+      },
     ],
   },
   {
-    path: 'projets',
-    component: ProjetsComponent
+    path: 'login',
+    component: AuthentificationComponent,
+
   },
-  {
-    path: 'Planification',
-    component: TrimestresComponent,
-    children: [{
-      path: 'Trimestre/:idTrimestre', component: ProjetsComponent,
-    }],
-  },
-  {
-    path: 'projets/viewprojet/:id',
-    component: ViewProjetComponent
-  },
-  {
-    path: 'Planification/:id',
-    component: ProjetsComponent,
-  }
+
 ];
 
 export default routes;

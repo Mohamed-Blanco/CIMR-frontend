@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, output, Output, ViewChild } from '@angular/core';
-import { competence } from '../../../models/competence';
+import { Competence } from '../../../models/competence';
 import { NgForm } from '@angular/forms';
 import { Action } from '../../../models/action';
 import { actionservice } from '../../../services/action.service';
@@ -23,7 +23,7 @@ export class AddActionComponent implements OnInit {
   date2: Date | undefined;
 
 
-  Competence !: competence[];
+  Competence !: Competence[];
   SelectedCompetence: any;
   @ViewChild('ajouterActionForm') form!: NgForm;
   value!: string
@@ -92,11 +92,11 @@ export class AddActionComponent implements OnInit {
 
 
     this.Competence = [
-      { name: "DEV AS400" },
-      { name: "DEV NTIC" },
-      { name: "DEV Analyse" },
-      { name: "Integration-Coordination" },
-      { name: "Controle-Qualite" },
+      { titrecompetence: "DEV AS400" },
+      { titrecompetence: "DEV NTIC" },
+      { titrecompetence: "DEV Analyse" },
+      { titrecompetence: "Integration-Coordination" },
+      { titrecompetence: "Controle-Qualite" },
     ]
   }
 

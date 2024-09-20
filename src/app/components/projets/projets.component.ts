@@ -372,9 +372,7 @@ export class ProjetsComponent implements OnInit {
     this.trimestreService.CurrentTrimestre().subscribe(
       (response: Trimestre) => {
         this.projets = response.projetList;
-        this.projets.sort((a, b) => {
-          return a.datelimie.getTime() - b.datelimie.getTime();
-        });
+        this.getAllCharges();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -403,6 +401,7 @@ export class ProjetsComponent implements OnInit {
     this.trimestreService.findTrimestreById(id).subscribe(
       (response: Trimestre) => {
         this.projets = response.projetList;
+        this.getAllCharges();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -421,32 +420,46 @@ export class ProjetsComponent implements OnInit {
     const dropedData: Projet = this.projets[dropIndex];
   }
 
+  counts = {
+    DEVNTIC: 0,
+    DEVAS400: 0,
+    Analyse: 0,
+    INFRA: 0,
+    CONTROLEQUALITE: 0,
+    Intrgration: 0
+
+  };
+
   getAllCharges() {
-    array.forEach(element => {
 
-    });
+    this.counts = {
+      DEVNTIC: 0,
+      DEVAS400: 0,
+      Analyse: 0,
+      INFRA: 0,
+      CONTROLEQUALITE: 0,
+      Intrgration: 0
+    };
+
+    this.projets.forEach(projet => {
+
+
+
+      if (projet.analyse != null && projet.chargeAS400 && projet.controlequalite && projet.integrationcoordination && projet.infra) {
+        console.log("proccessing")
+        this.counts.Analyse += projet.analyse;
+        this.counts.DEVAS400 += projet.chargeAS400;
+        this.counts.DEVNTIC += projet.chargeNTIC;
+        this.counts.INFRA += projet.infra;
+        this.counts.Intrgration += projet.integrationcoordination;
+        this.counts.CONTROLEQUALITE += projet.controlequalite;
+      }
+
+    })
+
+    console.log("COUNTS = " + this.counts.Analyse);
   }
 
-  this.Actions.forEach(action => {
-    console.log("proccessing")
-    if (action.etat == "Action En cours") {
 
-      this.counts.encours++;
-    }
-    if (action.etat == "Action Terminé") {
 
-      this.counts.Finished++;
-    }
-    if (action.etat == "Pas encore Commencé") {
-
-      this.counts.notStarted++;
-    }
-    if (action.etat == "Pas terminer") {
-
-      this.counts.outdated++;
-    }
-
-  }
-  )
-  }
 }

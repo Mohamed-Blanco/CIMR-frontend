@@ -129,7 +129,6 @@ export class TrimestresComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.activatedRoute)
     this.getPlanifications();
   }
 
@@ -140,7 +139,7 @@ export class TrimestresComponent implements OnInit {
         console.log(response);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log("Alert" + error.message);
       },
     );
   }

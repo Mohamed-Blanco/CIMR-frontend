@@ -157,8 +157,8 @@ export class CollaborateursComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //console.log(localStorage.getItem("token"))
     this.getCollaborateurs();
-
   }
 
 
@@ -169,13 +169,15 @@ export class CollaborateursComponent implements OnInit {
   }
 
   public getCollaborateurs(): void {
+    //debugger;
     this.collaborateurservice.getCollaborateurs().subscribe(
       (response: Collaborateur[]) => {
         this.Collaborateurs = response;
         console.log(this.Collaborateurs);
+
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log("Error", error.message);
       },
     );
   }
