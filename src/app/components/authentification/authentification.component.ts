@@ -21,16 +21,10 @@ export class AuthentificationComponent implements OnInit {
 
   }
 
-  listcompetence: Competence[] = [];
+  listcompetence !: Competence[];
 
   ngOnInit(): void {
-    this.listcompetence = [
-      { titrecompetence: "DEV AS400" },
-      { titrecompetence: "DEV NTIC" },
-      { titrecompetence: "DEV Analyse" },
-      { titrecompetence: "Integration-Coordination" },
-      { titrecompetence: "Controle-Qualite" },
-    ]
+    this.getAllcompetence();
   }
 
 
@@ -40,12 +34,12 @@ export class AuthentificationComponent implements OnInit {
   getAllcompetence() {
 
     this.athentificationService.Allcompetences().subscribe((response: Competence[]) => {
+      console.log(response);
 
       this.listcompetence = response;
-      console.log(this.listcompetence);
 
     }, (error) => {
-      console.error(' register error: ', error);
+      console.error(' COMPETENECE error: ', error);
     });
   }
 
@@ -58,7 +52,7 @@ export class AuthentificationComponent implements OnInit {
       console.log("Login")
       console.log("Token : " + response.token)
       localStorage.setItem('token', response.token);
-      this.router.navigateByUrl('/Home/collaborateurs')
+      this.router.navigateByUrl('/Home/ViewCollaborateur/' + response.id);
     }, (error) => {
       console.error('Login error: ', error);
     });
@@ -99,12 +93,20 @@ export class AuthentificationComponent implements OnInit {
     CollabReq.prenom = form.value.prenom;
     CollabReq.email = form.value.email;
     CollabReq.password = form.value.password;
-    CollabReq.droitdecongee = form.value.droitdecongee;
-    console.log("com" + this.SelectedCompetence);
-    CollabReq.compentence = this.SelectedCompetence.titrecompetence;
 
 
-    console.log("Collaborateur to regisre " + CollabReq.compentence, " email : ", CollabReq.email)
+
+    if (this.SelectedCompetence == null) {
+
+    } else {
+      let compReq = new Competence();
+      compReq.id = this.SelectedCompetence.id;
+      CollabReq.compentence = compReq;
+    }
+
+
+
+    console.log("Collaborateur to regisre " + CollabReq.nom, " email : ", CollabReq.email)
 
 
     this.athentificationService.register(CollabReq).subscribe((response) => {
@@ -120,7 +122,7 @@ export class AuthentificationComponent implements OnInit {
 
   viewlogin: boolean = true;
 
-  SelectedCompetence: any;
+  SelectedCompetence !: Competence;
 
 
 

@@ -24,4 +24,7 @@ export class Trimestre {
     analyseaconsomer: any | null;
     windevdisponible: any | null;
     projetList !: Projet[];
+    coefficientmaintence !: number;
+    joursferiee !: number;
+
 }

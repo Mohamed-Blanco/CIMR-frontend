@@ -1,18 +1,19 @@
+import { Competence } from "./competence";
+
 export class Collaborateur {
 
   constructor() { }
 
   id!: number;
-  username!: String;
-  compentence!: String;
+  compentence!: Competence;
   charge_disponible!: String;
-  badge_number!: number;
   email!: String;
   password!: String;
   image_url!: String;
   nom!: String;
   prenom!: String;
   about!: String;
-  droitdecongee!: number;
   creele!: Date;
+  enabled !: boolean;
+  role !: String;
 }

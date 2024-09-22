@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import e, { response } from 'express';
 import { error } from 'console';
 import { MessageService } from 'primeng/api';
+import { authentificationservice } from '../../../services/authentification.service';
 @Component({
   selector: 'app-add-action',
   templateUrl: './add-action.component.html',
@@ -24,12 +25,12 @@ export class AddActionComponent implements OnInit {
 
 
   Competence !: Competence[];
-  SelectedCompetence: any;
+  SelectedCompetence !: Competence;
   @ViewChild('ajouterActionForm') form!: NgForm;
   value!: string
 
 
-  constructor(private actionservice: actionservice, private messageService: MessageService) {
+  constructor(private actionservice: actionservice, private messageService: MessageService, private athentificationService: authentificationservice) {
 
   }
   date = new Date();
@@ -41,7 +42,12 @@ export class AddActionComponent implements OnInit {
       console.log('Form submitted', this.form.value);
 
       let ActionRequest: Action = new Action();
-      ActionRequest.competence = this.form.value.competence.name;
+
+
+      let compReq = new Competence();
+      compReq.id = this.form.value.competence.id;
+      ActionRequest.competence = compReq;
+
       ActionRequest.charge = this.form.value.charge;
       ActionRequest.contenue = this.form.value.contenue;
       ActionRequest.nomaction = this.form.value.nomaction;
@@ -90,16 +96,22 @@ export class AddActionComponent implements OnInit {
     console.log("Add Action : ");
     console.log("Projet", this.projet);
 
+    this.getAllcompetence();
 
-    this.Competence = [
-      { titrecompetence: "DEV AS400" },
-      { titrecompetence: "DEV NTIC" },
-      { titrecompetence: "DEV Analyse" },
-      { titrecompetence: "Integration-Coordination" },
-      { titrecompetence: "Controle-Qualite" },
-    ]
   }
 
+
+  getAllcompetence() {
+
+    this.athentificationService.Allcompetences().subscribe((response: Competence[]) => {
+
+      this.Competence = response;
+      console.log(this.Competence);
+
+    }, (error) => {
+      console.error(' register error: ', error);
+    });
+  }
   Annuler() { }
 
 

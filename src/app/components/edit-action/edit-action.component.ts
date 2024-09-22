@@ -6,6 +6,7 @@ import { actionservice } from '../../../services/action.service';
 import { Action } from '../../../models/action';
 import { Competence } from '../../../models/competence';
 import { Projet } from '../../../models/projet';
+import { authentificationservice } from '../../../services/authentification.service';
 
 @Component({
   selector: 'app-edit-action',
@@ -19,9 +20,9 @@ export class EditActionComponent implements OnInit {
   @ViewChild('editActionForm') form!: NgForm;
   value!: string;
   Competence !: Competence[];
-  SelectedCompetence!: string;
+  SelectedCompetence!: Competence;
   dateLIMITE !: String;
-  constructor(private actionservice: actionservice, private messageService: MessageService) {
+  constructor(private actionservice: actionservice, private athentificationService: authentificationservice, private messageService: MessageService) {
 
   }
 
@@ -30,14 +31,20 @@ export class EditActionComponent implements OnInit {
     let date = new Date;
     this.dateLIMITE = date.toString();
     this.SelectedCompetence = this.action.competence;
+    this.getAllcompetence();
 
-    this.Competence = [
-      { titrecompetence: "DEV AS400" },
-      { titrecompetence: "DEV NTIC" },
-      { titrecompetence: "DEV Analyse" },
-      { titrecompetence: "Integration-Coordination" },
-      { titrecompetence: "Controle-Qualite" },
-    ]
+  }
+
+  getAllcompetence() {
+
+    this.athentificationService.Allcompetences().subscribe((response: Competence[]) => {
+
+      this.Competence = response;
+      console.log(this.Competence);
+
+    }, (error) => {
+      console.error(' register error: ', error);
+    });
   }
 
 

@@ -1,5 +1,5 @@
 <div class="mx-auto max-w-md">
-  <div class="flex items-center space-x-5 mb-3">
+  <div class="flex items-center space-x-5 mb-8">
 
     <div class="block self-start pl-2 text-xl font-semibold text-gray-700">
       <h2 class="leading-relaxed">Ajouter un Projet</h2>
@@ -20,25 +20,14 @@
     <form #addprojetForm="ngForm">
       <div class=" space-y-4  leading-6 text-gray-700 sm:leading-7">
         <div class="flex flex-col">
-          <label class="leading-loose">Titre Projet</label>
+          <label class=" font-bold leading-loose">Titre Projet</label>
           <input type="text" name="titre" ngModel
             class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
             placeholder="projet titre " />
         </div>
-        <div class="flex flex-col">
-          <label class="leading-loose">Entitee demandeuse</label>
-          <div class="w-1/2 relative text-gray-400 focus-within:text-gray-600">
-
-            <p-dropdown [options]="departement" [(ngModel)]="SelectedDepartement" optionLabel="titre" name="departement"
-              placeholder="Entitee demandeuse" />
-
-          </div>
-        </div>
-
-        <hr class="my-10" />
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center justify-between space-x-4">
           <div class="flex flex-col">
-            <label class="leading-loose">Debut</label>
+            <label class="font-bold leading-loose">Debut</label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="date" name="datedebut" ngModel
                 class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
@@ -52,8 +41,8 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col">
-            <label class="leading-loose">Limite</label>
+          <div class="flex flex-col ">
+            <label class=" font-bold leading-loose">Limite</label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="date" name="datelimite" ngModel
                 class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
@@ -68,85 +57,92 @@
             </div>
           </div>
         </div>
+        <div class="flex flex-col">
+          <label class="font-bold leading-loose">Entitee demandeuse</label>
+          <div class="w-1/2 relative text-gray-400 focus-within:text-gray-600">
 
+            <p-dropdown [options]="departement" [(ngModel)]="SelectedDepartement" optionLabel="titre" name="departement"
+              placeholder="Entitee demandeuse" />
 
-
-        <div class=" items-center space-x-4 text-sm">
-
-          <div class="w-full flex flex-col">
-            <label class="leading-loose text-base whitespace-nowrap">Remarque :</label>
-            <textarea type="text" name="remarque " ngModel
-              class=" rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
-              placeholder="Optional"></textarea>
           </div>
-
         </div>
-        <hr class="my-10" />
-        <div class="flex items-center space-x-4 text-sm">
+
+
+
+
+
+
+
+
+        <div class="flex items-center justify-between space-x-4 text-sm">
           <div class="flex flex-col">
-            <label class="leading-loose">Dev AS400</label>
+            <label class="font-bold leading-loose">Dev AS400</label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="number" ngModel name="chargeAS400"
-                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                class="w-32 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
                 placeholder="" />
               <div class="absolute left-3 top-2"></div>
             </div>
           </div>
           <div class="flex flex-col">
-            <label class="leading-loose">Dev NTIC</label>
+            <label class="font-bold leading-loose">Dev NTIC</label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="number" ngModel name="chargeNTIC"
-                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                class="w-32 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
                 border-gray-600 />
               <div class="absolute left-3 top-2"></div>
             </div>
           </div>
           <div class="flex flex-col text-sm">
-            <label class="leading-loose">Infra</label>
+            <label class="font-bold leading-loose">Infra</label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="number" ngModel name="infra"
-                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                class="w-32 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
                 border-gray-600 />
               <div class="absolute left-3 top-2"></div>
             </div>
           </div>
         </div>
-        <div class="flex items-center space-x-4 text-sm">
+        <div class="flex items-center  justify-between space-x-4 text-sm">
           <div class="flex flex-col">
-            <label class="leading-loose">Analyse </label>
+            <label class="font-bold leading-loose">Analyse </label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="number" ngModel name="analyse"
-                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                class="w-32 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
                 placeholder="" />
               <div class="absolute left-3 top-2"></div>
             </div>
           </div>
           <div class="flex flex-col">
-            <label class="whitespace-nowrap leading-loose">Contrôle-Qualité</label>
+            <label class="font-bold whitespace-nowrap leading-loose">Contrôle-Qualité</label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="number" ngModel name="controlequalite"
-                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                class="w-32 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
                 placeholder="" />
               <div class="absolute left-3 top-2"></div>
             </div>
           </div>
           <div class="flex flex-col">
-            <label class="whitespace-nowrap leading-loose">Integration-Coordination
+            <label class=" font-bold  whitespace-nowrap leading-loose">Integration-Coordination
             </label>
             <div class="relative text-gray-400 focus-within:text-gray-600">
               <input type="number" ngModel name="integrationcoordination"
-                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm" />
+                class="w-32 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm" />
               <div class="absolute left-3 top-2"></div>
             </div>
           </div>
         </div>
-        <hr />
-        <div class="flex flex-col">
-          <label class="leading-loose">Projet Description</label>
-          <input type="number" ngModel name="etatdavancement"
-            class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
-            placeholder="Optional" />
+        <div class=" items-center space-x-4 text-sm">
+
+          <div class="w-full flex flex-col">
+            <label class="font-bold leading-loose text-base whitespace-nowrap">Remarque :</label>
+            <textarea type="text" name="remarque " ngModel
+              class=" rounded-md border border-gray-300 px-4 py-2 min-h-24 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+              placeholder="Optional"></textarea>
+          </div>
+
         </div>
+
       </div>
     </form>
   </div>

@@ -101,6 +101,9 @@ export class TrimestresComponent implements OnInit {
 
     let trimestreRequest: Trimestre = new Trimestre();
     trimestreRequest.nomtrimestre = onaddTrimestre.value.nomtrimestre;
+    trimestreRequest.coefficientmaintence = onaddTrimestre.value.coefficientmaintence;
+    trimestreRequest.joursferiee = onaddTrimestre.value.joursferiee;
+
     console.log(trimestreRequest);
 
     let planificationRequest: Planification = new Planification();

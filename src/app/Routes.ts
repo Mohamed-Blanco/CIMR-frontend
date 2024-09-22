@@ -39,8 +39,8 @@ const routes: Routes = [
         }],
       },
       {
-        path: 'Completervotreprofil',
-        component: CompleterProfilComponent
+        path: 'ViewCollaborateur/:id',
+        component: ViewCollaborateurComponent
       },
     ],
   },

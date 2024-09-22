@@ -1,32 +1,16 @@
-<div
-  class="justify-between gap-3 bg-gray-200 px-10 pl-24 pt-4"
-  style="display: flex; flex-direction: column"
->
+<div class=" ga min-h-screen bg-gray-200 px-10 pl-32 pt-4 gap-[1.5rem]" style="display: flex; flex-direction: column">
   <!-- Top Bar -->
-  <div
-    class="mb-3 ml-10 flex h-16 items-center justify-between gap-5 rounded-lg bg-white px-4 shadow-md"
-  >
+  <div class=" flex h-16 items-center justify-between ga rounded-lg bg-white px-4 shadow-md">
     <p class="font-bold">Mohamed Labiad</p>
-    <div class="flex items-center gap-3">
-      <input
-        type="search"
-        placeholder="Search "
-        class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10"
-      />
+    <div class="flex items-center ga">
+      <input type="search" placeholder="Search "
+        class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
       <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
 
-      <button
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#addprojet"
-        type="button"
-        class="group flex w-7 justify-center"
-      >
-        <img
-          src="assets/images/paper.svg"
-          class="h-5 transition-all ease-in-out hover:h-7 hover:w-7"
-          alt="Add Project"
-        />
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addprojet" type="button"
+        class="group flex w-7 justify-center">
+        <img src="assets/images/paper.svg" class="h-5 transition-all ease-in-out hover:h-7 hover:w-7"
+          alt="Add Project" />
         <div class="absolute mt-5 hidden rounded-lg text-sm group-hover:block">
           <p>Ajouter un projet</p>
         </div>
@@ -42,330 +26,194 @@
   <!-- Table d'information -->
   <!--Select Trimestre -->
 
-  <div class="z-20 flex items-center justify-between">
-    <div class="text-gray-500">
-      <p class="ml-10 text-sm text-[#7BB125]">
-        Collaborateur List > Mohamed Labiad
-      </p>
-    </div>
+  <div class="z-20 flex items-center justify-end ">
+
     <div class="group relative">
-      <button
-        (click)="dropdownbutton()"
-        class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100"
-      >
-        <span class="mr-2 text-[#7BB125]">Selectioner Trimestre</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="-mr-1 ml-2 h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
+      <button (click)="dropdownbutton()"
+        class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+        <span class="mr-2 ">Selectioner Trimestre</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
+          aria-hidden="true">
+          <path fill-rule="evenodd"
             d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
+            clip-rule="evenodd" />
         </svg>
       </button>
       @if (Isopen) {
-        <div
-          id="dropdown-menu"
-          class="absolute right-0 mt-2 space-y-1 rounded-md bg-white p-1 shadow-lg ring-1 ring-black ring-opacity-5 duration-500"
-        >
-          <!-- Search input -->
-          <input
-            id="search-input"
-            (input)="onSearch($event)"
-            class="block w-full rounded-md border border-gray-300 px-4 py-1 text-gray-800 focus:outline-none"
-            type="text"
-            placeholder="Search"
-            autocomplete="off"
-          />
+      <div id="dropdown-menu"
+        class="absolute right-0 mt-2 space-y-1 rounded-md bg-white p-1 shadow-lg ring-1 ring-black ring-opacity-5 duration-500">
+        <!-- Search input -->
+        <input id="search-input" (input)="onSearch($event)"
+          class="block w-full rounded-md border border-gray-300 px-4 py-1 text-gray-800 focus:outline-none" type="text"
+          placeholder="Search" autocomplete="off" />
 
-          <!-- Dropdown content goes here -->
-          <div class="max-h-24 overflow-y-scroll">
-            <a
-              class="block cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
-              *ngFor="let item of filteredItems"
-              href="#"
-            >
-              {{ item }}
-            </a>
-          </div>
+        <!-- Dropdown content goes here -->
+        <div class="max-h-24 overflow-y-scroll">
+          <a class="block cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
+            *ngFor="let item of filteredItems" href="#">
+            {{ item }}
+          </a>
         </div>
+      </div>
       }
     </div>
   </div>
 
-  <div class="flex justify-between gap-10 pl-10">
-    <div class="w-3/4 overflow-hidden rounded-lg">
-      <p-table
-        [scrollHeight]="'500px'"
-        class="overflow-y-scroll"
-        [value]="projets"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        [reorderableColumns]="true"
-      >
-        <ng-template pTemplate="header">
-          <tr class="text-sm">
-            <th class="whitespace-nowrap">Nom du fichier / Projet</th>
-            <th class="whitespace-nowrap">Entité demandeuse</th>
-            <th class="whitespace-nowrap">Charge estimée</th>
-            <th class="whitespace-nowrap">Date Debut</th>
-            <th class="whitespace-nowrap">Date limite</th>
-            <th></th>
-          </tr>
-        </ng-template>
 
-        <ng-template pTemplate="body" let-Collaborateur let-index="rowIndex">
-          <tr class="border-[1px] border-gray-200">
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td class="relative">
-              <button
-                (click)="Droptablelistmenu(index)"
-                class="rounded-lg px-1 py-1 text-gray-500 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="h-6 w-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                  />
+  <div class=" flex justify-between pb-20">
+
+    <div class="leftcontainer mr-10 grow">
+      <div class=" overflow-auto rounded-xl shadow-md">
+        <p-table [scrollHeight]="'500px'" class=" min-h-64 overflow-y-scroll" [value]="projets"
+          [tableStyle]="{ 'min-width': '50rem' }" [reorderableColumns]="true">
+          <ng-template pTemplate="header">
+            <tr class="text-sm bg-[#F9FAFB]">
+              <th class="flex items-center justify-center gap-2 w-24">
+                <svg class="mb-1 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M10 6L21 6.00066M10 12L21 12.0007M10 18L21 18.0007M3 5L5 4V10M5 10H3M5 10H7M7 20H3L6.41274 17.0139C6.78593 16.6873 7 16.2156 7 15.7197C7 14.7699 6.23008 14 5.28033 14H5C4.06808 14 3.28503 14.6374 3.06301 15.5"
+                      stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </g>
                 </svg>
-              </button>
+              </th>
 
-              <!-- Drop down Menu -->
+              <th class="whitespace-nowrap">Nom du Fichier/Projet</th>
 
-              <div
-                id="droplist{{ index }}"
-                *ngIf="dropdownstate2[index]"
-                class="absolute right-0 z-[200] mt-2 rounded-md bg-white opacity-0 shadow-lg transition-all"
-              >
-                <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
-                  <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                  <button
-                    data-bs-toggle="modal"
-                    data-bs-target="#editprojet"
-                    class="flex justify-between gap-[1.3em] px-4 py-2 text-sm text-gray-700"
-                    role="menuitem"
-                    tabindex="-1"
-                    id="menu-item-0"
-                  >
-                    Edit
-                    <svg
-                      class="w-[1.4em]"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <path
-                          d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
-                          stroke="#000000"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></path>
-                      </g>
-                    </svg>
-                  </button>
-                </div>
 
-                <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
-                  <a
-                    class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700"
-                    role="menuitem"
-                    tabindex="-1"
-                    id="menu-item-6"
-                    >View
-                    <svg
-                      class="w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <circle
-                          cx="12"
-                          cy="12"
-                          r="3"
-                          stroke="#33363F"
-                          stroke-width="2"
-                        ></circle>
-                        <path
-                          d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
-                          stroke="#33363F"
-                          stroke-width="2"
-                        ></path>
-                      </g>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+              <th class="whitespace-nowrap">Entitée demandeuse</th>
+              <th class="whitespace-nowrap">Collaborateurs</th>
+              <th class="whitespace-nowrap">Status</th>
+              <th class="whitespace-nowrap">Date Debut</th>
+              <th class="whitespace-nowrap">Date limite</th>
+              <th class="whitespace-nowrap">Charge Estimée</th>
+              <th class="whitespace-nowrap">Action</th>
+            </tr>
+          </ng-template>
 
-    <div
-      class="max-h-[470px] w-fit rounded-lg border border-gray-200 bg-white shadow-md"
-    >
-      <div class="p-3">
-        <div class="overflow-x-auto">
-          <table class="table-auto">
-            <thead
-              class="bg-gray-50 text-xs font-semibold uppercase text-gray-400"
-            >
-              <tr>
-                <th class="whitespace-nowrap p-2">
-                  <div class="text-left font-semibold">Column Nom</div>
-                </th>
-                <th class="whitespace-nowrap p-2">
-                  <div class="text-left font-semibold">Column Value</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 text-sm">
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">Dev AS400</div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">Dev NTIC</div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">Maintenance</div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">
-                      Controle-Qualité
-                    </div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">Analyse</div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">
-                      Contrôle-Qualite
-                    </div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-medium text-gray-800">
-                      Congés + Formations + Passation
-                    </div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-bold text-[#7BB125]">
-                      Total disponible Net de congé
-                    </div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2 font-bold text-[#7BB125]">
-                  <div class="text-left"></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap p-2">
-                  <div class="flex items-center">
-                    <div class="font-bold text-[#7BB125]">
-                      Total disponible DEV, Analyse & Intégration
-                    </div>
-                  </div>
-                </td>
-                <td class="whitespace-nowrap p-2">
-                  <div class="text-left font-bold text-[#7BB125]"></div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+          <ng-template pTemplate="body" let-projet let-index="rowIndex">
+
+            <tr class="text-sm" [pReorderableRow]="index">
+              <td class="whitespace-nowrap"></td>
+              <td class="whitespace-nowrap">{{projet.titre}}</td>
+              <td class="whitespace-nowrap">{{projet.departement.titre}}</td>
+              <td class="whitespace-nowrap"></td>
+              <td class="whitespace-nowrap"></td>
+
+              <td class="whitespace-nowrap">{{projet.datelimie}}</td>
+              <td class="whitespace-nowrap">{{projet.datedebut}}</td>
+              <td class="whitespace-nowrap">{{projet.chargeestimee}}</td>
+              <td class="whitespace-nowrap"></td>
+
+
+            </tr>
+
+          </ng-template>
+
+        </p-table>
+        <div class="bg-white w-full h-[40rem]"></div>
+
+        <div *ngIf="projets?.length == 0" class="bg-white h-80 justify-center flex items-center rounded-lg shadow-md ">
+          <p>Aucune Projets </p>
         </div>
       </div>
 
-      <!-- Here : -->
+
+
+
     </div>
-    <!-- component -->
-  </div>
+    <div class="rightcontainer flex flex-col gap-4 ">
+      <div class="h-full bg-white w-fit   py-5 rounded-lg shadow-md">
+        <div class=" grow-0  px-14  rounded-lg ">
+          <div class=" l gap-4 flex items-center justify-start flex-col py-4">
+            <img class="w-40 h-40 bg-black rounded-full "
+              src="https://themesflat.co/html/protend/images/profile/user-profile.png">
+            <p class="text-center text-lg  ">{{collaborateurInformation.nom}}{{collaborateurInformation.prenom}}
+              <br><span class="text-[#7BB125] text-sm">{{collaborateurInformation.email}}</span>
+            </p>
+          </div>
+        </div>
 
-  <!-- Project Cards : -->
+        <div class="border-dashed border-b-[3px] mx-5  h-2"></div>
 
-  <!-- cards Collaborateurs-->
+        <div class="flex px-14  justify-center   mt-4">
+          <div class="flex flex-col items-center">
+            <svg class="w-10 h-10 mb-1" fill="#7BB125" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 925 925" xml:space="preserve">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g>
+                  <g>
+                    <path
+                      d="M352.9,53.4H441.6c33.601,0,61.601,24,68,55.7H560.2C553.4,49.7,502.8,3.4,441.6,3.4H352.9 c-61.2,0-111.8,46.3-118.601,105.7H284.9C291.3,77.3,319.3,53.4,352.9,53.4z">
+                    </path>
+                    <path
+                      d="M127.2,322.4c71.8,46.4,167.7,72,270.1,72c102.4,0,198.2-25.6,270.101-72C732,280.7,769.5,226.8,774.1,169.7 C756.8,148,730.2,134.1,700.2,134.1H561h-50H283.6h-50H94.4c-29.9,0-56.6,13.9-73.9,35.6C25.1,226.8,62.6,280.6,127.2,322.4z">
+                    </path>
+                    <path
+                      d="M363.1,461.1c0,15.601,12.7,28.3,28.301,28.3H403.1c15.601,0,28.301-12.699,28.301-28.3v-22.6H363.1V461.1L363.1,461.1z">
+                    </path>
+                    <path
+                      d="M94.4,617.201h419.5V553.5c0-7.699,3.1-15,8.6-20.4L618.2,439c5.399-5.3,12.6-8.2,20.1-8.2h156.2V243 c-4.2,8.6-9,17.1-14.5,25.5c-21.5,32.9-52.2,62.3-91,87.4c-60.3,39-135.8,64.4-217.6,74.1v8.399V461 c0,37.701-30.601,68.3-68.301,68.3H391.4c-37.7,0-68.301-30.6-68.301-68.3V438.4V430c-81.8-9.601-157.3-35.101-217.6-74.1 c-38.8-25.1-69.5-54.5-91-87.4C9,260.1,4.2,251.6,0,243v279.8C0,574.9,42.3,617.201,94.4,617.201z">
+                    </path>
+                    <g>
+                      <path
+                        d="M659.6,453.6c-13.399,0-26.5,5.5-36,15l-69.1,69.602c-9.5,9.6-14.7,22.199-14.7,35.699v43.301v12.5v12.5V870.9 c0,2.4,0.2,4.801,0.5,7.1c3.4,24.6,24.601,43.6,50.2,43.6h283.8c27.9,0,50.7-22.699,50.7-50.699V504.201 c0-24.5-17.4-44.901-40.5-49.601c-3.3-0.7-6.7-1-10.1-1h-54.9H807h-12.5H659.6L659.6,453.6z M819.5,503.6h54.8 c0.4,0,0.7,0.301,0.7,0.701V871c0,0.1,0,0.1,0,0.201c-0.1,0.299-0.3,0.5-0.6,0.5c0,0,0,0-0.101,0H590.5 c-0.4,0-0.7-0.301-0.7-0.701V642.201v-12.5v-12.5v-33h36.7c22.9,0,41.5-18.602,41.5-41.5V503.6h126.5H807H819.5L819.5,503.6z">
+                      </path>
+                      <path
+                        d="M750,617.301H641.1c-9.199,0-17.199,5-21.6,12.4c-2.2,3.699-3.4,7.898-3.4,12.5v0.1c0,13.799,11.2,25,25,25h182.7 c13.8,0,25-11.201,25-25c0-13.801-11.2-25-25-25h-50.7H750z">
+                      </path>
+                      <path
+                        d="M823.8,774.801H641.1c-13.8,0-25,11.199-25,25c0,13.799,11.2,25,25,25h182.7c13.8,0,25-11.201,25-25 C848.8,786,837.6,774.801,823.8,774.801z">
+                      </path>
+                      <path
+                        d="M823.8,696.1H641.1c-13.8,0-25,11.201-25,25c0,13.801,11.2,25,25,25h182.7c13.8,0,25-11.199,25-25 C848.8,707.301,837.6,696.1,823.8,696.1z">
+                      </path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <p class="text-sm">Total Projets : </p>
 
-  <div class="ml-10 grid grid-cols-4 gap-10 pb-10">
-    <div class="h-64 w-64 rounded-lg bg-white shadow-md"></div>
+            <p class="text-lg font-bold">{{projetsCount}}+</p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class=" py-4 bg-white rounded-lg shadow-md">
+        <div class="flex items-center gap-4">
+          <div class=" w-2 h-16 bg-green-500"></div>
+          <p class="font-bold ">Informations professionnelle</p>
+        </div>
+        <div class="pl-[2rem] flex flex-col gap-3 pr-10">
+          <p class="flex justify-between">Competence : <span>{{collaborateurInformation.compentence}} </span> </p>
+          <p class="flex justify-between">disponible: <span>15 </span> </p>
+
+          <p class="flex justify-between">Cree le : <span>01/02/2024 </span> </p>
+          <p class="flex justify-between">Status : <span>Active </span> </p>
+          <p class="flex justify-between">Role : <span>Utilisateur </span> </p>
+
+          <p class="flex justify-between">Congés + Formations + .. : <span>0 </span> </p>
+          <p class="flex justify-between">Analyse : <span>0 </span> </p>
+          <p class="flex justify-between">Integration-Coordination : <span>0 </span> </p>
+          <p class="flex justify-between">Maintenence : <span>0 </span> </p>
+          <p class="flex justify-between">Total Net de congé : <span>0 </span> </p>
+
+          <p class="flex justify-between">Total Net Competence : <span>0 </span> </p>
+
+
+
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>

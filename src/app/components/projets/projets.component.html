@@ -40,10 +40,8 @@
 
     <!--Select Trimestre -->
 
-    <div class="z-20 flex items-center justify-between">
-      <div class="text-gray-500">
-        <p class="ml-10 text-sm text-[#7BB125]">Projets List > </p>
-      </div>
+    <div class="z-20 flex items-center justify-end">
+
       <div class="group relative">
         <button (click)="dropdownbutton()"
           class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100">
@@ -422,7 +420,8 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               fermer
             </button>
-            <button type="button" class="btn " (click)="onSubmit()" data-bs-dismiss="modal">Ajouter Projet</button>
+            <button type="button" class="btn bg-[#7BB125] text-white " (click)="onSubmit()"
+              data-bs-dismiss="modal">Sauvegarder</button>
           </div>
         </div>
       </div>
@@ -442,8 +441,8 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               fermer
             </button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onSubmitEdit()">Save
-              changes</button>
+            <button type="button" class="btn btn-primary bg-[#7BB125] text-white" data-bs-dismiss="modal"
+              (click)="onSubmitEdit()">Sauvegarder</button>
           </div>
         </div>
       </div>

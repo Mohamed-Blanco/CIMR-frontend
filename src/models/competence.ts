@@ -7,6 +7,7 @@ export class Competence {
 
     }
 
+    id !: number;
     titrecompetence !: String;
 
 }

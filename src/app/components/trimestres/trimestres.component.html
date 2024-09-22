@@ -28,11 +28,22 @@
       <!-- card 1 -->
       <div *ngFor="let Planificaion of planifications" class="max-w-sm">
         <!--Trimestre  Modal -->
-        <p-dialog header="Crée Un Trimestre:" [(visible)]="visible2" [style]="{ width: '25rem' }">
+        <p-dialog header="Ajouter Trimestre" [(visible)]=" visible2" [style]="{ width: '25rem' }">
           <form #addTrimestreForm="ngForm" (ngSubmit)="onaddTrimestre(addTrimestreForm)">
-            <div class="align-items-center mb-3 flex gap-3 mt-2">
+            <div class="justify-bettwen align-items-center mb-3 flex gap-3 mt-2">
               <label for="username" class="font-se mibold w-6rem">Titre Trimestre : </label>
-              <input pInputText name="nomtrimestre" required ngModel class="flex-auto" placeholder="Optional"
+              <input pInputText name="nomtrimestre" required ngModel class="flex-auto" placeholder="titre"
+                autocomplete="off" />
+            </div>
+            <div class="justify-bettwen align-items-center mb-3 flex gap-3 mt-2">
+              <label for="username" class="font-se mibold w-6rem ">Coefficient <span
+                  class="whitespace-nowrap">maintenance en % :</span> </label>
+              <input pInputText name="coefficientmaintence" type="number" required ngModel class="flex-auto"
+                placeholder="Coefficient %" autocomplete="off" />
+            </div>
+            <div class="justify-bettwen align-items-center mb-3 flex gap-3 mt-2">
+              <label for="username" class="font-se mibold w-6rem">Nombre de jour Fériee : </label>
+              <input pInputText name="joursferiee" required ngModel type="number" class="flex-auto" placeholder="nombre"
                 autocomplete="off" />
             </div>
             <div class="justify-content-end flex gap-10">
@@ -187,6 +198,41 @@
 
               }
             </div>
+            <div>
+              @if (Planificaion.trimestre[3]?.nomtrimestre){
+              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[3]?.id]"
+                class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[3]?.nomtrimestre}}
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  class="ml-2 h-4 w-4" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              }@else{
+              <button
+                class=" w-full mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white"
+                (click)="showDialog2(Planificaion)">
+                <p>Ajouter Trimestre</p>
+                <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <title></title>
+                    <g id="Complete">
+                      <g data-name="add" id="add-2">
+                        <g>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="12" x2="12" y1="19" y2="5"></line>
+                          <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" x1="5" x2="19" y1="12" y2="12"></line>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+
+              }
+            </div>
 
 
 
@@ -197,7 +243,7 @@
       <!--Add Planification Card-->
       <div class="max-w-sm ">
         <div
-          class="flex h-56  w-[23.5rem] flex-col items-center justify-center rounded-lg bg-teal-400 dark:bg-gray-600">
+          class="flex h-full  w-[23.5rem] flex-col items-center justify-center rounded-lg bg-teal-400 dark:bg-gray-600">
           <button (click)="showDialog()" class="rounded-full bg-[#9B9CA1] hover:bg-blue-600">
             <svg class="h-28 w-28 transition-all duration-300 hover:h-32 hover:w-32" viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg" fill="#000000">
