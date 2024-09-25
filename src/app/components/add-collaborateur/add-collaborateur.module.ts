@@ -4,11 +4,13 @@ import { AddCollaborateurComponent } from './add-collaborateur.component';
 import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
   declarations: [AddCollaborateurComponent],
-  imports: [CommonModule, FormsModule, PasswordModule, InputTextareaModule
+  imports: [CommonModule, FormsModule, PasswordModule, InputTextareaModule,
+    DropdownModule
   ],
   exports: [AddCollaborateurComponent],
 })

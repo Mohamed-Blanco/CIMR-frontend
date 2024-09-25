@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Projet } from '../../../models/projet';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProjteService } from '../../../services/projet.service';
@@ -25,7 +25,7 @@ interface Column {
   templateUrl: './projets.component.html',
   styleUrl: './projets.component.css',
 })
-export class ProjetsComponent implements OnInit {
+export class ProjetsComponent implements OnInit, OnChanges {
 
 
   visibleadd !: boolean;
@@ -48,12 +48,111 @@ export class ProjetsComponent implements OnInit {
   UseEditComponent: boolean = false;
   AllTrimestres: Trimestre[] = [];
 
+
+
+  Capacities !: any[];
+  Capacitiescounts = {
+    DevAs400: 999,
+    DevNTIC: 0,
+    WINDEV: 0,
+    Analyse: 0,
+    ControleQualite: 0,
+    IntegrationCoordination: 0,
+    Maintenence: 0,
+    Total1: 0,
+    Total2: 0
+  };
+
+  Ecartcounts = {
+    DevAs400: 999,
+    DevNTIC: 0,
+    WINDEV: 0,
+    Analyse: 0,
+    ControleQualite: 0,
+    IntegrationCoordination: 0,
+    Maintenence: 0,
+    Total1: 0,
+    Total2: 0
+  };
+
+  getAllCapacities(TrimestreId: number | undefined) {
+
+    this.trimestreService.AllCapacities(TrimestreId).subscribe(
+      (response: any) => {
+        this.Capacities = response;
+
+        console.log("Capacities " + response);
+        this.Capacitiescounts = {
+          DevAs400: 0,
+          DevNTIC: 0,
+          WINDEV: 0,
+          Analyse: 0,
+          ControleQualite: 0,
+          IntegrationCoordination: 0,
+          Maintenence: 0,
+          Total1: 0,
+          Total2: 0
+        };
+
+
+
+        this.Capacities.forEach(capacitie => {
+          console.log("proccessing" + capacitie.collaborateur.competence.titrecompetence)
+          if (capacitie.collaborateur.competence.titrecompetence == "DEV AS400") {
+            this.Capacitiescounts.DevAs400 += capacitie.chargecompetence;
+          }
+
+
+
+          if (capacitie.collaborateur.competence.titrecompetence == "DEV NTIC") {
+            this.Capacitiescounts.DevNTIC += capacitie.chargecompetence;
+          }
+
+          this.Capacitiescounts.Analyse += capacitie.analyse;
+
+          if (capacitie.controlequalite !== undefined) {
+            this.Capacitiescounts.ControleQualite += capacitie.Controlequalite;
+            console.log("Controle et Qualite  =  " + capacitie.controlequalite)
+          }
+
+
+          if (capacitie.controlequalite) {
+            this.Capacitiescounts.ControleQualite += capacitie.controlequalite;
+
+          }
+          this.Capacitiescounts.IntegrationCoordination += capacitie.integrationcoordination;
+
+          this.Capacitiescounts.Total1 = this.Capacitiescounts.Analyse + this.Capacitiescounts.ControleQualite + this.Capacitiescounts.DevAs400 + this.Capacitiescounts.DevNTIC + this.Capacitiescounts.IntegrationCoordination;
+
+          this.Capacitiescounts.Maintenence += capacitie.maintenence;
+
+          this.Capacitiescounts.Total2 = this.Capacitiescounts.Total1 + this.Capacitiescounts.Maintenence;
+
+
+        }
+        )
+
+        this.createChart();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
+
   private createChart(): void {
+
+    if (this.chart) {
+      this.chart.destroy(); // Destroy the existing chart before creating a new one
+    }
+
     console.log('Creating chart');
     if (!this.chartRef) {
       console.error('Chart reference not found');
       return;
     }
+
 
     const ctx = this.chartRef.nativeElement.getContext('2d');
     if (!ctx) {
@@ -62,32 +161,39 @@ export class ProjetsComponent implements OnInit {
     }
 
     const data = {
-      labels: ['NTIC', 'AS400', 'WINDEV', 'Analyse', 'Integration-coordination', 'Controle-Qualité'],
+      labels: [
+        'NTIC', 'NTIC',
+        'AS400', 'AS400',
+        'WINDEV', 'WINDEV',
+        'Analyse', 'Analyse',
+        'Integration-coordination', 'Integration-coordination',
+        'Controle-Qualité', 'Controle-Qualité'
+      ],
       datasets: [{
-        data: [12, 19, 3, 5, 2, 80],
+        data: [this.Capacitiescounts.DevNTIC, this.counts.DEVNTIC, this.Capacitiescounts.DevAs400, this.counts.DEVAS400, 0, 0, this.Capacitiescounts.Analyse, this.counts.Analyse, this.Capacitiescounts.IntegrationCoordination, this.counts.Intrgration, this.Capacitiescounts.ControleQualite, this.counts.CONTROLEQUALITE],
         backgroundColor: [
-          '#00712D',
-          'yellow',
-          'red',
-          '#125B9A',
-          'purple',
-          'brown'
+          '#EF7F5A', '#EF7F5A',    // Green for NTIC
+          '#00712D', '#00712D',    // Yellow for AS400
+          '#00ECCC', '#00ECCC',    // Red for WINDEV
+          '#125B9A', '#125B9A',    // Blue for Analyse
+          '#E6A400', '#E6A400',    // Purple for Integration-coordination
+          '#00BC8B', '#00BC8B'     // Brown for Controle-Qualité
         ]
       }]
     };
 
+
+
     const config: ChartConfiguration = {
-      type: 'pie',
+      type: 'bar',
       data: data,
       options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'right',
-          },
-
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
-      }
+      },
     };
 
     try {
@@ -108,9 +214,11 @@ export class ProjetsComponent implements OnInit {
         console.log(response);
         if (this.TrimestreId !== undefined) {
           this.getprojetsByTrimestreId(this.TrimestreId);
+          this.getTrimestreData(this.TrimestreId);
           console.log("dlsdksmldkMLSK unDEFIENED")
         } else {
           this.getprojets();
+
         }
 
       },
@@ -199,7 +307,7 @@ export class ProjetsComponent implements OnInit {
   cols!: Column[];
   dropdownstate: boolean[] = [];
   select: boolean = false;
-  Isopen: boolean = true;
+  Isopen: boolean = false;
 
   searchTerm: string = '';
   filteredItems: Trimestre[] = [...this.AllTrimestres];
@@ -303,25 +411,56 @@ export class ProjetsComponent implements OnInit {
 
   ngAfterViewInit(): void {
 
-    this.createChart();
+
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+
 
   }
 
 
+
+
   private activatedRoute = inject(ActivatedRoute);
-  TrimestreId !: number | undefined;
+  TrimestreId!: number | undefined;
+
+  trimestre !: Trimestre;
+
+  getTrimestreData(id: number | undefined) {
+    this.trimestreService.findTrimestreById(id).subscribe(
+      (response: Trimestre) => {
+        this.trimestre = response;
+        console.log("Trimestre Data : " + this.trimestre)
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
   ngOnInit(): void {
+
+
 
     this.getTrimestres();
     this.TrimestreId = this.activatedRoute.snapshot.params['idTrimestre'];
 
     if (this.TrimestreId !== undefined) {
+
+      console.log("Trimestreid : ");
       console.log(this.TrimestreId);
       this.getprojetsByTrimestreId(this.TrimestreId);
+      this.getTrimestreData(this.TrimestreId);
+
     } else {
       console.log("Trimestre Actuel ");
       this.getprojets();
     }
+
+
 
 
     this.cols = [
@@ -373,6 +512,8 @@ export class ProjetsComponent implements OnInit {
       (response: Trimestre) => {
         this.projets = response.projetList;
         this.getAllCharges();
+        this.getAllCapacities(response.id);
+        this.getTrimestreData(response.id);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -402,6 +543,9 @@ export class ProjetsComponent implements OnInit {
       (response: Trimestre) => {
         this.projets = response.projetList;
         this.getAllCharges();
+        this.getAllCapacities(response.id);
+        this.getTrimestreData(response.id);
+        this.createChart();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -422,7 +566,7 @@ export class ProjetsComponent implements OnInit {
 
   counts = {
     DEVNTIC: 0,
-    DEVAS400: 0,
+    DEVAS400: 999,
     Analyse: 0,
     INFRA: 0,
     CONTROLEQUALITE: 0,
@@ -445,8 +589,8 @@ export class ProjetsComponent implements OnInit {
 
 
 
-      if (projet.analyse != null && projet.chargeAS400 && projet.controlequalite && projet.integrationcoordination && projet.infra) {
-        console.log("proccessing")
+      if (projet.analyse != null && projet.chargeAS400 != null && projet.controlequalite != null && projet.integrationcoordination != null && projet.infra) {
+        console.log("proccessing  Projets")
         this.counts.Analyse += projet.analyse;
         this.counts.DEVAS400 += projet.chargeAS400;
         this.counts.DEVNTIC += projet.chargeNTIC;
@@ -454,6 +598,9 @@ export class ProjetsComponent implements OnInit {
         this.counts.Intrgration += projet.integrationcoordination;
         this.counts.CONTROLEQUALITE += projet.controlequalite;
       }
+
+
+
 
     })
 

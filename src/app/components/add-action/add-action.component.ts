@@ -59,7 +59,7 @@ export class AddActionComponent implements OnInit {
       ActionRequest.etat = "Pas encore Commencé";
 
 
-      console.log(ActionRequest);
+      console.log("Request " + ActionRequest.competence.id);
 
 
       return this.actionservice.addAction(ActionRequest).subscribe((response: Action) => {
@@ -106,13 +106,16 @@ export class AddActionComponent implements OnInit {
     this.athentificationService.Allcompetences().subscribe((response: Competence[]) => {
 
       this.Competence = response;
-      console.log(this.Competence);
+      console.log("Alll Competences " + this.Competence);
 
     }, (error) => {
       console.error(' register error: ', error);
     });
   }
-  Annuler() { }
+  Annuler() {
+
+    this.showDialog.emit();
+  }
 
 
 }

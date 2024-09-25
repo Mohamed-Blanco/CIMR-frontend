@@ -1,8 +1,8 @@
 <div class=" ga min-h-screen bg-gray-200 px-10 pl-32 pt-4 gap-[1.5rem]" style="display: flex; flex-direction: column">
   <!-- Top Bar -->
-  <div class=" flex h-16 items-center justify-between ga rounded-lg bg-white px-4 shadow-md">
+  <div class=" flex  h-16 items-center justify-between ga rounded-lg bg-white px-4 shadow-md">
     <p class="font-bold">Mohamed Labiad</p>
-    <div class="flex items-center ga">
+    <div class="flex items-center gap-3">
       <input type="search" placeholder="Search "
         class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
       <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
@@ -26,7 +26,7 @@
   <!-- Table d'information -->
   <!--Select Trimestre -->
 
-  <div class="z-20 flex items-center justify-end ">
+  <div class="z-20 flex items-center justify-end  ">
 
     <div class="group relative">
       <button (click)="dropdownbutton()"
@@ -49,10 +49,11 @@
 
         <!-- Dropdown content goes here -->
         <div class="max-h-24 overflow-y-scroll">
-          <a class="block cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
-            *ngFor="let item of filteredItems" href="#">
-            {{ item }}
-          </a>
+          <button
+            class="block w-full cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
+            *ngFor="let item of filteredItems" href="#" (click)="getTrimestreInformation( item.id)">
+            {{ item.nomtrimestre }}
+          </button>
         </div>
       </div>
       }
@@ -60,13 +61,15 @@
   </div>
 
 
-  <div class=" flex justify-between pb-20">
+  <div class=" flex  gap-10 pb-20  justify-between w-full ">
 
-    <div class="leftcontainer mr-10 grow">
-      <div class=" overflow-auto rounded-xl shadow-md">
-        <p-table [scrollHeight]="'500px'" class=" min-h-64 overflow-y-scroll" [value]="projets"
-          [tableStyle]="{ 'min-width': '50rem' }" [reorderableColumns]="true">
+    <div class="leftcontainer w-[80%]">
+      <div class="  rounded-xl shadow-md relative">
+
+        <p-table [scrollHeight]="'500px'" class=" min-h-64 overflow-y-scroll " [value]="projets"
+          [tableStyle]="{ 'min-width': '50rem' ,  'background-color' : 'white'}" [reorderableColumns]="true">
           <ng-template pTemplate="header">
+
             <tr class="text-sm bg-[#F9FAFB]">
               <th class="flex items-center justify-center gap-2 w-24">
                 <svg class="mb-1 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,8 +84,6 @@
               </th>
 
               <th class="whitespace-nowrap">Nom du Fichier/Projet</th>
-
-
               <th class="whitespace-nowrap">Entitée demandeuse</th>
               <th class="whitespace-nowrap">Collaborateurs</th>
               <th class="whitespace-nowrap">Status</th>
@@ -96,7 +97,30 @@
 
           <ng-template pTemplate="body" let-projet let-index="rowIndex">
 
-            <tr class="text-sm" [pReorderableRow]="index">
+            <tr *ngIf="projet.chiffrer" class="text-sm text-black" [pReorderableRow]="index">
+              <td class="whitespace-nowrap"></td>
+              <td class="whitespace-nowrap">{{projet.titre}}</td>
+              <td class="whitespace-nowrap">{{projet.departement.titre}}</td>
+              <td class="whitespace-nowrap">
+                @if(projet.chiffrer){
+                <p>chiffrer</p>
+                }@else {
+                <p>Non chiffrer</p>
+
+                }
+
+              </td>
+              <td class="whitespace-nowrap"></td>
+
+              <td class="whitespace-nowrap">{{projet.datelimie}}</td>
+              <td class="whitespace-nowrap">{{projet.datedebut}}</td>
+              <td class="whitespace-nowrap">{{projet.chargeestimee}}</td>
+              <td class="whitespace-nowrap"></td>
+
+
+            </tr>
+
+            <tr *ngIf="!projet.chiffrer" class="text-sm bg-[#CDE2AD]" [pReorderableRow]="index">
               <td class="whitespace-nowrap"></td>
               <td class="whitespace-nowrap">{{projet.titre}}</td>
               <td class="whitespace-nowrap">{{projet.departement.titre}}</td>
@@ -114,25 +138,27 @@
           </ng-template>
 
         </p-table>
-        <div class="bg-white w-full h-[40rem]"></div>
 
-        <div *ngIf="projets?.length == 0" class="bg-white h-80 justify-center flex items-center rounded-lg shadow-md ">
-          <p>Aucune Projets </p>
-        </div>
+        <div *ngIf="projets.length == 0" class="w-full h-[500px]  bg-white"></div>
+
+
+        <p *ngIf="projets.length == 0" class="absolute left-1/2 top-1/2 font-bold text-lg">Aucun Projet </p>
+
+
       </div>
 
 
 
 
     </div>
-    <div class="rightcontainer flex flex-col gap-4 ">
+    <div class="rightcontainer flex flex-col gap-4 max-w-[40%]">
       <div class="h-full bg-white w-fit   py-5 rounded-lg shadow-md">
         <div class=" grow-0  px-14  rounded-lg ">
-          <div class=" l gap-4 flex items-center justify-start flex-col py-4">
+          <div class=" l gap-4 flex items-center justify-start flex-col py-4 max-w-48">
             <img class="w-40 h-40 bg-black rounded-full "
               src="https://themesflat.co/html/protend/images/profile/user-profile.png">
-            <p class="text-center text-lg  ">{{collaborateurInformation.nom}}{{collaborateurInformation.prenom}}
-              <br><span class="text-[#7BB125] text-sm">{{collaborateurInformation.email}}</span>
+            <p class="text-center text-lg  ">{{collaborateurInformation?.nom}} {{collaborateurInformation?.prenom}}
+              <br><span class="text-[#7BB125] text-sm">{{collaborateurInformation?.email}}</span>
             </p>
           </div>
         </div>
@@ -180,7 +206,7 @@
             </svg>
             <p class="text-sm">Total Projets : </p>
 
-            <p class="text-lg font-bold">{{projetsCount}}+</p>
+            <p class="text-lg font-bold">{{projets.length}}+</p>
           </div>
 
         </div>
@@ -193,20 +219,23 @@
           <p class="font-bold ">Informations professionnelle</p>
         </div>
         <div class="pl-[2rem] flex flex-col gap-3 pr-10">
-          <p class="flex justify-between">Competence : <span>{{collaborateurInformation.compentence}} </span> </p>
-          <p class="flex justify-between">disponible: <span>15 </span> </p>
+          <p class="flex justify-between">Competence : <span>{{collaborateurInformation?.competence?.titrecompetence}}
+            </span> </p>
+          <p class="flex justify-between">disponible: <span>{{collaborateurInformation?.charge_disponible}} </span> </p>
 
-          <p class="flex justify-between">Cree le : <span>01/02/2024 </span> </p>
-          <p class="flex justify-between">Status : <span>Active </span> </p>
-          <p class="flex justify-between">Role : <span>Utilisateur </span> </p>
+          <p class="flex justify-between">Cree le : <span>{{collaborateurInformation?.createdAt |date }} </span> </p>
+          <p class="flex justify-between">Status : <span>{{collaborateurInformation?.enabled}} </span> </p>
+          <p class="flex justify-between">Role : <span>{{collaborateurInformation?.role}} </span> </p>
 
-          <p class="flex justify-between">Congés + Formations + .. : <span>0 </span> </p>
-          <p class="flex justify-between">Analyse : <span>0 </span> </p>
-          <p class="flex justify-between">Integration-Coordination : <span>0 </span> </p>
-          <p class="flex justify-between">Maintenence : <span>0 </span> </p>
-          <p class="flex justify-between">Total Net de congé : <span>0 </span> </p>
+          <p class="flex justify-between">Congés + Formations + .. :
+            <span>{{collaborateurInformation?.droitdecongee}}</span>
+          </p>
+          <p class="flex justify-between">Analyse : <span>ffff </span> </p>
+          <p class="flex justify-between">Integration-Coordination : <span>ffff</span> </p>
+          <p class="flex justify-between">Maintenence : <span>ffff</span> </p>
+          <p class="flex justify-between">Total Net de congé : <span>ffff</span> </p>
 
-          <p class="flex justify-between">Total Net Competence : <span>0 </span> </p>
+          <p class="flex justify-between">Total Net Competence : <span>ffff </span> </p>
 
 
 

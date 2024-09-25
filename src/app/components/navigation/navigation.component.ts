@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SlideMenu } from 'primeng/slidemenu';
 import { MenuItem } from 'primeng/api';
+import { authentificationservice } from '../../../services/authentification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -10,7 +12,19 @@ import { MenuItem } from 'primeng/api';
 export class NavigationComponent implements OnInit {
   items: MenuItem[] = [];
 
+
+  constructor(private authentificationService: authentificationservice, private router: Router) { }
+
+  suprimer: boolean = false;
+  logout() {
+    this.authentificationService.logout();
+    this.router.navigateByUrl('/login');
+
+  }
+
   ngOnInit(): void {
+
+
     this.items = [
       {
         label: 'Files',

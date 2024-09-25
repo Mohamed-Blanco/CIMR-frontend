@@ -26,6 +26,10 @@ export class authentificationservice {
         return this.http.get<Competence[]>(`${this.apiServerUrl}/Competence/all`);
     }
 
+    logout() {
+        return localStorage.setItem('token', '');
+    }
+
     login(credentials: any): Observable<any> {
         return this.http.post(`${this.apiServerUrl}/auth/login`, credentials);
     }

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AuthentificationComponent } from './authentification.component';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
 
 
@@ -11,7 +13,9 @@ import { DropdownModule } from 'primeng/dropdown';
   imports: [
     CommonModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    DialogModule,
+    ButtonModule
   ],
   exports: [
     AuthentificationComponent

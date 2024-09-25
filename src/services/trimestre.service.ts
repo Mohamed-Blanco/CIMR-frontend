@@ -35,4 +35,10 @@ export class TrimestreService {
     public Alltrimestres(): Observable<Trimestre[]> {
         return this.http.get<Trimestre[]>(`${this.apiServerUrl}/Trimestre/all`);
     }
+
+    public AllCapacities(id: number | undefined): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiServerUrl}/CollaborateurTrimestre/Trimestre/` + id);
+    }
+
+
 }

@@ -29,7 +29,11 @@ export class AuthentificationComponent implements OnInit {
 
 
 
+  emailsent: boolean = false;
 
+  Onemailsent() {
+    this.emailsent = true;
+  }
 
   getAllcompetence() {
 
@@ -52,7 +56,7 @@ export class AuthentificationComponent implements OnInit {
       console.log("Login")
       console.log("Token : " + response.token)
       localStorage.setItem('token', response.token);
-      this.router.navigateByUrl('/Home/ViewCollaborateur/' + response.id);
+      this.router.navigateByUrl('/Home/collaborateurs/viewcollaborateur/' + response.id);
     }, (error) => {
       console.error('Login error: ', error);
     });
@@ -101,22 +105,27 @@ export class AuthentificationComponent implements OnInit {
     } else {
       let compReq = new Competence();
       compReq.id = this.SelectedCompetence.id;
-      CollabReq.compentence = compReq;
+      CollabReq.competence = compReq;
     }
 
 
 
-    console.log("Collaborateur to regisre " + CollabReq.nom, " email : ", CollabReq.email)
+    this.Onemailsent();
+    if (form.valid) {
 
 
-    this.athentificationService.register(CollabReq).subscribe((response) => {
-      console.log(response);
+      this.athentificationService.register(CollabReq).subscribe((response) => {
+        console.log("Collaborateur to regisre " + CollabReq.nom, " email : ", CollabReq.email)
 
-    }, (error) => {
-      console.error(' register error: ', error);
-    });
+        console.log(response);
 
 
+
+      }, (error) => {
+        console.error(' register error: ', error);
+      });
+
+    }
 
   }
 

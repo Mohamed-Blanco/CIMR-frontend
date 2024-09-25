@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // URLs to bypass (login and register)
-        const bypassUrls = ['/auth/login', '/auth/signup'];
+        const bypassUrls = ['/auth/login', '/auth/signup', '/Competence/all'];
 
         // Check if the request URL matches any of the bypass URLs
         const shouldBypass = bypassUrls.some(url => req.url.includes(url));

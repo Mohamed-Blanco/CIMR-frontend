@@ -5,6 +5,7 @@ import { Collaborateur } from '../models/collaborateur';
 import { envirenement } from '../app/envirenement/envirenement';
 import { Projet } from '../models/projet';
 import { Competence } from '../models/competence';
+import { ProjetCount } from '../models/ProjetcountResponse';
 
 @Injectable({
     providedIn: 'root',
@@ -14,16 +15,14 @@ export class collaborateurservice {
 
     constructor(private http: HttpClient) { }
 
-    public getCollaborateurs(): Observable<Collaborateur[]> {
-        return this.http.get<Collaborateur[]>(
+    public getCollaborateurs(): Observable<ProjetCount[]> {
+        return this.http.get<ProjetCount[]>(
             `${this.apiServerUrl}/Collaborateurs/all/count`,
         );
     }
 
     public FindCollaborateurById(id: number): Observable<Collaborateur> {
-        return this.http.get<Collaborateur>(
-            `${this.apiServerUrl}/Collaborateurs/find/` + id
-        );
+        return this.http.get<Collaborateur>(`${this.apiServerUrl}/Collaborateurs/find/${id}`);
     }
 
 
@@ -41,7 +40,7 @@ export class collaborateurservice {
     }
 
     public getProjetsforcollaborateur(id: number): Observable<Projet[]> {
-        return this.http.get<Projet[]>(`${this.apiServerUrl}/Collaborateur/${id}/Projet`,);
+        return this.http.get<Projet[]>(`${this.apiServerUrl}/ProjetCollaborateur/Collaborateur/${id}/Projet`,);
     }
 
     public getNumberProjetsforcollaborateur(id: number): Observable<number> {

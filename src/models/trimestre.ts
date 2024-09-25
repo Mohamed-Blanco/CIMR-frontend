@@ -26,5 +26,7 @@ export class Trimestre {
     projetList !: Projet[];
     coefficientmaintence !: number;
     joursferiee !: number;
+    dateDebut !: Date;
+    dateFin !: Date;
 
 }

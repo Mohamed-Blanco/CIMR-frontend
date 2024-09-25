@@ -10,6 +10,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { HomecomponentComponent } from './components/homecomponent/homecomponent.component';
 import { CompleterProfilComponent } from './components/completer-profil/completer-profil.component';
+import { CapacitiesComponent } from './components/capacities/capacities.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,10 @@ const routes: Routes = [
         path: 'collaborateurs',
         component: CollaborateursComponent,
         children: [
-          { path: 'viewcollaborateur', component: ViewCollaborateurComponent },
+          {
+            path: 'viewcollaborateur/:id',
+            component: ViewCollaborateurComponent
+          },
         ],
       },
       {
@@ -33,15 +37,17 @@ const routes: Routes = [
         }],
       },
       {
+        path: 'Capacities',
+        component: CapacitiesComponent,
+
+      },
+      {
         path: 'projets',
         component: ProjetsComponent, children: [{
           path: 'viewprojet/:id', component: ViewProjetComponent
         }],
       },
-      {
-        path: 'ViewCollaborateur/:id',
-        component: ViewCollaborateurComponent
-      },
+
     ],
   },
   {

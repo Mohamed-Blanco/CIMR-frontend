@@ -15,7 +15,8 @@
 
         <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
 
-        <div class="h-10 w-10 rounded-full bg-gray-200"></div>
+        <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
+          class="h-10 w-10 rounded-full bg-gray-200">
       </div>
     </div>
     <!-- Top bar ending -->
@@ -29,6 +30,10 @@
       <div *ngFor="let Planificaion of planifications" class="max-w-sm">
         <!--Trimestre  Modal -->
         <p-dialog header="Ajouter Trimestre" [(visible)]=" visible2" [style]="{ width: '25rem' }">
+          <p class="text-red-500 mb-5">Veuillez noter que le nombre de jours de congé est considéré comme constant. Si
+            vous
+            souhaitez créer un nouveau
+            trimestre, vous devez mettre à jour le nombre de jours de congé pour chaque collaborateur. Merci</p>
           <form #addTrimestreForm="ngForm" (ngSubmit)="onaddTrimestre(addTrimestreForm)">
             <div class="justify-bettwen align-items-center mb-3 flex gap-3 mt-2">
               <label for="username" class="font-se mibold w-6rem">Titre Trimestre : </label>
@@ -46,6 +51,9 @@
               <input pInputText name="joursferiee" required ngModel type="number" class="flex-auto" placeholder="nombre"
                 autocomplete="off" />
             </div>
+            <p class="text-[#7BB125] mb-5">tout les Collaborateur vont étre intégre sur le nouveux Trimestre
+              automatiquement
+            </p>
             <div class="justify-content-end flex gap-10">
               <p-button label="Annuler" severity="secondary" (onClick)="visible2 = false" />
               <p-button label="Ajouter" [disabled]="addTrimestreForm.invalid" type="submit" (onClick)="show()"
@@ -130,7 +138,7 @@
             </div>
             <div>
               @if (Planificaion.trimestre[1]?.nomtrimestre){
-              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[1]?.id]"
+              <a [routerLink]="['/Home/Planification/Trimestre', Planificaion.trimestre[1]?.id]"
                 class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[1]?.nomtrimestre}}
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   class="ml-2 h-4 w-4" viewBox="0 0 24 24">
@@ -165,7 +173,7 @@
             </div>
             <div>
               @if (Planificaion.trimestre[2]?.nomtrimestre) {
-              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[2]?.id]"
+              <a [routerLink]="['/Home/Planification/Trimestre', Planificaion.trimestre[2]?.id]"
                 class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[2]?.nomtrimestre}}
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   class="ml-2 h-4 w-4" viewBox="0 0 24 24">
@@ -200,7 +208,7 @@
             </div>
             <div>
               @if (Planificaion.trimestre[3]?.nomtrimestre){
-              <a [routerLink]="['/Planification/Trimestre', Planificaion.trimestre[3]?.id]"
+              <a [routerLink]="['/Home/Planification/Trimestre', Planificaion.trimestre[3]?.id]"
                 class="mt-3 flex items-center justify-between text-black hover:text-blue-600 dark:text-white">{{Planificaion.trimestre[3]?.nomtrimestre}}
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   class="ml-2 h-4 w-4" viewBox="0 0 24 24">
@@ -241,7 +249,7 @@
       </div>
 
       <!--Add Planification Card-->
-      <div class="max-w-sm ">
+      <div class="max-w-sm min-h-[270px]">
         <div
           class="flex h-full  w-[23.5rem] flex-col items-center justify-center rounded-lg bg-teal-400 dark:bg-gray-600">
           <button (click)="showDialog()" class="rounded-full bg-[#9B9CA1] hover:bg-blue-600">

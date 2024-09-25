@@ -6,6 +6,7 @@ import { AddCollaborateurComponent } from '../add-collaborateur/add-collaborateu
 import { error } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Projet } from '../../../models/projet';
+import { ProjetCount } from '../../../models/ProjetcountResponse';
 
 
 @Component({
@@ -80,21 +81,16 @@ export class CollaborateursComponent implements OnInit {
   onSubmit() {
 
     let obs = this.addCollaborateur.submitForm();
-    if (!obs) return;
-    obs.subscribe(
-      (response: Collaborateur) => {
-        console.log(response);
-        this.getCollaborateurs();
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    )
+    this.getCollaborateurs();
+
+
 
 
   }
 
-  public Collaborateurs: Collaborateur[] = [];
+  public Collaborateurs: ProjetCount[] = [];
+  public CollaborateursReal: Collaborateur[] = [];
+
   dropdownstate: boolean[] = [];
   dropdownstate2: boolean[] = [];
   dropmenuvar: boolean[] = [];
@@ -171,7 +167,7 @@ export class CollaborateursComponent implements OnInit {
   public getCollaborateurs(): void {
     //debugger;
     this.collaborateurservice.getCollaborateurs().subscribe(
-      (response: Collaborateur[]) => {
+      (response: ProjetCount[]) => {
         this.Collaborateurs = response;
         console.log(this.Collaborateurs);
 

@@ -35,9 +35,11 @@ import { AuthInterceptor } from '../services/auth-interceptor.service';
 import { HomecomponentComponent } from './components/homecomponent/homecomponent.component';
 import { HomecomponentModule } from './components/homecomponent/homecomponent.module';
 import { CompleterProfilComponent } from './components/completer-profil/completer-profil.component';
+import { CapacitiesComponent } from './components/capacities/capacities.component';
+import { CapacitiesModule } from './components/capacities/capacities.module';
 
 @NgModule({
-  declarations: [AppComponent, CompleterProfilComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -56,7 +58,8 @@ import { CompleterProfilComponent } from './components/completer-profil/complete
     EditCollaborateurModule,
     EditActionModule,
     AuthentificationModule,
-    HomecomponentModule
+    HomecomponentModule,
+    CapacitiesModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, [provideHttpClient(withInterceptorsFromDi())

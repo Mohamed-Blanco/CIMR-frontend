@@ -56,6 +56,10 @@ export class ProjteService {
         return this.http.delete<void>(`${this.apiServerUrl}/ProjetCollaborateur/remove/${projetId}/${collaborateurId}`);
     }
 
+    public chiffrer(projet: number | null): Observable<Projet> {
+        return this.http.put<Projet>(`${this.apiServerUrl}/Projet/Chiffrer/${projet}`, projet);
+    }
+
 
 
 

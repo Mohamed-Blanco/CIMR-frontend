@@ -5,7 +5,7 @@ export class Collaborateur {
   constructor() { }
 
   id!: number;
-  compentence!: Competence;
+  competence!: Competence;
   charge_disponible!: String;
   email!: String;
   password!: String;
@@ -13,7 +13,8 @@ export class Collaborateur {
   nom!: String;
   prenom!: String;
   about!: String;
-  creele!: Date;
+  createdAt!: Date;
   enabled !: boolean;
   role !: String;
+  droitdecongee !: number;
 }

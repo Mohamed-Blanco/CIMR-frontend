@@ -17,27 +17,46 @@ import { Collaborateur } from '../../../models/collaborateur';
 export class ViewCollaborateurComponent implements OnInit {
   Isopen: boolean = true;
   items: string[] = ['T-1-2024', 'T-2-2024', 'T-3-2024'];
-  filteredItems: string[] = [...this.items];
+  AllTrimestres: Trimestre[] = [];
+  filteredItems: Trimestre[] = [...this.AllTrimestres];
   searchTerm: string = '';
   dropdownstate2: boolean[] = [];
   projets !: Projet[];
   projetsCount: number = 0;
   collaborateurInformation !: Collaborateur;
 
+
+
   onSearch(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const searchTerm = inputElement.value.toLowerCase();
+    console.log(searchTerm)
+    this.filteredItems = this.AllTrimestres.filter((item) =>
+      item.nomtrimestre?.toLowerCase().includes(searchTerm) ?? false
+    );
+  }
 
-    this.filteredItems = this.items.filter((item) =>
-      item.toLowerCase().includes(searchTerm),
+  getProjets(id: number, trimestreId: number | undefined) {
+
+
+    this.collaborateurService.getProjetForCollabByTrimestre(id, trimestreId).subscribe(
+      (response: Projet[]) => {
+        console.log("Projets : " + response)
+        console.log("Projets : " + "Collab Id " + id)
+        console.log("Projets : " + "Trimester Id  " + trimestreId)
+        this.projets = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
     );
   }
 
   getCollaborateur(id: number) {
     this.collaborateurService.FindCollaborateurById(id).subscribe(
       (response: Collaborateur) => {
+        console.log("Information : " + response)
         this.collaborateurInformation = response;
-        console.log("collaborateir", this.collaborateurInformation);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -63,31 +82,57 @@ export class ViewCollaborateurComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   collabid !: number;
   CurrentTrimestreId !: number | undefined;
+
+
+
+
   ngOnInit(): void {
+    this.collabid = this.activatedRoute.snapshot.params['id'];
 
-    if (this.activatedRoute.snapshot.params['id'] == undefined) {
-      console.log("Collaborateur id missing");
-    } else {
-      this.getCollaborateur(this.collabid);
-      this.collabid = this.activatedRoute.snapshot.params['id'];
-      this.getCurrentTrimsetreId();
-    }
-
-    this.getCountProjetsForCollaborateur(this.collabid);
+    this.getTrimestres();
+    this.getCollaborateur(this.collabid);
+    this.getCurrentTrimsetreId();
 
   }
 
+
+
+
+  public getTrimestres(): void {
+    this.trimestreSerivce.Alltrimestres().subscribe(
+      (response: Trimestre[]) => {
+        this.AllTrimestres = response;
+        console.log("Trimestres ", this.AllTrimestres)
+        this.filteredItems = [...this.AllTrimestres];
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
+  getTrimestreInformation(id: number | undefined) {
+    this.collaborateurService.getProjetForCollabByTrimestre(this.collabid, id).subscribe(
+      (response: Projet[]) => {
+        console.log("Getting projets")
+        this.projets = response;
+        console.log("Projets de ce Collaborateurs " + response);
+
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
   getCurrentTrimsetreId() {
-    this.trimestreSerivce.CurrentTrimestre().subscribe(
-      {
-        next: (response: Trimestre) => {
-          console.log(response);
-          this.CurrentTrimestreId = response.id
-        },
-        complete: () => {
-          this.getProjet(this.collabid, this.CurrentTrimestreId)
-        }
-      }
+
+    this.trimestreSerivce.CurrentTrimestre().subscribe((response: Trimestre) => {
+      this.CurrentTrimestreId = response.id;
+      this.getTrimestreInformation(response.id);
+    }, (error: HttpErrorResponse) => {
+      alert(error.message);
+    }
     )
   }
 

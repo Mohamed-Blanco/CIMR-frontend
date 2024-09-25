@@ -33,6 +33,28 @@ export class ViewProjetComponent implements OnInit {
 
   }
 
+  visiblechifrrer: boolean = false;
+  chiffrer() {
+    this.visiblechifrrer = false;
+    console.log("chifffrer" + this.projets.titre)
+    return this.projetsService.chiffrer(this.projets.id).subscribe(
+      (response: Projet) => {
+        this.projets = response;
+        console.log("Project" + response.chiffrer);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
+  showChiffrer() {
+
+    this.visiblechifrrer = !this.visiblechifrrer
+
+
+  }
+
 
   suprimer: boolean = false;
 
@@ -52,7 +74,8 @@ export class ViewProjetComponent implements OnInit {
     this.projetsService.getProjetbyId(id).subscribe(
       (response: Projet) => {
         this.projets = response;
-        console.log("Project" + response);
+
+        console.log("Project" + response.chiffrer);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -127,6 +150,8 @@ export class ViewProjetComponent implements OnInit {
 
   private activatedRoute = inject(ActivatedRoute);
   ngOnInit() {
+
+
     this.id = this.activatedRoute.snapshot.params['id'];
     this.getprojetbyid(this.id);
     this.getprojetCollaborateurs(this.id);

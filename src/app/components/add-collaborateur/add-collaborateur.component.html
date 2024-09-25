@@ -13,7 +13,7 @@
     <form #addcollaborateurForm="ngForm" (ngSubmit)="onaddCollaborateur(addcollaborateurForm)">
       <div class="space-y-4 py-8 text-base leading-6 text-gray-700 sm:leading-7">
         <div class="flex flex-col">
-          <label class="leading-loose">email </label>
+          <label class="leading-loose">Adresse email </label>
           <input type="email" name="email" required ngModel
             class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
             placeholder="exemple@outlook.com" />
@@ -21,16 +21,17 @@
 
         <div class="flex gap-3">
           <div>
-            <label class="leading-loose">password </label>
-            <p-password ngModel [toggleMask]="true" name="password" required ngModel class="shadow-md" />
+            <label class="leading-loose">Password </label>
+            <p-password ngModel [style]="{'height':'37px'  ,'border-width' : '2px' ,  'padding':'2px'}"
+              [toggleMask]="true" name="password" required ngModel class="shadow-md" />
           </div>
           <div>
-            <label class=" leading-loose">Role </label>
+            <label class=" leading-loose ">Role </label>
             <select [(ngModel)]="Selectedoption2"
               class="rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
               name="role">
 
-              <option *ngFor="let option of options2" [value]="option">
+              <option *ngFor="let option of options2 " [value]="option">
                 {{ option }}
               </option>
             </select>
@@ -50,17 +51,13 @@
               placeholder="Prenom" />
           </div>
         </div>
-        <div class="flex">
+        <div class="flex justify-between">
           <div class="pr-3">
             <label class="leading-loose">Competence</label>
 
-
-            <select [(ngModel)]="Selectedoption"
-              class="rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
-              name="compentence">
-
-              <option *ngFor="let option of options" [value]="option">
-                {{ option }}
+            <select [(ngModel)]="Selectedoption" name="competence" class="w-64 form-control h-[2.3rem] ">
+              <option *ngFor="let comp of Competence" [ngValue]="comp">
+                {{ comp.titrecompetence }}
               </option>
             </select>
 
@@ -69,7 +66,7 @@
               class="hidden rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
               placeholder="Optional" />
           </div>
-          <div class="">
+          <div class="flex flex-col">
             <label class="leading-loose">Congee</label>
             <input type="number" name="droitdecongee" ngModel
               class="rounded-md border border-gray-300 px-1 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"

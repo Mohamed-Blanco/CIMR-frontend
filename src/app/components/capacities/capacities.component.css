@@ -1,0 +1,20 @@
+
+    * {
+        font-family: poppinsbold;
+    }
+
+
+**body .p-datepicker table td {
+    padding: 0rem; 
+    border: 0rem;
+}
+
+
+::ng-deep .p-datepicker table td {
+    padding: 0rem; 
+    border: 0rem;
+}
+.p-datepicker  {
+    padding: 0rem;
+    border: 0rem;
+}
