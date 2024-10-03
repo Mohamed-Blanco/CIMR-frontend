@@ -9,132 +9,168 @@
     <div class="mb-10 h-16 flex group-1-hover:bg-black px-3 w-full">
       <!-- Logo Section -->
       <a class="h-auto w-auto flex" href="">
-        <img class="h-10 w-10 mt-8 mx-auto" src="assets/images/CIMR-Logo.png" alt="logo" />
+        <img class="h-10 w-10 mt-8 mx-auto " src="assets/images/CIMR-Logo.png" alt="logo" />
         <div
-          class="flex-row font-bold absolute scale-x-0 group-hover:pl-[90px] group-hover:scale-x-100 transition-all duration-500 pt-8">
-          <p class="text-[#7BB125] ">Abdellah Quaouch</p>
-          <p class="text-gray-500 text-xs">
-            Responsable Devolepement informatique
-          </p>
+          class="flex-row font-bold absolute scale-x-0 group-hover:pl-[90px] group-hover:scale-x-100 transition-all duration-500 pt-10">
+          <p class="text-[#7BB125] pb-2  ">{{collaborateurInformation?.nom }}
+            {{collaborateurInformation?.prenom }}</p>
+          @if(collaborateurInformation?.role == "admin"){
+          <p class="text-gray-500 text-[0.8rem] ">Responsable Département Développement informatique :</p>
+          }
+          @if(collaborateurInformation?.role == "user"){
+          <p class="text-gray-500 text-[0.8rem]">Collaborateur Département Développement informatique :</p>
+          }
         </div>
       </a>
     </div>
-    <div class="absolute divide-y-2 h-2 w-24 p-64"></div>
     <div>
-      <ul class="" id="sidebar">
 
-
-
-
-        <li class=" focus:text-[#7BB125]">
-          <a [routerLink]="['/Home/Planification']" href="."
-            class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-              <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0
-          							2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0
-          							0-1.79 1.11z"></path>
-            </svg>
-            <p
-              class="absolute py-[1.2em]  text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-52 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
-              Trimestres
-            </p>
-            <div class="card flex justify-content-center">
-              <div class="card flex justify-content-center"></div>
-            </div>
-          </a>
+      <ul class="absolute  top-1/4 left-0 w-[320px] flex flex-col gap-3 font-bold  " id="sidebar">
+        <li [routerLink]="['/Home/viewcollaborateur']"
+          class="flex  items-center w-full gap-14 pl-5 py-3 focus:text-[#7BB125]   hover:text-[#7BB125] hover:bg-gray-100">
+          <svg class="w-8 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4ZM13.25 9C13.25 8.58579 13.5858 8.25 14 8.25H19C19.4142 8.25 19.75 8.58579 19.75 9C19.75 9.41421 19.4142 9.75 19 9.75H14C13.5858 9.75 13.25 9.41421 13.25 9ZM14.25 12C14.25 11.5858 14.5858 11.25 15 11.25H19C19.4142 11.25 19.75 11.5858 19.75 12C19.75 12.4142 19.4142 12.75 19 12.75H15C14.5858 12.75 14.25 12.4142 14.25 12ZM15.25 15C15.25 14.5858 15.5858 14.25 16 14.25H19C19.4142 14.25 19.75 14.5858 19.75 15C19.75 15.4142 19.4142 15.75 19 15.75H16C15.5858 15.75 15.25 15.4142 15.25 15ZM11 9C11 10.1046 10.1046 11 9 11C7.89543 11 7 10.1046 7 9C7 7.89543 7.89543 7 9 7C10.1046 7 11 7.89543 11 9ZM9 17C13 17 13 16.1046 13 15C13 13.8954 11.2091 13 9 13C6.79086 13 5 13.8954 5 15C5 16.1046 5 17 9 17Z"
+                fill="currentColor"></path>
+            </g>
+          </svg>
+          <p>Mes informations </p>
         </li>
-
-        <li class="hover:bg-gray-100 hover:text-[#7BB125]">
-          <a [routerLink]="['/Home/Capacities']" href="."
-            class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <li [routerLink]="['/Home/Planification']"
+          class="flex  items-center w-full gap-14 pl-5 py-3 focus:text-[#7BB125]  hover:text-[#7BB125] hover:bg-gray-100 ">
+          <svg class="w-8 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
               <path
-                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
+                d="M6,22H18a3,3,0,0,0,3-3V7a2,2,0,0,0-2-2H17V3a1,1,0,0,0-2,0V5H9V3A1,1,0,0,0,7,3V5H5A2,2,0,0,0,3,7V19A3,3,0,0,0,6,22ZM5,12.5a.5.5,0,0,1,.5-.5h13a.5.5,0,0,1,.5.5V19a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1Z">
               </path>
-            </svg>
-            <p
-              class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
-              Capacities :
-            </p>
-            <div class="card flex justify-content-center">
-              <div class="card flex justify-content-center"></div>
-            </div>
-          </a>
+            </g>
+          </svg>
+          <p>Planification </p>
         </li>
-        <li class="hover:bg-gray-100 hover:text-[#7BB125]">
-          <a [routerLink]="['/Home/projets']" href="."
-            class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
-              </path>
-            </svg>
-            <p
-              class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
-              Projets :
-            </p>
-            <div class="card flex justify-content-center">
-              <div class="card flex justify-content-center"></div>
-            </div>
-          </a>
+        <li [routerLink]="['/Home/projets']"
+          class="flex  items-center w-full gap-14 pl-5 py-3 focus:text-[#7BB125] hover:text-[#7BB125] hover:bg-gray-100">
+          <svg class="w-8 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <g>
+                <path d="M2,9H9V2H2Zm9-7V9h7V2ZM2,18H9V11H2Zm9,0h7V11H11Z"></path>
+              </g>
+            </g>
+          </svg>
+          <p>Projets </p>
         </li>
-        <li class="hover:bg-gray-100 hover:text-[#7BB125]">
-          <a [routerLink]="['/Home/Planification']" href="."
-            class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
-              </path>
-            </svg>
-            <p
-              class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
-              Planifications :
-            </p>
-            <div class="card flex justify-content-center">
-              <div class="card flex justify-content-center"></div>
-            </div>
-          </a>
+        <li [routerLink]="['/Home/collaborateurs']"
+          class="flex  items-center w-full gap-14 pl-5 py-3 focus:text-[#7BB125] hover:text-[#7BB125] hover:bg-gray-100">
+          <svg class="w-8 h-6" fill="currentColor" height="200px" width="200px" version="1.1" id="Layer_1"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.001 512.001"
+            xml:space="preserve">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <g>
+                <g>
+                  <path
+                    d="M375.071,86.028c-11.366,0-22.143,2.561-31.796,7.122c3.686,4.748,6.998,9.802,9.882,15.121 c2.828,5.216,5.244,10.688,7.214,16.364c3.928,11.321,6.069,23.469,6.069,36.109c0,12.639-2.141,24.788-6.069,36.108 c-1.969,5.678-4.386,11.147-7.214,16.364c-2.884,5.319-6.195,10.372-9.882,15.121c9.653,4.56,20.43,7.123,31.796,7.123 c41.199,0.002,74.716-33.516,74.716-74.714C449.787,119.545,416.27,86.028,375.071,86.028z">
+                  </path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M375.071,271.182c-4.42,0-8.827,0.218-13.206,0.641c6.82,5.311,13.237,11.115,19.187,17.369 c6.005,6.311,11.53,13.079,16.534,20.237c16.349,23.386,27.066,50.987,30.146,80.823c0.607,5.873,0.92,11.83,0.92,17.86 c0,6.261-1.09,12.27-3.072,17.86h68.56c9.864,0,17.86-7.998,17.86-17.86C512.001,332.608,450.574,271.182,375.071,271.182z">
+                  </path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M151.632,196.855c-3.928-11.32-6.069-23.469-6.069-36.108c0-12.64,2.141-24.788,6.069-36.109 c1.971-5.68,4.386-11.15,7.214-16.366c2.884-5.319,6.195-10.372,9.882-15.121c-9.653-4.56-20.43-7.122-31.796-7.122 c-41.199,0-74.716,33.517-74.716,74.716c0,41.198,33.517,74.716,74.716,74.716c11.366,0,22.143-2.562,31.796-7.123 c-3.686-4.749-6.998-9.802-9.882-15.121C156.018,208.002,153.602,202.532,151.632,196.855z">
+                  </path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M136.93,271.182C61.427,271.182,0,332.608,0,408.112c0,9.863,7.997,17.86,17.86,17.86h68.56 c-1.981-5.59-3.071-11.6-3.071-17.86c0-6.031,0.313-11.988,0.919-17.86c3.08-29.836,13.797-57.437,30.146-80.823 c5.005-7.158,10.529-13.926,16.534-20.237c5.95-6.254,12.367-12.058,19.187-17.369C145.757,271.4,141.35,271.182,136.93,271.182z">
+                  </path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M325.393,133.094c-2.509-6.271-5.831-12.13-9.857-17.433c-13.657-17.988-35.257-29.633-59.535-29.633 s-45.878,11.645-59.535,29.635c-4.026,5.303-7.348,11.162-9.857,17.433c-3.421,8.559-5.325,17.883-5.325,27.649 c0,9.765,1.904,19.089,5.325,27.648c2.509,6.271,5.831,12.13,9.857,17.433c13.657,17.988,35.257,29.634,59.535,29.634 s45.878-11.646,59.535-29.636c4.026-5.303,7.348-11.162,9.857-17.433c3.421-8.559,5.325-17.882,5.325-27.648 S328.814,141.653,325.393,133.094z">
+                  </path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M391.768,390.252c-4.11-31.402-18.901-59.488-40.594-80.489c-5.137-4.971-10.656-9.547-16.515-13.672 c-6.044-4.256-12.444-8.04-19.149-11.288c-12.892-6.246-26.905-10.528-41.647-12.457v111.953c0,9.863-7.997,17.86-17.86,17.86 c-9.864,0-17.86-7.998-17.86-17.86V272.346c-14.743,1.929-28.755,6.211-41.648,12.457c-6.705,3.249-13.105,7.032-19.149,11.288 c-5.859,4.126-11.38,8.702-16.515,13.672c-21.695,21-36.485,49.087-40.594,80.489c-0.764,5.846-1.163,11.807-1.163,17.86 c0,9.863,7.997,17.86,17.86,17.86h238.14c9.864,0,17.86-7.998,17.86-17.86C392.933,402.059,392.534,396.098,391.768,390.252z">
+                  </path>
+                </g>
+              </g>
+            </g>
+          </svg>
+          <p>Collaborateurs </p>
         </li>
-        <li class="hover:bg-gray-100 hover:text-[#7BB125]">
-          <a [routerLink]="['/Home/collaborateurs']" href="."
-            class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
-              </path>
-            </svg>
-            <p
-              class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
-              Collaborateurs :
-            </p>
-            <div class="card flex justify-content-center">
-              <div class="card flex justify-content-center"></div>
-            </div>
-          </a>
+        <li [routerLink]="['/Home/Capacities']"
+          class="flex  items-center w-full gap-14 pl-5 py-3 focus:text-[#7BB125] hover:text-[#7BB125] hover:bg-gray-100">
+          <svg class="w-8 h-6" fill="currentColor" height=" 200px" width="200px" version="1.1" id="XMLID_100_"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"
+            xml:space="preserve">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <g id="resources">
+                <g>
+                  <path
+                    d="M12,23L0,17l4.9-2.5L0,12l4.9-2.5L0,7l12-6l12,6l-4.9,2.5L24,12l-4.9,2.5L24,17L12,23z M4.4,17l7.7,3.9l7.6-3.9l-2.8-1.4 L12,18l-4.9-2.5L4.4,17z M4.4,12l7.7,3.9l7.6-3.9l-2.8-1.4L12,13.1l-4.9-2.5L4.4,12z M4.4,7l7.7,3.9L19.7,7L12,3.2L4.4,7z">
+                  </path>
+                </g>
+              </g>
+            </g>
+          </svg>
+          <p>Capacities </p>
         </li>
 
+        <li [routerLink]="['/Home/Departements']"
+          class="flex  items-center w-full gap-14 pl-6 py-3 focus:text-[#7BB125] hover:text-[#7BB125] hover:bg-gray-100">
+          <svg class="w-6" fill="currentColor" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <title>Workplace icon</title>
+              <path
+                d="M12.725 0C11.114 0 9.55.317 8.078.943a11.892 11.892 0 00-3.793 2.573A11.986 11.986 0 00.79 12a11.986 11.986 0 003.496 8.484 11.892 11.892 0 003.793 2.573c1.472.626 3.042.943 4.652.943.867 0 1.718-.094 2.565-.28v-2.534a9.524 9.524 0 01-2.565.353 9.406 9.406 0 01-6.71-2.795A9.502 9.502 0 013.24 12a9.5 9.5 0 012.778-6.744 9.398 9.398 0 016.707-2.795c4.439 0 8.037 3.618 8.037 8.082 0 1.647-.49 3.181-1.332 4.459l-2.09-5.166c-.306-.755-.67-1.895-2.059-1.895-1.387 0-1.75 1.14-2.054 1.895l-1.922 4.771-2.578-6.544h-2.71l3.213 7.95c.326.807.68 1.897 2.077 1.897 1.395 0 1.747-1.09 2.072-1.896l1.904-4.727 1.914 4.727c.387.973.797 1.894 2.07 1.894.903 0 1.475-.583 1.788-.959a10.54 10.54 0 002.156-6.406C23.21 4.72 18.516 0 12.725 0Z">
+              </path>
+            </g>
+          </svg>
+          <p>Departements </p>
+        </li>
 
 
       </ul>
     </div>
 
-    <div class="mt-auto  w-full">
+    <div class="mt-auto w-full">
       <!-- Action Section -->
-      <button (click)="suprimer = true"
-        class="h-24   px-6 w-full focus:text-[#7BB125] hover:bg-red-200 focus:outline-none">
-        <svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+      <button (click)="suprimer = true "
+        class="h-24  absolute bottom-0 px-6 w-full focus:text-[#7BB125] hover:bg-red-200 focus:outline-none">
+        <svg class="h-6 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
           <polyline points="16 17 21 12 16 7"></polyline>
           <line x1="21" y1="12" x2="9" y2="12"></line>
         </svg>
+
       </button>
+
 
       <p-dialog [modal]="true" [(visible)]="suprimer" [style]="{ width: '25rem' }" class="relative">
 
@@ -170,14 +206,14 @@
         <div class="flex justify-center items-center mt-4">
           <p-button type="button" label="déconnecter" (onClick)="suprimer = false" (click)="logout()"
             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" />
-
-
         </div>
 
 
       </p-dialog>
     </div>
+
+    <p class="absolute bottom-9 left-28 font-bold whitespace-nowrap text-red-600">Se déconnecter</p>
   </aside>
 </div>
 
-<div></div>
+<script src="https://kit.fontawesome.com/bddd000c21.js" crossorigin="anonymous"></script>

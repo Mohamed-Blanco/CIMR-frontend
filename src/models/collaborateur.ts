@@ -1,4 +1,5 @@
 import { Competence } from "./competence";
+import { Projet } from "./projet";
 
 export class Collaborateur {
 
@@ -9,7 +10,7 @@ export class Collaborateur {
   charge_disponible!: String;
   email!: String;
   password!: String;
-  image_url!: String;
+  imageurl!: String;
   nom!: String;
   prenom!: String;
   about!: String;
@@ -17,4 +18,5 @@ export class Collaborateur {
   enabled !: boolean;
   role !: String;
   droitdecongee !: number;
+  collabprojet !: Projet[];
 }

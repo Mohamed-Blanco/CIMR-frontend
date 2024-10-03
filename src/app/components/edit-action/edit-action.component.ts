@@ -27,7 +27,8 @@ export class EditActionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Add Action : " + this.action);
+
+    this.SelectedCompetence = this.action.competence;
     let date = new Date;
     this.dateLIMITE = date.toString();
     this.SelectedCompetence = this.action.competence;
@@ -40,17 +41,15 @@ export class EditActionComponent implements OnInit {
     this.athentificationService.Allcompetences().subscribe((response: Competence[]) => {
 
       this.Competence = response;
-      console.log(this.Competence);
 
     }, (error) => {
-      console.error(' register error: ', error);
+      alert(error.message);
     });
   }
 
 
   OnSubmit() {
 
-    console.log("Submited");
     if (this.form.valid) {
 
       let ActionRequest: Action = new Action();
@@ -69,15 +68,23 @@ export class EditActionComponent implements OnInit {
       ActionRequest.etat = "Pas encore Commencé";
 
 
-      console.log("Request" + JSON.stringify(ActionRequest));
 
 
 
       return this.actionservice.updateAction(ActionRequest).subscribe((response: Action) => {
-        console.log(response);
         this.showedit();
         this.showEdit.emit();
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Modifier',
+          detail: 'Votre Action a etait bien modifier',
+        });
       }, (error: HttpErrorResponse) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'error',
+          detail: 'Erreur lors de la modification de votre action ',
+        });
         alert(error.message);
       });
 

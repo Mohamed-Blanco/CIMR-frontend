@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { stringify } from 'querystring';
 import { Collaborateur } from '../../../models/collaborateur';
 import { Competence } from '../../../models/competence';
+import { FileUploadService } from '../../../services/file.service';
 
 
 
@@ -17,8 +18,24 @@ import { Competence } from '../../../models/competence';
 })
 export class AuthentificationComponent implements OnInit {
 
-  constructor(private athentificationService: authentificationservice, private router: Router) {
+  constructor(private uploadService: FileUploadService, private athentificationService: authentificationservice, private router: Router) {
 
+  }
+
+  selectFile(event: any): void {
+    const file = event.target.files[0];
+    this.selectedFiles = file;
+
+    // Create a preview URL
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.previewUrl = null;
+    }
   }
 
   listcompetence !: Competence[];
@@ -56,7 +73,7 @@ export class AuthentificationComponent implements OnInit {
       console.log("Login")
       console.log("Token : " + response.token)
       localStorage.setItem('token', response.token);
-      this.router.navigateByUrl('/Home/collaborateurs/viewcollaborateur/' + response.id);
+      this.router.navigateByUrl('Home/viewcollaborateur');
     }, (error) => {
       console.error('Login error: ', error);
     });
@@ -111,24 +128,35 @@ export class AuthentificationComponent implements OnInit {
 
 
     this.Onemailsent();
-    if (form.valid) {
 
+    if (form.valid) {
 
       this.athentificationService.register(CollabReq).subscribe((response) => {
         console.log("Collaborateur to regisre " + CollabReq.nom, " email : ", CollabReq.email)
-
         console.log(response);
-
-
+        this.upload(CollabReq.email);
 
       }, (error) => {
+        this.upload(CollabReq.email);
         console.error(' register error: ', error);
       });
+
 
     }
 
   }
 
+  selectedFiles?: any;
+  currentFile?: File;
+  previewUrl: string | null = null;
+
+  upload(email: String): void {
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFiles, this.selectedFiles.name);
+    this.uploadService.upload(formData, email).subscribe((response) => console.log(response), (error) => console.log(error));
+
+  }
   viewlogin: boolean = true;
 
   SelectedCompetence !: Competence;

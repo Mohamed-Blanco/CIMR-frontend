@@ -65,8 +65,18 @@ export class AddActionComponent implements OnInit {
       return this.actionservice.addAction(ActionRequest).subscribe((response: Action) => {
         console.log(response);
         this.showDialog.emit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Votre Action a était Bien Ajouter ',
+        });
       }, (error: HttpErrorResponse) => {
         alert(error.message);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'error',
+          detail: 'erreur lors de la supression',
+        });
       });
 
 

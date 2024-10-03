@@ -10,6 +10,8 @@ import { Console, error } from 'console';
 import { actionservice } from '../../../services/action.service';
 import { Action } from '../../../models/action';
 import { MessageService } from 'primeng/api';
+import { authentificationservice } from '../../../services/authentification.service';
+import { NgForm, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-view-projet',
@@ -24,6 +26,31 @@ export class ViewProjetComponent implements OnInit {
   collaborateurs !: Collaborateur[];
   ActionToEdit !: Action;
   visibleedit: boolean = false;
+  etat: boolean = false;
+
+
+  onRemarque(form: NgForm) {
+
+    let projetReq = new Projet;
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Votre Remarque a été Modifier ' });
+    projetReq.id = this.projets.id;
+    projetReq.remarque = form.value.remarque;
+
+    this.projetsService.editProjet(projetReq).subscribe((response: Projet) => {
+      console.log(response);
+
+
+    }, (error: HttpErrorResponse) => {
+      alert(error.message);
+    })
+
+  }
+
+
+  onTextareaChange() {
+    this.etat = true;
+    // You can add any additional logic here
+  }
 
   showEdit() {
     this.i++;
@@ -67,7 +94,8 @@ export class ViewProjetComponent implements OnInit {
     private projetsService: ProjteService,
     private route: ActivatedRoute,
     private actionservice: actionservice,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authentificationservice: authentificationservice
   ) { }
 
   public getprojetbyid(id: number): void {
@@ -93,7 +121,6 @@ export class ViewProjetComponent implements OnInit {
     this.getAllActions(this.id);
     console.log(this.i)
     if (this.i % 2 == 0) {
-      this.ActionCreated();
     }
   }
 
@@ -110,7 +137,6 @@ export class ViewProjetComponent implements OnInit {
     this.visible2 = !this.visible2
     this.getAllActions(this.id);
     if (this.i % 2 == 0) {
-      this.ActionCreated();
     }
   }
 
@@ -144,14 +170,13 @@ export class ViewProjetComponent implements OnInit {
         console.log(error.message);
       }
     )
-    this.ActionDeleted();
   }
 
 
   private activatedRoute = inject(ActivatedRoute);
   ngOnInit() {
 
-
+    this.Me();
     this.id = this.activatedRoute.snapshot.params['id'];
     this.getprojetbyid(this.id);
     this.getprojetCollaborateurs(this.id);
@@ -162,6 +187,10 @@ export class ViewProjetComponent implements OnInit {
 
   }
 
+  me !: Collaborateur;
+  Me() {
+    this.authentificationservice.me().subscribe((response) => this.me = response, (error) => alert(error));
+  }
 
   counts = {
     encours: 0,
@@ -233,21 +262,6 @@ export class ViewProjetComponent implements OnInit {
   }
 
 
-  ActionCreated() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Votre Action a était Bien Ajouter ',
-    });
-  }
-
-  ActionDeleted() {
-    this.messageService.add({
-      severity: 'Contrast',
-      summary: 'Element Suprimer',
-      detail: 'Votre Action a était Bien Suprimer ',
-    });
-  }
 
   getAllActions(id: number | null): void {
     this.actionservice
@@ -265,6 +279,37 @@ export class ViewProjetComponent implements OnInit {
     console.log("Refreshed !!!!" + this.id);
   }
 
+
+
+  SetAnnuler(Action: Action) {
+    this.actionservice
+      .SetAnnulerAction(Action)
+      .subscribe(
+        (response: Action) => {
+          console.log("Annuler " + response);
+          this.getAllActions(this.id);
+
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      );
+    this.getAllActions(this.id);
+  }
+
+
+  visiblecomplet: boolean = false;
+  visibledebuter: boolean = false;
+
+  showComplet() {
+    this.visiblecomplet = true;
+  }
+
+  showDebuter() {
+    this.visibledebuter = true;
+
+  }
+
   SetCompleted(action: Action) {
     let actionRequest = new Action();
     actionRequest.id = action.id;
@@ -280,6 +325,7 @@ export class ViewProjetComponent implements OnInit {
         },
       );
     this.getAllActions(this.projets.id);
+    this.visiblecomplet = false;
   }
 
 
@@ -300,22 +346,7 @@ export class ViewProjetComponent implements OnInit {
         },
       );
 
-
-  }
-
-  SetAnnuler(Action: Action) {
-    this.actionservice
-      .SetAnnulerAction(Action)
-      .subscribe(
-        (response: Action) => {
-          console.log("Annuler " + response);
-          this.getAllActions(this.id);
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error.message);
-        },
-      );
-    this.getAllActions(this.id);
+    this.visibledebuter = false;
   }
 
 }

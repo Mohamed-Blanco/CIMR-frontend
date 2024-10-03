@@ -1,0 +1,142 @@
+<div class="mx-auto max-w-md">
+    <div class="flex items-center space-x-5">
+
+        <div class="block self-start mb-4 text-xl font-semibold text-gray-700">
+            <h2 class="leading-relaxed">Retenir le Projet</h2>
+            <p class="text-sm font-normal leading-relaxed text-gray-500">
+                retenir ce projet pour le prochain trimestre. Si vous avez d'autres détails à ajouter ou des
+                modifications à apporter,
+                n'hésitez pas à me le faire savoir ! </p>
+        </div>
+    </div>
+    <div class="divide-y divide-gray-200">
+
+
+
+        <form #retenirprojetForm="ngForm">
+            <div class=" space-y-4  leading-6 text-gray-700 sm:leading-7">
+                <div class="flex flex-col">
+                    <label class=" font-bold leading-loose">Titre Projet : </label>
+                    <input type="text" name="titre" ngModel="{{ProjetToRetnir?.titre}}"
+                        class="w-full rounded-md border border-gray-300 px-4 py-2 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                        placeholder="projet titre " />
+                </div>
+                <div class="flex flex-col">
+                    <label class=" font-bold leading-loose">Entitee demandeuse : </label>
+                    <div class="w-1/2 relative text-gray-400 focus-within:text-gray-600">
+
+
+
+                        <p-dropdown [options]="departement" [(ngModel)]="SelectedDepartement" optionLabel="titre"
+                            name="departement" placeholder="Entitee demandeuse" />
+
+
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 justify-between">
+                    <div class="flex flex-col">
+                        <label class=" font-bold leading-loose">Debut</label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="date" name="datedebut" ngModel="{{ProjetToRetnir?.datedebut}}"
+                                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                placeholder="25/02/2020" />
+                            <div class="absolute left-3 top-2">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class=" font-bold leading-loose">Limite</label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="date" name="datelimite" ngModel="{{ProjetToRetnir?.datelimie}}"
+                                class="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                placeholder="26/02/2020" />
+                            <div class="absolute left-3 top-2">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="flex items-center space-x-4  justify-between text-sm">
+                    <div class="flex flex-col">
+                        <label class=" font-bold leading-loose">Dev AS400</label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="number" ngModel="{{ProjetToRetnir?.chargeAS400}}" name="chargeAS400"
+                                class="w-28 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                placeholder="" />
+                            <div class="absolute left-3 top-2"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class=" font-bold leading-loose">Dev NTIC</label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="number" ngModel="{{ProjetToRetnir?.chargeNTIC}}" name="chargeNTIC"
+                                class="w-28 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                border-gray-600 />
+                            <div class="absolute left-3 top-2"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col text-sm">
+                        <label class=" font-bold leading-loose">Infra</label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="number" ngModel="{{ProjetToRetnir?.infra}}" name="infra"
+                                class="w-28 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                border-gray-600 />
+                            <div class="absolute left-3 top-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between space-x-4 text-sm">
+                    <div class="flex flex-col">
+                        <label class=" font-bold leading-loose">Analyse </label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="number" ngModel="{{ProjetToRetnir?.analyse}}" name="analyse"
+                                class="w-28 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                placeholder="" />
+                            <div class="absolute left-3 top-2"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class=" font-bold whitespace-nowrap leading-loose">Contrôle-Qualité</label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="number" ngModel="{{ProjetToRetnir?.controlequalite}}" name="controlequalite"
+                                class="w-28 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                                placeholder="" />
+                            <div class="absolute left-3 top-2"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class=" font-bold whitespace-nowrap leading-loose">Integration-Coordination
+                        </label>
+                        <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <input type="number" ngModel="{{ProjetToRetnir?.integrationcoordination}}"
+                                name="integrationcoordination"
+                                class="w-28 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm" />
+                            <div class="absolute left-3 top-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col">
+                    <label class="font-bold leading-loose text-base whitespace-nowrap">Remarque :</label>
+                    <textarea type="text" name="remarque " ngModel
+                        class=" rounded-md border border-gray-300 px-4 py-2 min-h-24 text-gray-600 focus:border-gray-900 focus:outline-none focus:ring-gray-500 sm:text-sm"
+                        placeholder="Optional"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

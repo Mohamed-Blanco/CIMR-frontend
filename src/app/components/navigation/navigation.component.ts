@@ -3,6 +3,8 @@ import { SlideMenu } from 'primeng/slidemenu';
 import { MenuItem } from 'primeng/api';
 import { authentificationservice } from '../../../services/authentification.service';
 import { Router } from '@angular/router';
+import { Collaborateur } from '../../../models/collaborateur';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-navigation',
@@ -11,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class NavigationComponent implements OnInit {
   items: MenuItem[] = [];
+  collaborateurInformation!: Collaborateur;
 
 
   constructor(private authentificationService: authentificationservice, private router: Router) { }
@@ -22,9 +25,22 @@ export class NavigationComponent implements OnInit {
 
   }
 
+
+  getCollaborateurId() {
+    this.authentificationService.me().subscribe(
+      (response: Collaborateur) => {
+        this.collaborateurInformation = response;
+
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
   ngOnInit(): void {
 
-
+    this.getCollaborateurId();
     this.items = [
       {
         label: 'Files',

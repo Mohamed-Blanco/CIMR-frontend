@@ -3,6 +3,9 @@ import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { TrimestreService } from '../../../services/trimestre.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Trimestre } from '../../../models/trimestre';
+import { Collaborateur } from '../../../models/collaborateur';
+import { authentificationservice } from '../../../services/authentification.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-capacities',
@@ -22,9 +25,6 @@ export class CapacitiesComponent implements OnInit {
         this.getAllCapacities(this.trimestre);
         this.date = this.trimestre.dateDebut;
 
-
-
-
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -35,7 +35,15 @@ export class CapacitiesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCurrentTrimestreInfo();
+    this.Me();
+    this.TrimestreId = this.route.snapshot.params['idTrimestre'];
+
+    if (!this.TrimestreId) {
+      this.getCurrentTrimestreInfo();
+    } else {
+      this.getAllCapacitiesByid(this.TrimestreId);
+    }
+
     this.getTrimestres()
   }
 
@@ -49,7 +57,7 @@ export class CapacitiesComponent implements OnInit {
   @ViewChild('pieChart') private chartRef!: ElementRef;
   private chart: Chart | undefined;
 
-  constructor(private trimestreService: TrimestreService) {
+  constructor(private authentificationservice: authentificationservice, private trimestreService: TrimestreService, private route: ActivatedRoute) {
 
     Chart.register(...registerables);
   }
@@ -147,6 +155,18 @@ export class CapacitiesComponent implements OnInit {
     Total1: 0,
     Total2: 0
   };
+
+  onSearchCapacities(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const searchTerm = inputElement.value.toLowerCase();
+    console.log(searchTerm)
+    this.Capacities = this.AllCapacities;
+    this.Capacities = this.Capacities.filter((item) =>
+      item.collaborateur.nom?.toLowerCase().includes(searchTerm) ?? false
+    );
+  }
+
+
   Isopen: boolean = true;
 
   dropdownbutton(): void {
@@ -198,12 +218,70 @@ export class CapacitiesComponent implements OnInit {
 
 
 
-
+  AllCapacities !: any[];
   getAllCapacities(TrimestreId: Trimestre) {
     this.trimestre = TrimestreId;
     this.trimestreService.AllCapacities(TrimestreId.id).subscribe(
       (response: any) => {
         this.Capacities = response;
+        this.AllCapacities = response;
+
+        console.log(response);
+        this.counts = {
+          DevAs400: 0,
+          DevNTIC: 0,
+          WINDEV: 0,
+          Analyse: 0,
+          ControleQualite: 0,
+          IntegrationCoordination: 0,
+          Maintenence: 0,
+          Total1: 0,
+          Total2: 0
+        };
+
+        this.Capacities.forEach(capacitie => {
+          console.log("proccessing" + capacitie.collaborateur.competence.titrecompetence)
+          if (capacitie.collaborateur.competence.titrecompetence == "DEV AS400") {
+            this.counts.DevAs400 += capacitie.chargecompetence;
+          }
+
+          if (capacitie.collaborateur.competence.titrecompetence == "DEV NTIC") {
+            this.counts.DevNTIC += capacitie.chargecompetence;
+          }
+
+          this.counts.Analyse += capacitie.analyse;
+
+          if (capacitie.controlequalite) {
+            this.counts.ControleQualite += capacitie.controlequalite;
+
+          }
+          this.counts.IntegrationCoordination += capacitie.integrationcoordination;
+
+          this.counts.Total1 = this.counts.Analyse + this.counts.ControleQualite + this.counts.DevAs400 + this.counts.DevNTIC + this.counts.IntegrationCoordination;
+
+          this.counts.Maintenence += capacitie.maintenence;
+
+          this.counts.Total2 = this.counts.Total1 + this.counts.Maintenence;
+
+
+        }
+        )
+
+        this.createChart();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
+
+  getAllCapacitiesByid(TrimestreId: number | undefined) {
+
+    this.trimestreService.AllCapacities(TrimestreId).subscribe(
+      (response: any) => {
+        this.Capacities = response;
+        this.AllCapacities = response;
+
         console.log(response);
         this.counts = {
           DevAs400: 0,
@@ -255,6 +333,10 @@ export class CapacitiesComponent implements OnInit {
 
   date: Date | undefined;
 
+  me !: Collaborateur;
+  Me() {
+    this.authentificationservice.me().subscribe((response) => this.me = response, (error) => alert(error));
+  }
 
 
 }

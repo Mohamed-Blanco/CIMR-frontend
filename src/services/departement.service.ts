@@ -21,5 +21,15 @@ export class DepartementService {
         );
     }
 
+    public getdepartementsByID(id: number | undefined): Observable<departement[]> {
+        return this.http.get<departement[]>(
+            `${this.apiServerUrl}/Departement/all/${id}`,
+        );
+    }
+
+    adddepartement(dep: departement): Observable<departement> {
+        return this.http.post<departement>(`${this.apiServerUrl}/Departement/add`, dep);
+    }
+
 
 }

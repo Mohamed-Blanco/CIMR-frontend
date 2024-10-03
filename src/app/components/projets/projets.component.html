@@ -6,25 +6,18 @@
   <div class=" gap-3 bg-gray-200 px-10 pl-24 pt-4 min-h-screen" style="display: flex; flex-direction: column">
     <!-- Top Bar -->
     <div class="mb-3 ml-10 flex h-16 items-center justify-between gap-5 rounded-lg bg-white px-4 shadow-md">
-      <p class="font-bold">{{trimestre?.nomtrimestre}} :</p>
+      <p class="font-bold sm:block hidden ">{{trimestre?.nomtrimestre}} :</p>
       <div class="flex items-center gap-3">
-        <input type="search" placeholder="Search "
+        <input type="search" placeholder="Search " (input)="onSearchProjet($event)"
           class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
-        <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
+        <div *ngIf="me?.role === 'admin' " class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
 
         <!-- Buttons -->
 
-        <button (click)="selectitems()" type="button" class="group flex w-9 justify-center" data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop">
-          <img src="assets/images/garbage.svg" class="h-5 transition-all ease-in-out hover:h-7 hover:w-7"
-            alt="Delete" />
-          <div class="absolute mt-5 hidden rounded-lg text-sm group-hover:block">
-            <p>Suprimer des projets</p>
-          </div>
-        </button>
 
-        <button class="btn btn-primary" (click)="visibleadd = true" data-bs-toggle="modal" data-bs-target="#addprojet"
-          type="button" class="group flex w-7 justify-center">
+
+        <button *ngIf="me?.role === 'admin' " class="btn btn-primary" (click)="showadd()" data-bs-toggle="modal"
+          data-bs-target="#addprojet" type="button" class="group flex w-7 justify-center">
           <img src="assets/images/paper.svg" class="h-5 transition-all ease-in-out hover:h-7 hover:w-7"
             alt="Add Project" />
           <div class="absolute mt-5 hidden rounded-lg text-sm group-hover:block">
@@ -33,20 +26,40 @@
         </button>
 
         <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
-        <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
-          class="h-10 w-10 rounded-full bg-gray-200">
+        <img src="{{me?.imageurl}}" class="h-10 w-10 rounded-full bg-gray-200">
       </div>
     </div>
 
 
     <!--Select Trimestre -->
 
-    <div class="z-20 flex items-center justify-end">
+    <div class="z-20 pl-10 flex sm:flex-row flex-col gap-10 sm:gap-0 sm:items-center justify-start sm:justify-between ">
+      <div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex border-2 border-black  rounded-lg shadow-md bg-[#CDE2AD] w-4 h-4"></div>
+          <p class=" text-black ">Estimation complète du projet</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex border-2 border-black rounded-lg shadow-md  bg-white w-4 h-4"></div>
+          <p class=" text-black ">Chiffrage non finalisé du projet.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex border-2 border-black rounded-lg shadow-md  bg-yellow-300 w-4 h-4"></div>
+          <p class=" text-black ">Projet retenue</p>
+        </div>
+
+
+
+
+      </div>
 
       <div class="group relative">
         <button (click)="dropdownbutton()"
           class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-          <span class="mr-2 ">Selectioner Trimestre</span>
+          <span class="mr-2 font-bold">Selectioner Trimestre</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
             aria-hidden="true">
             <path fill-rule="evenodd"
@@ -64,24 +77,26 @@
 
           <!-- Dropdown content goes here -->
           <div class="max-h-24 overflow-y-scroll">
-            <a [routerLink]="['/Planification/Trimestre', item.id]" (click)="getprojetsByTrimestreId(item.id)"
-              (click)="getAllCapacities(item.id)" (click)="TrimestreId = item.id"
-              class="block cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
+            <button (click)="getprojetsByTrimestreId(item.id)" (click)="getAllCapacities(item.id)"
+              (click)="TrimestreId = item.id"
+              class="w-full block cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
               *ngFor="let item of filteredItems">
               <p>{{
-                item.nomtrimestre }}</p>
+                item?.nomtrimestre }}</p>
 
-            </a>
+            </button>
           </div>
         </div>
       </div>
+
+
     </div>
 
     <!-- overview -->
 
     <div class="ml-10 mt-2 flex gap-10">
-      <div class=" rounded-lg w-[60%] bg-white shadow-md  px-5">
-        <canvas class="w-full max-h-[300px]" #pieChart></canvas>
+      <div class=" rounded-lg w-[60%] bg-white shadow-md sm:block hidden  px-5">
+        <canvas class="w-full max-h-[300px] " #pieChart></canvas>
       </div>
       <table class="  rounded-lg grow bg-white shadow-md ">
         <thead>
@@ -95,8 +110,8 @@
         <tbody>
           <tr class="">
             <td class="whitespace-nowrap text-center   py-2 text-sm">Dev NTIC</td>
-            <td class="whitespace-nowrap  text-center  text-sm"> {{Capacitiescounts.DevNTIC}} </td>
-            <td class="whitespace-nowrap  text-center  text-sm">{{counts.DEVNTIC}}</td>
+            <td class="whitespace-nowrap  text-center  text-sm"> {{Capacitiescounts?.DevNTIC}} </td>
+            <td class="whitespace-nowrap  text-center  text-sm">{{counts?.DEVNTIC}}</td>
             <td class="whitespace-nowrap  text-center  text-sm pr-5  text-red-600">{{Capacitiescounts.DevNTIC -
               counts.DEVNTIC}}</td>
           </tr>
@@ -178,9 +193,10 @@
     </div>
     <div class="ml-24 text-xl"></div>
 
-    <div class="mb-10 ml-10 overflow-auto rounded-xl shadow-md">
-      <p-table [scrollHeight]="'500px'" class="min-h-64 overflow-y-scroll" [value]="projets"
-        [tableStyle]="{ 'min-width': '50rem' }" [reorderableColumns]="true">
+    <div class="mb-10 ml-10 overflow-hidden rounded-lg " style=" background-color : white">
+      <p-table [scrollHeight]="'500px'" [value]="projets"
+        [tableStyle]="{'background-color' : 'white','font-size':'10rem' , 'min-width': '50rem' }"
+        [reorderableColumns]="true" class="overflow-visible">
         <ng-template pTemplate="header">
           <tr class="text-sm bg-[#F9FAFB]">
             <th class="flex items-center justify-center gap-2 w-24">
@@ -199,7 +215,7 @@
             <th class="whitespace-nowrap"></th>
 
             <th class="whitespace-nowrap">Entitée demandeuse</th>
-            <th class="whitespace-nowrap">Collaborateurs</th>
+            <th class="whitespace-nowrap">Taches</th>
             <th class="whitespace-nowrap">Status</th>
             <th class="whitespace-nowrap">Date Debut</th>
             <th class="whitespace-nowrap">Date limite</th>
@@ -215,14 +231,14 @@
 
 
         <ng-template pTemplate="body" let-projet let-index="rowIndex">
-          @if ( !projet.chiffrer) {
-          <tr class="text-sm bg-[#CDE2AD]" [pReorderableRow]="index">
-            <td class="h-full   w-24">
+          @if ( !projet.chiffrer && projet.retenir == false) {
+          <tr class="text-sm bg-white " [pReorderableRow]="index">
+            <td class="h-full  bg-white w-24">
               <span class="pi pi-b ars  flex justify-center" pReorderableRowHandle>
                 {{ index+1 }}</span>
             </td>
-            <td class="">{{ projet?.titre }}</td>
-            <td class="border-r-[1px] border-dashed border-gray-400 ">
+            <td class="bg-white">{{ projet?.titre }}</td>
+            <td class="bg-white border-r-[1px] border-dashed border-gray-400 ">
               <button type="button" class="flex justify-center  " data-bs-toggle="modal" data-bs-target="#Comment"
                 (click)="ProjettoComment = projet">
                 <svg class="w-6  transition-all duration-200 hover:w-8" viewBox="0 0 24 24" fill="none"
@@ -239,7 +255,7 @@
             </td>
             <!--Modal Component-->
 
-            <td>{{ projet?.departement.titre}}
+            <td>{{ projet?.departement?.titre}}
 
               <div class="modal fade" id="Comment" tabindex="-1" aria-labelledby="CommentLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -288,7 +304,7 @@
                 </div>
               </div>
             </td>
-            <td>{{ "colaborateur " | collaborateurs }}</td>
+            <td>{{projet?.action.length}}</td>
             <td>Status</td>
             <td class="whitespace-nowrap">{{ projet?.datedebut | date}}</td>
             <td class="whitespace-nowrap">{{ projet?.datelimie | date }}</td>
@@ -302,7 +318,7 @@
             <td class="whitespace-nowrap">{{ projet?.infra }}</td>
             <td class="relative">
               <button (click)="dropdowneditmenu(index)"
-                class="rounded-lg px-1 py-1 text-gray-500 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300">
+                class="rounded-lg px-1 py-1  text-black transition-colors hover:bg-gray-200 duration-200 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="h-6 w-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -312,12 +328,12 @@
 
               <!-- Drop down Menu -->
               <div *ngIf="dropdownstate[index]" id="editmenu{{ index }}"
-                class="absolute right-0  mt-2 rounded-md z-50 bg-white opacity-0 shadow-lg transition-all">
+                class="absolute right-0  mt-2 rounded-md z-50 bg-white hidden shadow-lg transition-all">
                 <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
                   <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                  <button data-bs-toggle="modal" data-bs-target="#editprojet" (click)="OnEdit(projet)"
-                    class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                    id="menu-item-0">
+                  <button *ngIf="me?.role === 'admin' " data-bs-toggle="modal" data-bs-target="#editprojet"
+                    (click)="OnEdit(projet)" class="flex justify-between w-full px-4 py-2 text-sm text-gray-700"
+                    role="menuitem" tabindex="-1" id="menu-item-0">
                     Edit
                     <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
@@ -331,12 +347,15 @@
                   </button>
                 </div>
 
-                <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
-                  <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                  <button data-bs-toggle="modal" data-bs-target="#editprojet" (click)="OnEdit(projet)"
-                    class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                    id="menu-item-0">
-                    Retenir
+
+
+
+                <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none" *ngIf="me?.role === 'admin' ">
+
+                  <button (click)="OnRetenir(projet)"
+                    class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" type="button"
+                    (click)="UseRetnirComponent = true" data-bs-toggle="modal" data-bs-target="#retenirModal">
+                    <p>Retenir</p>
                     <svg fill="#000000" class="w-[1.2rem]" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 296.631 296.631" xml:space="preserve">
                       <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -357,7 +376,6 @@
                     </svg>
                   </button>
                 </div>
-
                 <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
                   <a [routerLink]="['viewprojet', projet?.id]" *ngFor="let col of getId()"
                     class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
@@ -375,7 +393,7 @@
                   </a>
                 </div>
 
-                <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
+                <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none" *ngIf="me?.role === 'admin' ">
                   <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                   <button (click)="showDialog()" class="flex justify-between w-full px-4 py-2 text-sm text-gray-700"
                     role="menuitem" tabindex="-1" id="menu-item-0">
@@ -446,14 +464,16 @@
               </div>
             </td>
           </tr>
-          }@else {
-          <tr class="text-sm bg-white" [pReorderableRow]="index">
-            <td class="h-full   w-24">
+          }
+          @if(projet.chiffrer && projet.retenir == false ){
+
+          <tr class="text-sm bg-[#CDE2AD]" [pReorderableRow]="index">
+            <td class="h-full bg-[#CDE2AD]  w-24">
               <span class="pi pi-b ars  flex justify-center" pReorderableRowHandle>
                 {{ index+1 }}</span>
             </td>
-            <td class="">{{ projet?.titre }}</td>
-            <td class="border-r-[1px] border-dashed border-gray-400 ">
+            <td class="bg-[#CDE2AD]">{{ projet?.titre }}</td>
+            <td class="bg-[#CDE2AD] border-r-[1px] border-dashed border-gray-400 ">
               <button type="button" class="flex justify-center  " data-bs-toggle="modal" data-bs-target="#Comment"
                 (click)="ProjettoComment = projet">
                 <svg class="w-6  transition-all duration-200 hover:w-8" viewBox="0 0 24 24" fill="none"
@@ -519,7 +539,7 @@
                 </div>
               </div>
             </td>
-            <td>{{ "colaborateur " | collaborateurs }}</td>
+            <td>{{projet?.action.length}}</td>
             <td>Status</td>
             <td class="whitespace-nowrap">{{ projet?.datedebut | date}}</td>
             <td class="whitespace-nowrap">{{ projet?.datelimie | date }}</td>
@@ -533,7 +553,7 @@
             <td class="whitespace-nowrap">{{ projet?.infra }}</td>
             <td class="relative">
               <button (click)="dropdowneditmenu(index)"
-                class="rounded-lg px-1 py-1 text-gray-500 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300">
+                class="rounded-lg px-1 py-1 text-black transition-colors duration-200  hover:bg-gray-200 ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" class="h-6 w-6">
                   <path stroke-linecap="round" stroke-linejoin="round"
@@ -543,12 +563,12 @@
 
               <!-- Drop down Menu -->
               <div *ngIf="dropdownstate[index]" id="editmenu{{ index }}"
-                class="absolute right-0  z-20 mt-2 rounded-md bg-white opacity-0 shadow-lg transition-all">
+                class="absolute right-0  z-20 mt-2 rounded-md bg-white hidden shadow-lg transition-all">
                 <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
                   <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                  <button data-bs-toggle="modal" data-bs-target="#editprojet" (click)="OnEdit(projet)"
-                    class="flex justify-between gap-[1.3em] px-4 py-2 text-sm text-gray-700" role="menuitem"
-                    tabindex="-1" id="menu-item-0">
+                  <button *ngIf="me?.role === 'admin' " data-bs-toggle="modal" data-bs-target="#editprojet"
+                    (click)="OnEdit(projet)" class="flex justify-between gap-[1.3em] px-4 py-2 text-sm text-gray-700"
+                    role="menuitem" tabindex="-1" id="menu-item-0">
                     Edit
                     <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
@@ -561,29 +581,12 @@
                     </svg>
                   </button>
                 </div>
-
-                <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
-                  <a [routerLink]="['viewprojet', projet?.id]" *ngFor="let col of getId()"
-                    class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                    id="menu-item-6">View
-                    <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
-                        <path
-                          d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
-                          stroke="#33363F" stroke-width="2"></path>
-                      </g>
-                    </svg>
-                  </a>
-                </div>
                 <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
-                  <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                  <button data-bs-toggle="modal" data-bs-target="#editprojet" (click)="OnEdit(projet)"
-                    class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                    id="menu-item-0">
-                    Retenir
+
+                  <button *ngIf="me?.role === 'admin' " (click)="OnRetenir(projet)"
+                    class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" type="button"
+                    (click)="UseRetnirComponent = true" data-bs-toggle="modal" data-bs-target="#retenirModal">
+                    <p>Retenir</p>
                     <svg fill="#000000" class="w-[1.2rem]" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 296.631 296.631" xml:space="preserve">
                       <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -604,7 +607,252 @@
                     </svg>
                   </button>
                 </div>
+                <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
+                  <a [routerLink]="['viewprojet', projet?.id]" *ngFor="let col of getId()"
+                    class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="menu-item-6">View
+                    <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
+                        <path
+                          d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                          stroke="#33363F" stroke-width="2"></path>
+                      </g>
+                    </svg>
+                  </a>
+                </div>
+
+                <div *ngIf="me?.role === 'admin' " class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
+                  <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                  <button (click)="showDialog()"
+                    class="flex justify-between gap-[1.3em] px-4 py-2 text-sm text-gray-700" role="menuitem"
+                    tabindex="-1" id="menu-item-0">
+                    Suprimer
+                    <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                          stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </g>
+                    </svg>
+                  </button>
+
+                  <p-dialog [modal]="true" [(visible)]="suprimer" [style]="{ width: '25rem' }" class="relative">
+
+                    <div
+                      class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <!-- Heroicon name: outline/exclamation -->
+                      <svg width="64px" height="64px" class="h-6 w-6 text-red-600" stroke="currentColor" fill="none"
+                        viewBox="0 0 24.00 24.00" xmlns="http://www.w3.org/2000/svg" stroke="#ef4444"
+                        stroke-width="0.45600000000000007">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M12 7.25C12.4142 7.25 12.75 7.58579 12.75 8V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V8C11.25 7.58579 11.5858 7.25 12 7.25Z"
+                            fill="#ef4444"></path>
+                          <path
+                            d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                            fill="#ef4444"></path>
+                          <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8.2944 4.47643C9.36631 3.11493 10.5018 2.25 12 2.25C13.4981 2.25 14.6336 3.11493 15.7056 4.47643C16.7598 5.81544 17.8769 7.79622 19.3063 10.3305L19.7418 11.1027C20.9234 13.1976 21.8566 14.8523 22.3468 16.1804C22.8478 17.5376 22.9668 18.7699 22.209 19.8569C21.4736 20.9118 20.2466 21.3434 18.6991 21.5471C17.1576 21.75 15.0845 21.75 12.4248 21.75H11.5752C8.91552 21.75 6.84239 21.75 5.30082 21.5471C3.75331 21.3434 2.52637 20.9118 1.79099 19.8569C1.03318 18.7699 1.15218 17.5376 1.65314 16.1804C2.14334 14.8523 3.07658 13.1977 4.25818 11.1027L4.69361 10.3307C6.123 7.79629 7.24019 5.81547 8.2944 4.47643ZM9.47297 5.40432C8.49896 6.64148 7.43704 8.51988 5.96495 11.1299L5.60129 11.7747C4.37507 13.9488 3.50368 15.4986 3.06034 16.6998C2.6227 17.8855 2.68338 18.5141 3.02148 18.9991C3.38202 19.5163 4.05873 19.8706 5.49659 20.0599C6.92858 20.2484 8.9026 20.25 11.6363 20.25H12.3636C15.0974 20.25 17.0714 20.2484 18.5034 20.0599C19.9412 19.8706 20.6179 19.5163 20.9785 18.9991C21.3166 18.5141 21.3773 17.8855 20.9396 16.6998C20.4963 15.4986 19.6249 13.9488 18.3987 11.7747L18.035 11.1299C16.5629 8.51987 15.501 6.64148 14.527 5.40431C13.562 4.17865 12.8126 3.75 12 3.75C11.1874 3.75 10.4379 4.17865 9.47297 5.40432Z"
+                            fill="#ef4444"></path>
+                        </g>
+                      </svg>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">Suprimer Projet
+                      </h3>
+                      <div class="mt-2">
+                        <p class="text-sm text-gray-500"> Êtes-vous sûr de vouloir supprimer l'élément d'exemple ?
+                          Cette
+                          action est
+                          irréversible. </p>
+                      </div>
+                    </div>
+                    <div class="flex justify-center items-center mt-4">
+                      <p-button type="button" label="Suprimer" (onClick)="suprimer = false" (click)="OnSuprimer(projet)"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" />
+
+                      <p-button type="button" (onClick)="suprimer = false" label="Annuler"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" />
+
+                    </div>
+
+
+                  </p-dialog>
+                </div>
+              </div>
+            </td>
+          </tr>
+          }
+
+          @if(projet.retenir){
+          <tr class="text-sm bg-yellow-300" [pReorderableRow]="index">
+            <td class="h-full bg-yellow-300  w-24">
+              <span class="pi pi-b ars  flex justify-center" pReorderableRowHandle>
+                {{ index+1 }}</span>
+            </td>
+            <td class="bg-yellow-300">{{ projet?.titre }}</td>
+            <td class=" bg-yellow-300 border-r-[1px] border-dashed border-gray-400 ">
+              <button *ngIf="me?.role === 'admin' " type="button" class="flex justify-center  " data-bs-toggle="modal"
+                data-bs-target="#Comment" (click)="ProjettoComment = projet">
+                <svg class="w-6  transition-all duration-200 hover:w-8" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M12 8V14M15 11H9M12.2896 17.9984C18.0965 17.9343 21 15.9189 21 11C21 6 18 4 12 4C6 4 3 6 3 11C3 14.0771 4.13623 16.018 6.40868 17.0557L5 21L12.2896 17.9984Z"
+                      stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </g>
+                </svg>
+              </button>
+            </td>
+            <!--Modal Component-->
+
+            <td>{{ projet?.departement.titre}}
+
+              <div class="modal fade" id="Comment" tabindex="-1" aria-labelledby="CommentLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div>
+                      <div>
+                        <!-- Here Comment section -->
+
+                        <!-- component -->
+                        <!-- comment  -->
+
+                        <div class="flex items-center justify-center shadow-lg">
+                          <div class="w-full max-w-xl rounded-lg bg-white px-4 pt-2">
+                            <form (ngSubmit)="AjouterRemarque(addremarque, ProjettoComment)" #addremarque="ngForm"
+                              class="-mx-3 mb-6 flex flex-wrap">
+                              <button type="button" class="btn-close absolute right-1" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                              <h2 class="px-4 pb-2 pt-3 text-lg text-gray-800">
+                                Ajouter Remarque
+                              </h2>
+                              <div class="mb-2 mt-2 w-full px-3 md:w-full" *ngIf="ProjettoComment !== undefined">
+                                <textarea name="remarque" [(ngModel)]="ProjettoComment.remarque"
+                                  class="h-20 max-h-[400px] min-h-[200px] w-full overflow-visible rounded border border-gray-400 bg-gray-100 px-3 py-2 font-medium leading-normal placeholder-gray-700 focus:bg-white focus:outline-none"
+                                  name="body" placeholder="ecrire votre remarque" required></textarea>
+                              </div>
+                              <div class="flex w-full items-start px-3 md:w-full">
+                                <div class="mr-auto flex w-1/2 items-start px-2 text-gray-700">
+                                  <svg fill="none" class="mr-1 h-5 w-5 text-gray-600" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                </div>
+                                <div class="-mr-1">
+                                  <button data-bs-dismiss="modal" type="submit"
+                                    class="mr-1 rounded-lg border border-gray-400 bg-white px-4 py-1 font-medium tracking-wide text-gray-700 hover:bg-gray-100">ajouter</button>
+                                </div>
+                              </div>
+
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              {{projet?.action.length}}
+
+            </td>
+            <td>Status</td>
+            <td class="whitespace-nowrap">{{ projet?.datedebut | date}}</td>
+            <td class="whitespace-nowrap">{{ projet?.datelimie | date }}</td>
+            <td class="whitespace-nowrap">{{ projet?.chargeestimee }}</td>
+            <td class="whitespace-nowrap">
+              {{ projet?.integrationcoordination }}
+            </td>
+            <td class="whitespace-nowrap">{{ projet?.chargeAS400 }}</td>
+            <td class="whitespace-nowrap">{{ projet?.chargeNTIC }}</td>
+            <td class="whitespace-nowrap">{{ projet?.analyse }}</td>
+            <td class="whitespace-nowrap">{{ projet?.infra }}</td>
+            <td class="relative">
+              <button (click)="dropdowneditmenu(index)"
+                class="rounded-lg px-1 py-1 text-black transition-colors duration-200 hover:bg-gray-200 ">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="h-6 w-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                </svg>
+              </button>
+
+              <!-- Drop down Menu -->
+              <div *ngIf="dropdownstate[index]" id="editmenu{{ index }}"
+                class="absolute right-0  z-20 mt-2 rounded-md bg-white hidden shadow-lg transition-all">
                 <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
+                  <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                  <button *ngIf="me?.role === 'admin' " data-bs-toggle="modal" data-bs-target="#editprojet"
+                    (click)="OnEdit(projet)" class="flex justify-between gap-[1.3em] px-4 py-2 text-sm text-gray-700"
+                    role="menuitem" tabindex="-1" id="menu-item-0">
+                    Edit
+                    <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                          stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+                <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
+
+                  <button *ngIf="me?.role === 'admin' " (click)="OnRetenir(projet)"
+                    class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" type="button"
+                    (click)="UseRetnirComponent = true" data-bs-toggle="modal" data-bs-target="#retenirModal">
+                    <p>Retenir</p>
+                    <svg fill="#000000" class="w-[1.2rem]" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 296.631 296.631" xml:space="preserve">
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <g>
+                          <path
+                            d="M295.112,230.271l-13.598-20.752c-2.81-4.288-8.563-5.486-12.851-2.677l-75.814,49.676 c-4.288,2.81-5.486,8.563-2.677,12.851l13.598,20.752c2.81,4.288,8.563,5.486,12.851,2.677l75.814-49.677 C296.723,240.312,297.921,234.558,295.112,230.271z">
+                          </path>
+                          <path
+                            d="M205.731,229.83l24.823-16.265c21.194-13.887,26.005-42.135,13.272-61.565l-36.978-56.433 c-4.591-7.005-13.989-8.961-20.991-4.372c-4.559,2.987-6.962,8.012-6.831,13.087l-2.701-4.122 c-4.589-7.004-13.987-8.961-20.991-4.372c-4.559,2.987-6.963,8.013-6.831,13.089l-1.871-2.855 c-4.589-7.003-13.989-8.96-20.991-4.372c-4.559,2.987-6.963,8.012-6.831,13.088L93.672,76.374 c-4.589-7.003-13.989-8.96-20.991-4.372c-7.004,4.589-8.961,13.987-4.372,20.991l62.509,95.399l-26.165-8.915 c-7.934-2.701-16.541,1.536-19.241,9.462c-2.7,7.926,1.536,16.541,9.462,19.241l73.569,25.065 c4.894,2.037,10.151,3.107,15.455,3.107C191.406,236.352,198.995,234.243,205.731,229.83z">
+                          </path>
+                          <path
+                            d="M69.397,31.404L43.235,5.242c-3.905-3.903-10.235-3.904-14.143,0L2.929,31.404c-3.905,3.905-3.905,10.237,0,14.142 c3.906,3.904,10.236,3.905,14.143,0l9.092-9.092v154.157c0,5.522,4.478,10,10,10c5.522,0,10-4.478,10-10V36.455l9.091,9.091 c1.953,1.952,4.512,2.929,7.071,2.929c2.559,0,5.118-0.977,7.071-2.929C73.302,41.641,73.302,35.309,69.397,31.404z">
+                          </path>
+                        </g>
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+                <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
+                  <a [routerLink]="['viewprojet', projet?.id]" *ngFor="let col of getId()"
+                    class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="menu-item-6">View
+                    <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
+                        <path
+                          d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                          stroke="#33363F" stroke-width="2"></path>
+                      </g>
+                    </svg>
+                  </a>
+                </div>
+
+                <div *ngIf="me?.role === 'admin' " class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
                   <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                   <button (click)="showDialog()"
                     class="flex justify-between gap-[1.3em] px-4 py-2 text-sm text-gray-700" role="menuitem"
@@ -680,13 +928,16 @@
     <!-- Modal div -->
 
     <!-- Button trigger modal -->
+    <p-toast position="bottom-right" />
 
     <!-- Modal -->
     <div class="modal fade" id="addprojet" tabindex="-1" aria-labelledby="addprojet" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body">
-            <app-ajouter-projet *ngIf="visibleadd" [TrimestreId]="TrimestreId"></app-ajouter-projet>
+
+            <app-ajouter-projet *ngIf="visibleadd" [trimestretoadd]="TrimestreId"></app-ajouter-projet>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -715,6 +966,28 @@
             </button>
             <button type="button" class="btn btn-primary bg-[#7BB125] text-white" data-bs-dismiss="modal"
               (click)="onSubmitEdit()">Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="modal" id="retenirModal" tabindex="-1" aria-labelledby="retenirModalLabel">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <app-retnir-projet *ngIf="UseRetnirComponent" [ProjetToRetnir]="ProjetSelectedRetnir"></app-retnir-projet>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              fermer
+            </button>
+            <button type="button" class="btn btn-primary bg-[#7BB125] text-white" data-bs-dismiss="modal"
+              (click)="onSubmitRetenir()">
+              Retenir
+            </button>
           </div>
         </div>
       </div>

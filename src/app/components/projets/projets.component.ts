@@ -14,6 +14,10 @@ import { Console, error } from 'console';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { TrimestreService } from '../../../services/trimestre.service';
 import { Trimestre } from '../../../models/trimestre';
+import { RetnirProjetComponent } from '../retnir-projet/retnir-projet.component';
+import { Collaborateur } from '../../../models/collaborateur';
+import { authentificationservice } from '../../../services/authentification.service';
+import { MessageService } from 'primeng/api';
 
 interface Column {
   field: string;
@@ -28,12 +32,15 @@ interface Column {
 export class ProjetsComponent implements OnInit, OnChanges {
 
 
-  visibleadd !: boolean;
-  showadd() {
 
-    setTimeout(() => {
+  visibleadd: boolean = false;
+  showadd() {
+    console.log("Trimstre Id Before ; " + this.TrimestreId)
+    if (this.TrimestreId) {
+      console.log("Trimstre Id Before ; " + this.TrimestreId)
       this.visibleadd = true;
-    }, 2);
+    }
+
   }
   @ViewChild(AjouterProjetComponent)
   addProjet!: AjouterProjetComponent;
@@ -44,12 +51,15 @@ export class ProjetsComponent implements OnInit, OnChanges {
   @ViewChild(EditProjetComponent)
   EditerProjet!: EditProjetComponent;
 
+
+  @ViewChild(RetnirProjetComponent)
+  RetenirProjet!: RetnirProjetComponent;
+
   ProjetSelectedEdit !: Projet;
   UseEditComponent: boolean = false;
   AllTrimestres: Trimestre[] = [];
 
-
-
+  
   Capacities !: any[];
   Capacitiescounts = {
     DevAs400: 999,
@@ -77,6 +87,7 @@ export class ProjetsComponent implements OnInit, OnChanges {
 
   getAllCapacities(TrimestreId: number | undefined) {
 
+    this.TrimestreId = TrimestreId;
     this.trimestreService.AllCapacities(TrimestreId).subscribe(
       (response: any) => {
         this.Capacities = response;
@@ -162,22 +173,22 @@ export class ProjetsComponent implements OnInit, OnChanges {
 
     const data = {
       labels: [
-        'NTIC', 'NTIC',
-        'AS400', 'AS400',
-        'WINDEV', 'WINDEV',
-        'Analyse', 'Analyse',
-        'Integration-coordination', 'Integration-coordination',
-        'Controle-Qualité', 'Controle-Qualité'
+        'NTIC', 'NTIC a consomer',
+        'AS400', 'AS400 a consomer',
+        'WINDEV', 'WINDEV a consomer',
+        'Analyse', 'Analyse a consomer',
+        'Integration-coordination', 'Integration-coordination a consomer',
+        'Controle-Qualité', 'Controle-Qualité a consomer'
       ],
       datasets: [{
         data: [this.Capacitiescounts.DevNTIC, this.counts.DEVNTIC, this.Capacitiescounts.DevAs400, this.counts.DEVAS400, 0, 0, this.Capacitiescounts.Analyse, this.counts.Analyse, this.Capacitiescounts.IntegrationCoordination, this.counts.Intrgration, this.Capacitiescounts.ControleQualite, this.counts.CONTROLEQUALITE],
         backgroundColor: [
-          '#EF7F5A', '#EF7F5A',    // Green for NTIC
-          '#00712D', '#00712D',    // Yellow for AS400
+          '#EF7F5A', '#ed9b82',    // Green for NTIC
+          '#00712D', '#009539',    // Yellow for AS400
           '#00ECCC', '#00ECCC',    // Red for WINDEV
-          '#125B9A', '#125B9A',    // Blue for Analyse
-          '#E6A400', '#E6A400',    // Purple for Integration-coordination
-          '#00BC8B', '#00BC8B'     // Brown for Controle-Qualité
+          '#125B9A', '#2f81c4',    // Blue for Analyse
+          '#E6A400', '#dbb55e',    // Purple for Integration-coordination
+          '#00BC8B', '#32d1a6'     // Brown for Controle-Qualité
         ]
       }]
     };
@@ -216,23 +227,30 @@ export class ProjetsComponent implements OnInit, OnChanges {
           this.getprojetsByTrimestreId(this.TrimestreId);
           this.getTrimestreData(this.TrimestreId);
           console.log("dlsdksmldkMLSK unDEFIENED")
+
         } else {
           this.getprojets();
 
+
+
         }
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Projet a été ajouté ' });
 
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
+        this.messageService.add({
+          severity: 'error', summary: 'error', detail: 'Erreur lors de l ajout du projet'
+        });
       },
     )
 
 
   }
 
-  onSubmitEdit() {
 
-    let obs = this.EditerProjet.submitForm();
+  onSubmitRetenir() {
+    let obs = this.RetenirProjet.submitForm();
     if (!obs) return;
     obs.subscribe(
       (response: Projet) => {
@@ -243,9 +261,43 @@ export class ProjetsComponent implements OnInit, OnChanges {
         console.log(error.message);
       },
     )
+  }
+
+  OnRetenir(projet: Projet) {
+    debugger;
+    this.ProjetSelectedRetnir = projet;
+    console.log("Trimestre IN retenir : ");
+    this.UseRetnirComponent = true;
+
+  }
+
+  me !: Collaborateur;
+  Me() {
+    this.authentificationservice.me().subscribe((response) => this.me = response, (error) => alert(error));
+  }
+
+  onSubmitEdit() {
+
+    let obs = this.EditerProjet.submitForm();
+    if (!obs) return;
+    obs.subscribe(
+      (response: Projet) => {
+        console.log(response);
+        this.getprojets();
+        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Projet a été Modifier ' });
+
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erreur lors de la Modification ' });
+
+      },
+    )
 
 
   }
+
+
   suprimer!: boolean;
   ProjettoComment !: Projet;
 
@@ -289,6 +341,8 @@ export class ProjetsComponent implements OnInit, OnChanges {
       (response: void) => {
         console.log("Projet Suprimer ! ");
         this.getprojets();
+        this.messageService.add({ severity: 'warn', summary: 'Success', detail: 'Projet a été Suprimer ' });
+
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -302,12 +356,14 @@ export class ProjetsComponent implements OnInit, OnChanges {
 
   }
 
+  UseRetnirComponent: boolean = false;
   projets!: Projet[];
   collaborateurs!: string[];
   cols!: Column[];
   dropdownstate: boolean[] = [];
   select: boolean = false;
   Isopen: boolean = false;
+  ProjetSelectedRetnir !: Projet;
 
   searchTerm: string = '';
   filteredItems: Trimestre[] = [...this.AllTrimestres];
@@ -441,10 +497,28 @@ export class ProjetsComponent implements OnInit, OnChanges {
     );
   }
 
+  onSearchProjet(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const searchTerm = inputElement.value.toLowerCase();
+    console.log(searchTerm)
+    this.projets = this.allprojets;
+
+    this.projets = this.allprojets.filter((item) =>
+      item.departement?.titre?.toLowerCase().includes(searchTerm) ?? false
+
+    );
+
+    this.projets = this.allprojets.filter((item) =>
+      item.titre?.toLowerCase().includes(searchTerm) ?? false
+
+    );
+
+  }
+
   ngOnInit(): void {
 
 
-
+    this.Me();
     this.getTrimestres();
     this.TrimestreId = this.activatedRoute.snapshot.params['idTrimestre'];
 
@@ -476,7 +550,7 @@ export class ProjetsComponent implements OnInit, OnChanges {
   }
 
 
-  constructor(private projetsService: ProjteService, private route: ActivatedRoute, private trimestreService: TrimestreService) {
+  constructor(private messageService: MessageService, private authentificationservice: authentificationservice, private projetsService: ProjteService, private route: ActivatedRoute, private trimestreService: TrimestreService) {
 
     Chart.register(...registerables);
   }
@@ -500,17 +574,19 @@ export class ProjetsComponent implements OnInit, OnChanges {
     setTimeout(() => {
       document
         .getElementById('editmenu' + index)
-        ?.classList.remove('opacity-0');
+        ?.classList.remove('hidden');
     }, 1);
 
     this.dropdownstate.fill(false);
     this.dropdownstate[index] = !this.dropdownstate[index];
   }
-
+  allprojets !: Projet[];
   public getprojets(): void {
     this.trimestreService.CurrentTrimestre().subscribe(
       (response: Trimestre) => {
         this.projets = response.projetList;
+        this.allprojets = response.projetList;
+        this.TrimestreId = response.id;
         this.getAllCharges();
         this.getAllCapacities(response.id);
         this.getTrimestreData(response.id);
@@ -539,9 +615,11 @@ export class ProjetsComponent implements OnInit, OnChanges {
   }
 
   public getprojetsByTrimestreId(id: number | undefined): void {
+    this.TrimestreId = id;
     this.trimestreService.findTrimestreById(id).subscribe(
       (response: Trimestre) => {
         this.projets = response.projetList;
+        this.allprojets = response.projetList
         this.getAllCharges();
         this.getAllCapacities(response.id);
         this.getTrimestreData(response.id);
@@ -589,17 +667,30 @@ export class ProjetsComponent implements OnInit, OnChanges {
 
 
 
-      if (projet.analyse != null && projet.chargeAS400 != null && projet.controlequalite != null && projet.integrationcoordination != null && projet.infra) {
-        console.log("proccessing  Projets")
+      console.log("proccessing  Projets")
+
+      if (projet.analyse) {
         this.counts.Analyse += projet.analyse;
-        this.counts.DEVAS400 += projet.chargeAS400;
-        this.counts.DEVNTIC += projet.chargeNTIC;
+
+      }
+
+      if (projet.infra) {
         this.counts.INFRA += projet.infra;
+
+      }
+      if (projet.integrationcoordination) {
         this.counts.Intrgration += projet.integrationcoordination;
+
+      }
+
+      if (projet.controlequalite) {
         this.counts.CONTROLEQUALITE += projet.controlequalite;
+
       }
 
 
+      this.counts.DEVAS400 += projet.chargeAS400;
+      this.counts.DEVNTIC += projet.chargeNTIC;
 
 
     })

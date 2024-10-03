@@ -7,6 +7,9 @@ import { error } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Projet } from '../../../models/projet';
 import { ProjetCount } from '../../../models/ProjetcountResponse';
+import { AjouterProjetComponent } from '../ajouter-projet/ajouter-projet.component';
+import { EditCollaborateurComponent } from '../edit-collaborateur/edit-collaborateur.component';
+import { authentificationservice } from '../../../services/authentification.service';
 
 
 @Component({
@@ -77,11 +80,28 @@ export class CollaborateursComponent implements OnInit {
       },
     );
   }
+  me !: Collaborateur;
+  Me() {
+    this.authentificationservice.me().subscribe((response) => this.me = response, (error) => alert(error));
+  }
 
   onSubmit() {
 
     let obs = this.addCollaborateur.submitForm();
-    this.getCollaborateurs();
+    if (!obs) return;
+    obs.subscribe(
+      (response: Collaborateur) => {
+        console.log(response);
+        this.getCollaborateurs();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Projet a été ajouté ' });
+
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erreur lors de l ajoute ' });
+
+      },
+    )
 
 
 
@@ -89,7 +109,30 @@ export class CollaborateursComponent implements OnInit {
   }
 
   public Collaborateurs: ProjetCount[] = [];
+  public AllCollaborateurs: ProjetCount[] = [];
   public CollaborateursReal: Collaborateur[] = [];
+
+  onSearchCollaborateurs(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const searchTerm = inputElement.value.toLowerCase();
+    console.log(searchTerm)
+
+    this.Collaborateurs = this.AllCollaborateurs.filter((item) =>
+      item.collaborateur.nom?.toLowerCase().includes(searchTerm) ?? false
+
+    );
+
+    this.Collaborateurs = this.AllCollaborateurs.filter((item) =>
+      item.collaborateur.prenom?.toLowerCase().includes(searchTerm) ?? false
+
+    );
+
+    this.Collaborateurs = this.AllCollaborateurs.filter((item) =>
+      item.collaborateur.email?.toLowerCase().includes(searchTerm) ?? false
+
+    );
+
+  }
 
   dropdownstate: boolean[] = [];
   dropdownstate2: boolean[] = [];
@@ -98,7 +141,7 @@ export class CollaborateursComponent implements OnInit {
   showlist: boolean = false;
   Isopen: boolean = false;
 
-  constructor(private collaborateurservice: collaborateurservice, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private authentificationservice: authentificationservice, private collaborateurservice: collaborateurservice, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   public ondeleteCollaborateurby(id: number) {
 
@@ -154,6 +197,7 @@ export class CollaborateursComponent implements OnInit {
 
   ngOnInit(): void {
     //console.log(localStorage.getItem("token"))
+    this.Me();
     this.getCollaborateurs();
   }
 
@@ -169,6 +213,7 @@ export class CollaborateursComponent implements OnInit {
     this.collaborateurservice.getCollaborateurs().subscribe(
       (response: ProjetCount[]) => {
         this.Collaborateurs = response;
+        this.AllCollaborateurs = response;
         console.log(this.Collaborateurs);
 
       },
@@ -177,6 +222,39 @@ export class CollaborateursComponent implements OnInit {
       },
     );
   }
+
+
+  collaborateurtoedit!: Collaborateur;
+  edit: boolean = false;
+
+  OnEdit(collaborateur: Collaborateur) {
+    this.edit = true;
+    this.collaborateurtoedit = collaborateur;
+  }
+
+
+  @ViewChild(EditCollaborateurComponent)
+  editCollaborateur!: EditCollaborateurComponent;
+
+
+  onSubmitEdit() {
+
+    let obs = this.editCollaborateur.submitForm();
+    if (!obs) return;
+    obs.subscribe(
+      (response: Collaborateur) => {
+        console.log(response);
+        this.getCollaborateurs();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'les informations du Collaborateur sont modifier' });
+
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    )
+
+  }
+
 
   dropmenu(i: number): void {
     if (this.dropdownstate[i] === true) {

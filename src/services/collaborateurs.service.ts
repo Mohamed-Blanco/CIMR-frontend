@@ -26,6 +26,7 @@ export class collaborateurservice {
     }
 
 
+
     public addCollaborateur(
         collaborateur: Collaborateur,
     ): Observable<Collaborateur> {
@@ -39,6 +40,11 @@ export class collaborateurservice {
         return this.http.delete<void>(`${this.apiServerUrl}/Collaborateurs/delete/${id}`);
     }
 
+    public updatecollaborateur(Collaborateur: Collaborateur): Observable<Collaborateur> {
+        return this.http.put<Collaborateur>(`${this.apiServerUrl}/Collaborateurs/update`, Collaborateur);
+    }
+
+
     public getProjetsforcollaborateur(id: number): Observable<Projet[]> {
         return this.http.get<Projet[]>(`${this.apiServerUrl}/ProjetCollaborateur/Collaborateur/${id}/Projet`,);
     }
@@ -49,6 +55,10 @@ export class collaborateurservice {
 
     public getProjetForCollabByTrimestre(idcollab: number, idTrim: number | undefined): Observable<Projet[]> {
         return this.http.get<Projet[]>(`${this.apiServerUrl}/ProjetCollaborateur/Collaborateur/${idcollab}/Trimestre/${idTrim}`);
+    }
+
+    public getCollabTrimestre(idcollab: number, idTrim: number | undefined): Observable<any> {
+        return this.http.get<any>(`${this.apiServerUrl}/CollaborateurTrimestre/Collaborateur/${idcollab}/Trimestre/${idTrim}`);
     }
 
     public getCollaborateursNotInProjet(id: number | null): Observable<Collaborateur[]> {

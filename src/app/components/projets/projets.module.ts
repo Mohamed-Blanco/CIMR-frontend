@@ -16,6 +16,8 @@ import { TrimestresModule } from '../trimestres/trimestres.module';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { RetnirProjetModule } from '../retnir-projet/retnir-projet.module';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { ButtonModule } from 'primeng/button';
     FormsModule,
     DialogModule,
     ButtonModule,
-
+    RetnirProjetModule,
+    ToastModule
 
   ],
   exports: [ProjetsComponent],

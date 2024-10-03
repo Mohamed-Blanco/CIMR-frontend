@@ -4,7 +4,7 @@
   <div class="h-auto w-full flex-row bg-gray-200 px-10 pb-10 pl-24">
     <!-- delte Alert  -->
 
-    <p-toast />
+    <p-toast position="bottom-right" />
     <p-confirmDialog />
 
 
@@ -45,16 +45,16 @@
       <div class="mb-3 ml-10 flex h-16 items-center justify-between gap-5 rounded-lg bg-white px-4 shadow-md">
         <p class="font-bold">Gestion des collaborateurs</p>
         <div class="flex items-center gap-3">
-          <input type="search" placeholder="search"
+          <input type="search" placeholder="search" (input)="onSearchCollaborateurs($event)"
             class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
-          <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
-          <button type="button" class="flex w-9 justify-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <div *ngIf="me.role === 'admin' " class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
+          <button *ngIf="me.role === 'admin' " type="button" class="flex w-9 justify-center" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
             <img src="assets/images/adduser.svg" class="h-7 w-7 transition-all ease-in-out hover:h-9 hover:w-9"
               alt="" />
           </button>
           <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
-          <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
-            class="h-10 w-10 rounded-full bg-gray-200">
+          <img src="{{me.imageurl}}" class="h-10 w-10 rounded-full bg-gray-200">
 
         </div>
       </div>
@@ -69,14 +69,14 @@
           <div class="modal-content">
             <div class="modal-body ">
 
-              <app-edit-collaborateur></app-edit-collaborateur>
+              <app-edit-collaborateur *ngIf="edit" [CollaborateurToEdit]="collaborateurtoedit"></app-edit-collaborateur>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
+              <button type="button" class="btn btn-primary" (click)="onSubmitEdit()" data-bs-dismiss="modal">
+                Edit Collaborateur
               </button>
             </div>
           </div>
@@ -118,8 +118,7 @@
               <ng-template pTemplate="body" let-Collaborateur let-index="rowIndex">
                 <tr class="border-[1px]  border-gray-200 ">
                   <td class="flex items-center pl-14">
-                    <img class="h-10 w-10 rounded-full"
-                      src="https://themesflat.co/html/protend/images/profile/user-profile.png" alt="" />
+                    <img class="h-10 w-10 rounded-full" src="{{Collaborateur.collaborateur.imageurl}}" alt="" />
                     <div class="px-4">
                       <p class="whitespace-nowrap">{{ Collaborateur.collaborateur.nom }} {{ Collaborateur.prenom }}</p>
                       <p class="text-xs text-[#7BB125]">
@@ -130,7 +129,12 @@
                   <td class="whitespace-nowrap">{{ Collaborateur.collaborateur.competence.titrecompetence }}</td>
                   <td>{{ Collaborateur.collaborateur.createdAt | date }}</td>
                   <td> {{ Collaborateur.collaborateur.role }}</td>
-                  <td>{{ Collaborateur.collaborateur.enabled }}</td>
+                  <td *ngIf="Collaborateur.collaborateur.enabled "> <button
+                      class="px-3 py-1 bg-green-200 rounded-full">Activer</button>
+                  </td>
+                  <td *ngIf="!Collaborateur.collaborateur.enabled "> <button
+                      class="px-3 py-1 bg-red-200 rounded-full">Désactiver</button>
+                  </td>
                   <td>{{ Collaborateur.projetCount }}</td>
                   <td class="">
 
@@ -150,7 +154,8 @@
                       class="absolute right-8  mt-2 rounded-md bg-white opacity-0 shadow-lg transition-all">
                       <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                        <button data-bs-toggle="modal" data-bs-target="#editModal"
+                        <button *ngIf="me.role === 'admin' " data-bs-toggle="modal" data-bs-target="#editModal"
+                          (click)="OnEdit(Collaborateur.collaborateur)"
                           class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem"
                           tabindex="-1" id="menu-item-0">
                           <p>Edit</p>
@@ -184,7 +189,7 @@
                         </a>
                       </div>
 
-                      <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
+                      <div *ngIf="me.role === 'admin' " class="rounded-lg py-1 hover:bg-gray-100" role="none">
                         <p-button (onClick)="confirm2($event,Collaborateur.collaborateur.id)"
                           class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem"
                           tabindex="-1" id="menu-item-6">Suprimer
@@ -229,63 +234,103 @@
             rel="stylesheet" />
 
 
-          <div class="ml-10 grid grid-cols-4 left-0 pb-10">
-            <div *ngFor="let Collaborateur of Collaborateurs; let i = index" class="mt-3 rounded-2xl">
+          <div class="ml-10 grid gap-10 grid-cols-5">
+            <div *ngFor="let Collaborateur of Collaborateurs; let i = index" class="max-w-60 mt-3 rounded-2xl">
               <!-- component -->
 
 
-              <section class=" w-80 mx-auto w rounded-2xl bg-white px-8 py-6 shadow-md">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-400">2d ago</span>
-
-                  <div class=" inline-block h-8 text-left">
-                    <div (click)="dropmenu(i)">
-                      <button class="text-[#7BB125]">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6 transition-all ease-in-out hover:h-8 hover:w-8" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                        </svg>
-                      </button>
-                    </div>
-
-
-                    <div *ngIf="dropdownstate[i]" id="dropdownmenu{{ i }}"
-                      class="duration-420 absolute right-0 z-10 ml-8 w-24 origin-top-right divide-y divide-gray-100 rounded-md bg-white opacity-0 shadow-md ring-1 ring-black ring-opacity-5 transition-all ease-out focus:outline-none"
-                      role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <section class=" w-80 mx-auto w rounded-2xl bg-white px-8 py-6 shadow-md relative">
+                <div class="flex items-center justify-between ">
+                  <span class="text-sm text-gray-400">{{Collaborateur.collaborateur.createdAt | date}}</span>
+                  <button (click)="Droptablelistmenu(i)"
+                    class="rounded-lg  px-1 py-1 text-gray-500 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="h-6 w-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                    </svg>
+                  </button>
+                  <div class=" inline-block h-8 text-left absolute right-0  top-14 ">
+                    <div id="droplist{{ i}}" *ngIf="dropdownstate2[i]"
+                      class="absolute right-8  mt-2 rounded-md bg-white opacity-0 shadow-lg transition-all">
                       <div class="flex rounded-lg py-1 hover:bg-gray-100" role="none">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                          id="menu-item-0">Edit</a>
-                      </div>
-                      <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
-                        <a href="#" [routerLink]="[
-                                '/collaborateurs/viewcollaborateur',
-                              ]" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                          id="menu-item-2">View</a>
+                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                        <button *ngIf="me.role === 'admin' " data-bs-toggle="modal" data-bs-target="#editModal"
+                          (click)="OnEdit(Collaborateur.collaborateur)"
+                          class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem"
+                          tabindex="-1" id="menu-item-0">
+                          <p>Edit</p>
+                          <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                              <path
+                                d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                                stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                              </path>
+                            </g>
+                          </svg>
+                        </button>
                       </div>
 
                       <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
-                        <button href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                          id="menu-item-6">Delete</button>
+                        <a [routerLink]="['viewcollaborateur', Collaborateur.collaborateur.id]"
+                          class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem"
+                          tabindex="-1" id="menu-item-6">View
+                          <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                              <circle cx="12" cy="12" r="3" stroke="#33363F" stroke-width="2"></circle>
+                              <path
+                                d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                stroke="#33363F" stroke-width="2"></path>
+                            </g>
+                          </svg>
+                        </a>
+                      </div>
+
+                      <div *ngIf="me.role === 'admin' " class="rounded-lg py-1 hover:bg-gray-100" role="none">
+                        <p-button (onClick)="confirm2($event,Collaborateur.collaborateur.id)"
+                          class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem"
+                          tabindex="-1" id="menu-item-6">Suprimer
+                          <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                              <path d="M10 11V17" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                              <path d="M14 11V17" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                              <path d="M4 7H20" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                              <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z"
+                                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                          </svg>
+                        </p-button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="mx-auto mt-6 w-fit">
-                  <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
-                    class="h-52 w-52 rounded-full" alt="profile picture" srcset="" />
+                  <img src="{{Collaborateur.collaborateur.imageurl}}" class="h-52 w-52 rounded-full"
+                    alt="profile picture" srcset="" />
                 </div>
 
                 <div class="mt-8">
                   <h2 class="text-2xl font-bold tracking-wide text-black min-h-16">
+                    {{ Collaborateur.collaborateur.nom }}
                     {{ Collaborateur.collaborateur.prenom }}<br />
                     <p class="text-gray-400">
                       {{ Collaborateur.collaborateur.competence.titrecompetence }}
                     </p>
                   </h2>
                 </div>
-                <p class="mt-2.5 font-semibold text-emerald-400">Active</p>
+                <p *ngIf="Collaborateur.collaborateur.enabled" class="mt-2.5 font-semibold text-emerald-400">Active</p>
+                <p *ngIf="!Collaborateur.collaborateur.enabled" class="mt-2.5 font-semibold text-red-500">Non Active</p>
 
                 <div class="mt-8 h-1 w-full rounded-full bg-black">
                   <div class="h-1 w-2/5 rounded-full bg-yellow-500"></div>
@@ -296,6 +341,7 @@
                 </div>
               </section>
             </div>
+
           </div>
         </div>
         }

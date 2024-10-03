@@ -1,3 +1,4 @@
+import { Action } from "./action";
 import { Collaborateur } from "./collaborateur";
 import { departement } from "./departement";
 import { Planification } from "./planification";
@@ -29,6 +30,7 @@ export class Projet {
     collaborateur !: Collaborateur[] | null;
     etatdavancement  !: string | null;
     trimestre !: Trimestre;
-
+    retenir  !: boolean;
+    action !: Action[];
     constructor() { }
 }

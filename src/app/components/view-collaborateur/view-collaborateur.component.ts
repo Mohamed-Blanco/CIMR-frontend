@@ -8,6 +8,7 @@ import { response } from 'express';
 import { error } from 'console';
 import { ActivatedRoute } from '@angular/router';
 import { Collaborateur } from '../../../models/collaborateur';
+import { authentificationservice } from '../../../services/authentification.service';
 
 @Component({
   selector: 'app-view-collaborateur',
@@ -23,9 +24,6 @@ export class ViewCollaborateurComponent implements OnInit {
   dropdownstate2: boolean[] = [];
   projets !: Projet[];
   projetsCount: number = 0;
-  collaborateurInformation !: Collaborateur;
-
-
 
   onSearch(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -52,11 +50,13 @@ export class ViewCollaborateurComponent implements OnInit {
     );
   }
 
+  me !: Collaborateur;
   getCollaborateur(id: number) {
     this.collaborateurService.FindCollaborateurById(id).subscribe(
       (response: Collaborateur) => {
         console.log("Information : " + response)
-        this.collaborateurInformation = response;
+        this.me = response;
+        this.getCurrentTrimsetreId();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -76,22 +76,40 @@ export class ViewCollaborateurComponent implements OnInit {
     );
   }
 
-  constructor(private collaborateurService: collaborateurservice, private trimestreSerivce: TrimestreService) {
+  constructor(private authentificationservice: authentificationservice, private collaborateurService: collaborateurservice, private trimestreSerivce: TrimestreService) {
 
   }
   private activatedRoute = inject(ActivatedRoute);
   collabid !: number;
   CurrentTrimestreId !: number | undefined;
 
+  getCollaborateurId() {
+    this.authentificationservice.me().subscribe(
+      (response: Collaborateur) => {
+        this.me = response;
+        this.collabid = response.id;
+        this.getCurrentTrimsetreId();
+
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+  }
 
 
 
   ngOnInit(): void {
-    this.collabid = this.activatedRoute.snapshot.params['id'];
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.collabid = this.activatedRoute.snapshot.params['id'];
+      this.getCollaborateur(this.collabid);
+    } else {
+      this.getCollaborateurId()
+
+    }
 
     this.getTrimestres();
-    this.getCollaborateur(this.collabid);
-    this.getCurrentTrimsetreId();
+
 
   }
 
@@ -117,7 +135,7 @@ export class ViewCollaborateurComponent implements OnInit {
         console.log("Getting projets")
         this.projets = response;
         console.log("Projets de ce Collaborateurs " + response);
-
+        this.getCollaborateurTrimestre(this.collabid, id);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -144,6 +162,20 @@ export class ViewCollaborateurComponent implements OnInit {
       (response: Projet[]) => {
         this.projets = response;
         console.log(this.projets)
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      },
+    );
+
+  }
+
+  CollabTrim !: any;
+  getCollaborateurTrimestre(collabid: number, trimid: number | undefined) {
+
+    this.collaborateurService.getCollabTrimestre(collabid, trimid).subscribe(
+      (response: any) => {
+        this.CollabTrim = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -188,4 +220,8 @@ export class ViewCollaborateurComponent implements OnInit {
       return;
     }
   }
+
+
+
+
 }

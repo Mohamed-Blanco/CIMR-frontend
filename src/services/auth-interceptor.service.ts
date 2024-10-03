@@ -17,16 +17,16 @@ export class AuthInterceptor implements HttpInterceptor {
         const shouldBypass = bypassUrls.some(url => req.url.includes(url));
 
         // If it's not a browser or the URL should be bypassed, just forward the request
-        if (isPlatformBrowser(this.platformId) && !shouldBypass) {
-            const idToken = localStorage.getItem('token');
-            if (idToken) {
-                // Clone the request and add the Authorization header
-                const cloned = req.clone({
-                    headers: req.headers.set('Authorization', 'Bearer ' + idToken)
-                });
-                return next.handle(cloned);
-            }
+
+        const idToken = localStorage.getItem('token');
+        if (idToken) {
+            // Clone the request and add the Authorization header
+            const cloned = req.clone({
+                headers: req.headers.set('Authorization', 'Bearer ' + idToken)
+            });
+            return next.handle(cloned);
         }
+
 
         // For login/register or when no token is present, just pass the request as is
         return next.handle(req);

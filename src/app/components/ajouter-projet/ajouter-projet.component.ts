@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProjteService } from '../../../services/projet.service';
 import { DepartementService } from '../../../services/departement.service';
@@ -19,17 +19,25 @@ export class AjouterProjetComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log("Trimestre To add in : " + this.TrimestreId);
     this.getAlldepartement();
     console.log(this.departement);
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
 
-    console.log("Trimestre To Add In ", this.TrimestreId);
+    if (changes['trimestretoadd']) {
+      console.log('Trimestre To add:', this.trimestretoadd);
+      // Do something with the new value
+    }
   }
 
-  @Input() TrimestreId !: number | undefined;
+  ngAfterViewInit(): void {
+
+    console.log('Trimestre To add:', this.trimestretoadd);
+    // Do something with the new value
+  }
+
+  @Input() trimestretoadd !: number | undefined;
 
   constructor(private departementservice: DepartementService, private projetservice: ProjteService, private planificationservice: PlanificationService) { }
 
@@ -68,7 +76,7 @@ export class AjouterProjetComponent implements OnInit {
       depRq = this.form.value.departement;
 
       let TriRq = new Trimestre();
-      TriRq.id = this.TrimestreId;
+      TriRq.id = this.trimestretoadd;
 
       projectRequest.trimestre = TriRq;
 

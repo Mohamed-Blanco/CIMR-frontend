@@ -47,7 +47,7 @@
           </svg>
         </button>
 
-        <button (click)="showChiffrer()" class=" flex justify-center"><svg
+        <button *ngIf="me?.role == 'admin'" (click)="showChiffrer()" class=" flex justify-center"><svg
             class="w-8 h-8 hover:w-10 hover:h-10 transition-all duration-200" viewBox="0 0 20 20" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -62,8 +62,7 @@
             </g>
           </svg></button>
         <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
-        <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
-          class="h-10 w-10 rounded-full bg-gray-200">
+        <img src="{{me?.imageurl}}" class="h-10 w-10 rounded-full">
       </div>
 
 
@@ -157,7 +156,7 @@
 
 
         <!-- Action Component For Loop-->
-        <div class="h-full  w-full  border-[1px] bg-white rounded-lg shadow-md ">
+        <div class="h-full  w-full  border-[1px] min-h-[733px] bg-white rounded-lg shadow-md ">
           <div *ngFor="let actions of Actions; let i = index">
 
             @if (actions.etat === "Pas encore Commencé") {
@@ -220,7 +219,7 @@
                   </p>
                 </div>
                 <div class="relative w-10 border-r-[4px] border-gray-400">
-                  <button (click)="SetUncompleted(actions)"
+                  <button (click)="showDebuter()"
                     class="absolute right-[-16px] top-[45%] flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 p-2 shadow-md">
                     <p>
                       <svg class="h-6 transition-all duration-300 hover:h-10" viewBox="0 0 24 24" fill="none"
@@ -241,6 +240,22 @@
                       </svg>
                     </p>
                   </button>
+
+
+                  <p-dialog header="Commencer " [modal]="true" [(visible)]="visibledebuter"
+                    [style]="{ width: '25rem' }">
+
+
+                    <p class="text-base">Souhaitez-vous vraiment de rendre l'action <span class="text-[#7BB125]">
+                        {{actions.nomaction}}</span> , Comme debuter ?</p>
+                    <div class="flex justify-end gap-3 w-full mt-5">
+                      <button (click)="SetUncompleted(actions)" class="bg-[#7BB125] text-white p-2 rounded-md">Confirmer
+                      </button>
+                      <button (click)="visibledebuter = false" class="bg-gray-200  p-2 rounded-md">Annuler </button>
+                    </div>
+
+
+                  </p-dialog>
                 </div>
 
                 <div class="w-full ">
@@ -382,7 +397,8 @@
                   <p>{{ actions.datelimite | date }}</p>
                 </div>
                 <div class="relative w-10 border-r-[4px] border-green-400">
-                  <button (click)="SetCompleted(actions)"
+
+                  <button
                     class="absolute right-[-16px] top-[45%] flex h-7 w-7 items-center justify-center rounded-full bg-green-400 p-2 shadow-md">
                     <p>
                       <svg class="h-8 transition-all duration-300 hover:h-10" viewBox="0 0 24 24" fill="none"
@@ -536,7 +552,7 @@
                   <p>{{ actions.datelimite | date }}</p>
                 </div>
                 <div class="relative w-10 border-r-[4px] border-[#FFC728]">
-                  <button (click)="SetCompleted(actions)"
+                  <button (click)="showComplet()"
                     class="absolute right-[-16px] top-[45%] flex h-7 w-7 items-center justify-center rounded-full bg-[#FFC728] p-2 shadow-md">
                     <p>
                       <svg class="h-8 transition-all duration-300 hover:h-10" viewBox="0 0 24 24" fill="none"
@@ -554,6 +570,20 @@
                       </svg>
                     </p>
                   </button>
+                  <p-dialog header="Complete : " [modal]="true" [(visible)]="visiblecomplet"
+                    [style]="{ width: '25rem' }">
+
+
+                    <p class="text-base">Souhaitez-vous vraiment de rendre l'action <span class="text-[#7BB125]">
+                        {{actions.nomaction}}</span> , Comme complete ?</p>
+                    <div class="flex justify-end gap-3 w-full mt-5">
+                      <button (click)="SetCompleted(actions)" class="bg-[#7BB125] text-white p-2 rounded-md">confirmer
+                      </button>
+                      <button (click)="visiblecomplet = false" class="bg-gray-200  p-2 rounded-md">annuler </button>
+                    </div>
+
+
+                  </p-dialog>
                 </div>
 
                 <div class="w-full ">
@@ -583,16 +613,28 @@
       </div>
     </div>
     <div id="right-container " class="grow-0 flex flex-col gap-4">
-      <div class=" bg-white w-full  shadow-md rounded-md">
-        <p class="px-3 py-2">Etat d'avancement : </p>
-        <div class="mb-2 mt-2 w-full px-3 md:w-full">
-          <textarea name="remarque"
-            class="h-20 max-h-[400px] min-h-[200px] w-full overflow-visible rounded border border-gray-400 bg-gray-100 px-3 py-2 font-medium leading-normal placeholder-gray-700 focus:bg-white focus:outline-none"
-            name="body" placeholder="..." [value]="projets.remarque"></textarea>
+      <form (ngSubmit)="onRemarque(remarqueForm)" #remarqueForm="ngForm" class="w-full">
+        <div class=" bg-white w-full  shadow-md rounded-md">
+          <p class="px-3 py-2">Remarque : </p>
+          <div class="mb-2 mt-2 w-full px-3 md:w-full">
+
+            <textarea [(ngModel)]="projets.remarque" name="remarque" (ngModelChange)="onTextareaChange()"
+              class="h-20 max-h-[400px] min-h-[200px] w-full overflow-visible rounded border border-gray-400 bg-gray-100 px-3 py-2 font-medium leading-normal placeholder-gray-700 focus:bg-white focus:outline-none"
+              placeholder="...">
+        </textarea>
+
+
+          </div>
+          <div *ngIf=" me?.role==='admin' " class="w-full justify-end flex">
+            <button type="submit" class="bg-gray-200 mr-4 mb-3 p-1 px-2 rounded-full" *ngIf="etat">Changer</button>
+
+          </div>
         </div>
-      </div>
-      <div class=" ">
-        <div class="mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow-md md:max-w-lg min-h-[16.5rem]">
+      </form>
+
+
+      <div class=" " *ngIf=" me?.role==='admin' ">
+        <div class=" mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow-md md:max-w-lg min-h-[16.5rem]">
           <div class="md:flex">
             <div class="w-full p-4">
               <div class="relative flex justify-between pb-3">
@@ -623,7 +665,8 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                           Close
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn 
+                        text-white bg-[#7BB125]">
                           Save changes
                         </button>
                       </div>
@@ -644,9 +687,7 @@
                   class="w-full  h-[4.5rem] hover:bg-gray-200   rounded-lg hover:rounded-lg transition-all duration-200 pr-4 pl-3 flex justify-between items-center">
 
                   <div class="flex ">
-                    <img
-                      src="data:image/jpeg;base64,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"
-                      class="w-11 rounded-full shadow-md bg-black h-11">
+                    <img src="{{collaborateur?.imageurl}}" class="w-11 rounded-full shadow-md bg-black h-11">
                     <div class="ml-2 flex flex-col">
                       <span class="font-medium text-black">{{ collaborateur.nom }}
                         {{ collaborateur.prenom }}</span>
@@ -871,6 +912,22 @@
     <button (click)="visiblechifrrer = false" class="bg-gray-200  p-2 rounded-md">Annuler </button>
   </div>
   }
+
+</p-dialog>
+
+
+
+
+
+<p-dialog header="Change State " [modal]="true" [(visible)]="visiblechifrrer" [style]="{ width: '25rem' }">
+
+
+  <p class="text-xl">Souhaitez-vous vraiment changer situation ?</p>
+  <div class="flex justify-end gap-3 w-full mt-5">
+    <button (click)="chiffrer()" class="bg-[#7BB125] text-white p-2 rounded-md">Confirmer </button>
+    <button (click)="visiblechifrrer = false" class="bg-gray-200  p-2 rounded-md">Annuler </button>
+  </div>
+
 
 </p-dialog>
 

@@ -46,10 +46,19 @@ export class authentificationservice {
         return localStorage.getItem('token'); // Or sessionStorage
     }
 
+    getCollaborateurID(): string | null {
+        return localStorage.getItem('token'); // Or sessionStorage
+    }
+
+    public me(): Observable<Collaborateur> {
+        return this.http.get<Collaborateur>(`${this.apiServerUrl}/Collaborateurs/me`);
+    }
+
     // Check if the token has expired (optional, depends on your use case)
     isTokenExpired(token: string): boolean {
         const expiry = this.getTokenExpiration(token);
         if (!expiry) {
+            localStorage.setItem('token', '');
             return true;
         }
         return expiry < Date.now() / 1000;

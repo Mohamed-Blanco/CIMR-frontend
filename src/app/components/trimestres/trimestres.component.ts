@@ -8,6 +8,9 @@ import { response } from 'express';
 import { Trimestre } from '../../../models/trimestre';
 import { TrimestreService } from '../../../services/trimestre.service';
 import { ActivatedRoute } from '@angular/router';
+import { authentificationservice } from '../../../services/authentification.service';
+import { Collaborateur } from '../../../models/collaborateur';
+import { error } from 'console';
 
 @Component({
   selector: 'app-trimestres',
@@ -21,23 +24,38 @@ export class TrimestresComponent implements OnInit {
   visible: boolean = false;
   planifications: Planification[] = [];
   private activatedRoute = inject(ActivatedRoute);
-  AllTrimestres !: Trimestre[];
+  AllTrimsetres !: Trimestre[];
+  suprimer: boolean = false;
 
+
+  onSearchPlanifications(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const searchTerm = inputElement.value.toLowerCase();
+    console.log(searchTerm)
+    this.planifications = this.Allplanif;
+
+    this.planifications = this.planifications.filter((item) =>
+      item.titreplanification?.toLowerCase().includes(searchTerm) ?? false
+
+    );
+
+
+
+  }
   constructor(
     private messageService: MessageService,
     private planificationservice: PlanificationService,
-    private trimestreservice: TrimestreService
+    private trimestreservice: TrimestreService,
+    private authentificationservice: authentificationservice
   ) { }
 
-  show() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'votre planification a eté crée',
-    });
-  }
+
   showDialog() {
     this.visible = true;
+  }
+  me !: Collaborateur;
+  Me() {
+    this.authentificationservice.me().subscribe((response) => this.me = response, (error) => alert(error));
   }
 
 
@@ -72,9 +90,11 @@ export class TrimestresComponent implements OnInit {
         (response: Planification) => {
           console.log(response);
           this.getPlanifications();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Planification est ajouter ' });
         },
         (error: HttpErrorResponse) => {
           console.log(error.message);
+          this.messageService.add({ severity: 'error', summary: 'Planification non Ajouter', detail: 'erreur lors de l ajoute de la Planification  ' });
         },
       );
   }
@@ -86,6 +106,8 @@ export class TrimestresComponent implements OnInit {
       (response: void) => {
         console.log("Projet Suprimer ! ");
         this.getPlanifications();
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Planification a était Suprimer' });
+
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -119,11 +141,15 @@ export class TrimestresComponent implements OnInit {
         (response: Trimestre) => {
           console.log(response);
           this.getPlanifications();
+          this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Trimestre ' + trimestreRequest.nomtrimestre + ' est ajouter' });
+
         },
         (error: HttpErrorResponse) => {
           console.log(error.message);
         },
       );
+
+
   }
 
   PlanificationToAddIn  !: Planification;
@@ -132,13 +158,16 @@ export class TrimestresComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.Me();
     this.getPlanifications();
   }
 
+  Allplanif !: Planification[];
   public getPlanifications(): void {
     this.planificationservice.getPlanifications().subscribe(
       (response: Planification[]) => {
         this.planifications = response;
+        this.Allplanif = response;
         console.log(response);
       },
       (error: HttpErrorResponse) => {

@@ -1,21 +1,16 @@
-<div class="flex-col flex min-h-screen w-full bg-gray-200 pl-32  gap-10 pr-10 py-4">
+<div class="flex-col flex min-h-screen w-full bg-gray-200 pl-32  gap-10 pr-10 py-4 ">
 
     <div class="  flex h-16 items-center justify-between gap-5 rounded-lg bg-white px-4 shadow-md">
         <p class="font-bold">Gestion des Capacitées : </p>
         <div class="flex items-center gap-3">
-            <input type="search" placeholder="Search "
+            <input type="search" placeholder="Search " (input)="onSearchCapacities($event)"
                 class="h-8 w-48 rounded-full bg-gray-200 pl-3 text-sm transition-all ease-in-out focus:h-10" />
 
 
             <!-- Buttons -->
 
-
-
-
-
             <div class="h-10 w-[3px] rounded-xl bg-gray-100"></div>
-            <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
-                class="h-10 w-10 rounded-full bg-gray-200">
+            <img src="{{me.imageurl}}" class="h-10 w-10 rounded-full bg-gray-200">
         </div>
     </div>
     <div class="z-20 flex items-center justify-end">
@@ -23,7 +18,7 @@
         <div class="group relative">
             <button (click)="dropdownbutton()"
                 class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                <span class="mr-2 ">Selectioner Trimestre</span>
+                <span class="mr-2 font-bold ">Selectioner Trimestre</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20"
                     fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd"
@@ -41,14 +36,13 @@
 
                 <!-- Dropdown content goes here -->
                 <div class="max-h-24 overflow-y-scroll">
-                    <a [routerLink]="['/Planification/Trimestre', item.id]" (click)="getAllCapacities(item)"
-                        (click)="TrimestreId = item.id"
+                    <button (click)="getAllCapacities(item)" (click)="TrimestreId = item.id"
                         class="block cursor-pointer rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100"
                         *ngFor="let item of filteredItems">
                         <p>{{
-                            item.nomtrimestre }}</p>
+                            item?.nomtrimestre }}</p>
 
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -66,13 +60,13 @@
 
         <div
             class="relative flex justify-between overflow-hidden pr-10 bg-white pl-4 w-full items-center h-[400px] rounded-xl shadow-md   overflow-y-scroll">
-            <p class=" absolute top-8 left-16 text-lg font-bold">Capacité {{trimestre.nomtrimestre}} : <br> <span
+            <p class=" absolute top-8 left-16 text-lg font-bold">Capacité {{trimestre?.nomtrimestre}} : <br> <span
                     class="text-sm text-gray-400 font-normal">informations sur Capacité </span></p>
 
             <div class="mt-12 pl-16  ">
 
                 <p class=" flex justify-between gap-28 "> #Coefficient de Maintenence :
-                    <span>{{trimestre.coefficientmaintence}}%</span>
+                    <span>{{trimestre?.coefficientmaintence}}%</span>
                 </p>
                 <p class="flex justify-between gap-28 "> Dev AS400 : <span>{{counts.DevAs400}}</span>
                 </p>
@@ -111,7 +105,7 @@
 
 
     </div>
-    <div class="grid grid-cols-4 w-full gap-10">
+    <div class="grid grid-cols-4 w-full gap-10 pb-20">
 
         <div *ngFor="let capacitie of Capacities"
             class="overflow-x-hidden bg-white shadow-md h-fit rounded-lg pb-4 relative ">
@@ -122,8 +116,7 @@
             <div class=" h-40  py-8   flex items-center">
                 <div class="h-24 w-2 bg-[#7BB125] "></div>
                 <div class="flex ml-6 items-center">
-                    <img src="https://themesflat.co/html/protend/images/profile/user-profile.png"
-                        class="max-w-16 h-16 w-16 max-h-16 bg-black rounded-full">
+                    <img src="{{capacitie?.collaborateur.imageurl}}" class="max-w-16 h-16 w-16 max-h-16 rounded-full">
                     <div class="">
                         <p class="ml-5 whitespace-nowrap font-bold flex justify-between items-center  ">
                             {{capacitie?.collaborateur.nom }} {{capacitie?.collaborateur.prenom }}

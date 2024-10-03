@@ -11,6 +11,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { HomecomponentComponent } from './components/homecomponent/homecomponent.component';
 import { CompleterProfilComponent } from './components/completer-profil/completer-profil.component';
 import { CapacitiesComponent } from './components/capacities/capacities.component';
+import { PageintrouvableComponent } from './components/pageintrouvable/pageintrouvable.component';
+import { DepartementsComponent } from './components/departements/departements.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,10 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'viewcollaborateur',
+        component: ViewCollaborateurComponent
+      },
+      {
         path: 'Planification',
         component: TrimestresComponent,
         children: [{
@@ -42,6 +48,11 @@ const routes: Routes = [
 
       },
       {
+        path: 'Departements',
+        component: DepartementsComponent,
+
+      },
+      {
         path: 'projets',
         component: ProjetsComponent, children: [{
           path: 'viewprojet/:id', component: ViewProjetComponent
@@ -53,6 +64,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: AuthentificationComponent,
+
+  },
+  {
+    path: '**',
+    component: PageintrouvableComponent,
 
   },
 

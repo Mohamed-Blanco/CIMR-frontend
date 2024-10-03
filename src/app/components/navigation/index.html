@@ -1,0 +1,226 @@
+<!-- component -->
+<div class="transition-all h-screen fixed flex bg-gray-200 shadow-xl z-50">
+    <!-- container -->
+
+    <aside
+        class="w-auto hover:pr-60 relative gap-10 transition-all duration-700 overflow-hidden poppins  rounded-lg group hover:items-start flex flex-col items-center bg-white text-gray-700 shadow h-full">
+        <!-- Side Nav Bar-->
+
+        <div class="mb-10 h-16 flex group-1-hover:bg-black px-3 w-full">
+            <!-- Logo Section -->
+            <a class="h-auto w-auto flex" href="">
+                <img class="h-10 w-10 mt-8 mx-auto" src="assets/images/CIMR-Logo.png" alt="logo" />
+                <div
+                    class="flex-row font-bold absolute scale-x-0 group-hover:pl-[90px] group-hover:scale-x-100 transition-all duration-500 pt-8">
+                    <p class="text-[#7BB125] ">{{collaborateurInformation?.nom }} {{collaborateurInformation?.prenom }}
+                    </p>
+                    <p class="text-gray-500 text-xs">
+                        Responsable Devolepement informatique
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="absolute divide-y-2 h-2 w-24 p-64"></div>
+        <div>
+            <ul class="" id="sidebar">
+
+
+
+
+                <li class=" focus:text-[#7BB125]">
+                    <a [routerLink]="['/Home/Planification']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                            <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0
+          							2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0
+          							0-1.79 1.11z"></path>
+                        </svg>
+                        <p
+                            class="absolute py-[1.2em]  text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-52 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            Trimestres
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li class=" focus:text-[#7BB125]">
+                    <a [routerLink]="['/Home/viewcollaborateur']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M4 21C4 17.4735 6.60771 14.5561 10 14.0709M19.8726 15.2038C19.8044 15.2079 19.7357 15.21 19.6667 15.21C18.6422 15.21 17.7077 14.7524 17 14C16.2923 14.7524 15.3578 15.2099 14.3333 15.2099C14.2643 15.2099 14.1956 15.2078 14.1274 15.2037C14.0442 15.5853 14 15.9855 14 16.3979C14 18.6121 15.2748 20.4725 17 21C18.7252 20.4725 20 18.6121 20 16.3979C20 15.9855 19.9558 15.5853 19.8726 15.2038ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </g>
+                        </svg>
+                        <p
+                            class="absolute py-[1.2em]  text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-52 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            mon Profil
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="hover:bg-gray-100 hover:text-[#7BB125]">
+                    <a [routerLink]="['/Home/Capacities']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
+                            </path>
+                        </svg>
+                        <p
+                            class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            Capacities :
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+                <li class="hover:bg-gray-100 hover:text-[#7BB125]">
+                    <a [routerLink]="['/Home/projets']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
+                            </path>
+                        </svg>
+                        <p
+                            class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            Projets :
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+                <li class="hover:bg-gray-100 hover:text-[#7BB125]">
+                    <a [routerLink]="['/Home/Planification']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
+                            </path>
+                        </svg>
+                        <p
+                            class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            Planifications :
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+                <li class="hover:bg-gray-100 hover:text-[#7BB125]">
+                    <a [routerLink]="['/Home/collaborateurs']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M3 5.5L5 3.5M21 5.5L19 3.5M12 8.5V13.5M12 16.5H12.01M20 12.5C20 16.9183 16.4183 20.5 12 20.5C7.58172 20.5 4 16.9183 4 12.5C4 8.08172 7.58172 4.5 12 4.5C16.4183 4.5 20 8.08172 20 12.5Z">
+                            </path>
+                        </svg>
+                        <p
+                            class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            Collaborateurs :
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="hover:bg-gray-100 hover:text-[#7BB125]">
+                    <a [routerLink]="['/Home/collaborateurs']" href="."
+                        class="relative h-16 px-6 flex justify-center items-center w-full focus:text-[#7BB125] hover:text-[#7BB125]">
+
+                        <p
+                            class="absolute text-gray-600 whitespace-nowrap transition-all duration-500 pl-48 group-hover:pl-48 ml-9 font-bold scale-x-0 group-hover:scale-x-100">
+                            Settings :
+                        </p>
+                        <div class="card flex justify-content-center">
+                            <div class="card flex justify-content-center"></div>
+                        </div>
+                    </a>
+                </li>
+
+
+            </ul>
+        </div>
+
+        <div class="mt-auto  w-full">
+            <!-- Action Section -->
+            <button (click)="suprimer = true"
+                class="h-24   px-6 w-full focus:text-[#7BB125] hover:bg-red-200 focus:outline-none">
+                <svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </button>
+
+            <p-dialog [modal]="true" [(visible)]="suprimer" [style]="{ width: '25rem' }" class="relative">
+
+                <div
+                    class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <!-- Heroicon name: outline/exclamation -->
+                    <svg width="64px" height="64px" class="h-6 w-6 text-red-600" stroke="currentColor" fill="none"
+                        viewBox="0 0 24.00 24.00" xmlns="http://www.w3.org/2000/svg" stroke="#ef4444"
+                        stroke-width="0.45600000000000007">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M12 7.25C12.4142 7.25 12.75 7.58579 12.75 8V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V8C11.25 7.58579 11.5858 7.25 12 7.25Z"
+                                fill="#ef4444"></path>
+                            <path
+                                d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                                fill="#ef4444"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M8.2944 4.47643C9.36631 3.11493 10.5018 2.25 12 2.25C13.4981 2.25 14.6336 3.11493 15.7056 4.47643C16.7598 5.81544 17.8769 7.79622 19.3063 10.3305L19.7418 11.1027C20.9234 13.1976 21.8566 14.8523 22.3468 16.1804C22.8478 17.5376 22.9668 18.7699 22.209 19.8569C21.4736 20.9118 20.2466 21.3434 18.6991 21.5471C17.1576 21.75 15.0845 21.75 12.4248 21.75H11.5752C8.91552 21.75 6.84239 21.75 5.30082 21.5471C3.75331 21.3434 2.52637 20.9118 1.79099 19.8569C1.03318 18.7699 1.15218 17.5376 1.65314 16.1804C2.14334 14.8523 3.07658 13.1977 4.25818 11.1027L4.69361 10.3307C6.123 7.79629 7.24019 5.81547 8.2944 4.47643ZM9.47297 5.40432C8.49896 6.64148 7.43704 8.51988 5.96495 11.1299L5.60129 11.7747C4.37507 13.9488 3.50368 15.4986 3.06034 16.6998C2.6227 17.8855 2.68338 18.5141 3.02148 18.9991C3.38202 19.5163 4.05873 19.8706 5.49659 20.0599C6.92858 20.2484 8.9026 20.25 11.6363 20.25H12.3636C15.0974 20.25 17.0714 20.2484 18.5034 20.0599C19.9412 19.8706 20.6179 19.5163 20.9785 18.9991C21.3166 18.5141 21.3773 17.8855 20.9396 16.6998C20.4963 15.4986 19.6249 13.9488 18.3987 11.7747L18.035 11.1299C16.5629 8.51987 15.501 6.64148 14.527 5.40431C13.562 4.17865 12.8126 3.75 12 3.75C11.1874 3.75 10.4379 4.17865 9.47297 5.40432Z"
+                                fill="#ef4444"></path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">Se déconnecter
+                    </h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500"> Voulez-vous vraiment vous déconnecter ?"
+                        </p>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center mt-4">
+                    <p-button type="button" label="déconnecter" (onClick)="suprimer = false" (click)="logout()"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" />
+
+
+                </div>
+
+
+            </p-dialog>
+        </div>
+    </aside>
+</div>
+
+<div></div>

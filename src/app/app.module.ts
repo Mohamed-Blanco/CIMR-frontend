@@ -37,6 +37,10 @@ import { HomecomponentModule } from './components/homecomponent/homecomponent.mo
 import { CompleterProfilComponent } from './components/completer-profil/completer-profil.component';
 import { CapacitiesComponent } from './components/capacities/capacities.component';
 import { CapacitiesModule } from './components/capacities/capacities.module';
+import { RetnirProjetComponent } from './components/retnir-projet/retnir-projet.component';
+import { RetnirProjetModule } from './components/retnir-projet/retnir-projet.module';
+import { PageintrouvableModule } from './components/pageintrouvable/pageintrouvable.module';
+import { DepartementsModule } from './components/departements/departements.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -59,7 +63,10 @@ import { CapacitiesModule } from './components/capacities/capacities.module';
     EditActionModule,
     AuthentificationModule,
     HomecomponentModule,
-    CapacitiesModule
+    CapacitiesModule,
+    RetnirProjetModule,
+    PageintrouvableModule,
+    DepartementsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, [provideHttpClient(withInterceptorsFromDi())
