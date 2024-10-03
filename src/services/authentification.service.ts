@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { envirenement } from '../app/envirenement/envirenement';
 import { Collaborateur } from '../models/collaborateur';
 import { Competence } from '../models/competence';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -16,7 +17,7 @@ export class authentificationservice {
     private apiServerUrl = envirenement.apiBaseUrl;
 
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     register(collaborateur: Collaborateur): Observable<Collaborateur> {
         return this.http.post<Collaborateur>(`${this.apiServerUrl}/auth/signup`, collaborateur);
@@ -59,6 +60,7 @@ export class authentificationservice {
         const expiry = this.getTokenExpiration(token);
         if (!expiry) {
             localStorage.setItem('token', '');
+            this.router.navigateByUrl('login');
             return true;
         }
         return expiry < Date.now() / 1000;
