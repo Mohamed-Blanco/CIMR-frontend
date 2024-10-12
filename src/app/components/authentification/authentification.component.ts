@@ -8,6 +8,7 @@ import { stringify } from 'querystring';
 import { Collaborateur } from '../../../models/collaborateur';
 import { Competence } from '../../../models/competence';
 import { FileUploadService } from '../../../services/file.service';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -18,7 +19,7 @@ import { FileUploadService } from '../../../services/file.service';
 })
 export class AuthentificationComponent implements OnInit {
 
-  constructor(private uploadService: FileUploadService, private athentificationService: authentificationservice, private router: Router) {
+  constructor(private Messageservice: MessageService, private uploadService: FileUploadService, private athentificationService: authentificationservice, private router: Router) {
 
   }
 
@@ -74,7 +75,11 @@ export class AuthentificationComponent implements OnInit {
       console.log("Token : " + response.token)
       localStorage.setItem('token', response.token);
       this.router.navigateByUrl('Home/viewcollaborateur');
+
+
     }, (error) => {
+      this.Messageservice.add({ severity: 'error', summary: 'Invalide', detail: 'Adresse e-mail ou mot de passe invalide"', life: 2000 });
+
       console.error('Login error: ', error);
     });
   }

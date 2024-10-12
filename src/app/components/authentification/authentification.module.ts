@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { Toast, ToastModule } from 'primeng/toast';
 
 
 
@@ -15,7 +16,8 @@ import { ButtonModule } from 'primeng/button';
     FormsModule,
     DropdownModule,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule
   ],
   exports: [
     AuthentificationComponent

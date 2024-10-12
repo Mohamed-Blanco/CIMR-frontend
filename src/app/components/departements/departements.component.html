@@ -84,21 +84,20 @@
                 }
 
             </div>
-            <div class="px-10 ">
-                <p class="justify-between flex font-bold"> Nombre de Projet : <span
-                        class="text-[#7BB125]">{{dep[4]}}</span> </p>
-                <p class="justify-between flex whitespace-nowrap font-bold"> Derniere Projet : <span
-                        class="text-[#7BB125]" *ngIf="dep[7]?.length < 20 ">{{dep[7]}}</span>
+            <a href="./Home" class="px-10 ">
+                <p class="justify-between flex "> Nombre de Projet : <span class="text-[#7BB125]">{{dep[4]}}</span> </p>
+                <p class="justify-between flex whitespace-nowrap "> Derniere Projet : <span class="text-[#7BB125]"
+                        *ngIf="dep[7]?.length < 20 ">{{dep[7]}}</span>
                     <span class="text-[#7BB125]" *ngIf="dep[7]?.length >= 35 ">{{dep[7]?.slice(0,20)}}......</span>
                 </p>
-                <p class="justify-between flex font-bold"> Date : <span class="text-[#7BB125]">{{dep[8] | date
+                <p class="justify-between flex "> Date : <span class="text-[#7BB125]">{{dep[8] | date
                         }}</span></p>
-                <p class="justify-between flex font-bold"> AS400 Consomer: <span class="text-[#7BB125]">{{dep[4]
+                <p class="justify-between flex "> AS400 Consomer: <span class="text-[#7BB125]">{{dep[4]
                         }}</span></p>
-                <p class="justify-between flex font-bold"> NTIC Consomer: <span class="text-[#7BB125]">{{dep[5]
+                <p class="justify-between flex "> NTIC Consomer: <span class="text-[#7BB125]">{{dep[5]
                         }}</span></p>
 
-            </div>
+            </a>
 
         </div>
 

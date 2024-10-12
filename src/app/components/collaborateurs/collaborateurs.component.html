@@ -120,7 +120,8 @@
                   <td class="flex items-center pl-14">
                     <img class="h-10 w-10 rounded-full" src="{{Collaborateur.collaborateur.imageurl}}" alt="" />
                     <div class="px-4">
-                      <p class="whitespace-nowrap">{{ Collaborateur.collaborateur.nom }} {{ Collaborateur.prenom }}</p>
+                      <p class="whitespace-nowrap">{{ Collaborateur.collaborateur.nom }} {{
+                        Collaborateur.collaborateur.prenom }}</p>
                       <p class="text-xs text-[#7BB125]">
                         {{ Collaborateur.collaborateur.email }}
                       </p>
@@ -130,7 +131,7 @@
                   <td>{{ Collaborateur.collaborateur.createdAt | date }}</td>
                   <td> {{ Collaborateur.collaborateur.role }}</td>
                   <td *ngIf="Collaborateur.collaborateur.enabled "> <button
-                      class="px-3 py-1 bg-green-200 rounded-full">Activer</button>
+                      class="px-3 py-1 bg-green-200 rounded-full">Active</button>
                   </td>
                   <td *ngIf="!Collaborateur.collaborateur.enabled "> <button
                       class="px-3 py-1 bg-red-200 rounded-full">Désactiver</button>
@@ -140,7 +141,7 @@
 
 
                     <button (click)="Droptablelistmenu(index)"
-                      class="rounded-lg px-1 py-1 text-gray-500 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-300">
+                      class="rounded-lg px-1 py-1 text-black transition-colors duration-200 ">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="h-6 w-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -158,7 +159,7 @@
                           (click)="OnEdit(Collaborateur.collaborateur)"
                           class="flex justify-between w-full px-4 py-2 text-sm text-gray-700" role="menuitem"
                           tabindex="-1" id="menu-item-0">
-                          <p>Edit</p>
+                          <p>Modifier</p>
                           <svg class="w-[1.4em]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="2"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -175,7 +176,7 @@
                       <div class="rounded-lg py-1 hover:bg-gray-100" role="none">
                         <a [routerLink]="['viewcollaborateur', Collaborateur.collaborateur.id]"
                           class="flex justify-between gap-2 px-4 py-2 text-sm text-gray-700" role="menuitem"
-                          tabindex="-1" id="menu-item-6">View
+                          tabindex="-1" id="menu-item-6">Voir
                           <svg class="w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

@@ -59,7 +59,7 @@ export class ProjetsComponent implements OnInit, OnChanges {
   UseEditComponent: boolean = false;
   AllTrimestres: Trimestre[] = [];
 
-  
+
   Capacities !: any[];
   Capacitiescounts = {
     DevAs400: 999,
@@ -523,18 +523,14 @@ export class ProjetsComponent implements OnInit, OnChanges {
     this.TrimestreId = this.activatedRoute.snapshot.params['idTrimestre'];
 
     if (this.TrimestreId !== undefined) {
-
       console.log("Trimestreid : ");
       console.log(this.TrimestreId);
       this.getprojetsByTrimestreId(this.TrimestreId);
       this.getTrimestreData(this.TrimestreId);
-
     } else {
       console.log("Trimestre Actuel ");
       this.getprojets();
     }
-
-
 
 
     this.cols = [
