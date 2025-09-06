@@ -1,29 +1,80 @@
-#test jetkins 1234567
 
-# Nossrproject
+Sure! Here's a clean, professional **README.md** focused on the **frontend** part of your project for GitHub:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.3.
+````markdown
+# CIMR Project Tracker - Frontend
 
-## Development server
+This repository contains the **frontend** of the CIMR Project Tracker, a web application designed to replace the legacy Excel-based project tracker with a modern, secure, and efficient system.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Overview
 
-## Code scaffolding
+The CIMR Project Tracker is built with **Angular** for the frontend and **Spring Boot** for the backend. The application enables **real-time tracking** of over 50 projects, replacing manual Excel workflows with an interactive web interface.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Features
 
-## Build
+- **Real-time Project Tracking**: View and manage projects dynamically without manual updates.
+- **Secure Authentication**: Integration with Spring Security and JWT to ensure secure access.
+- **Responsive UI**: Built using Angular to provide a smooth and intuitive user experience.
+- **CI/CD Ready**: Works seamlessly with Jenkins Pipelines and GitHub webhooks for continuous integration and deployment.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Frontend Tech Stack
 
-## Running unit tests
+- **Angular** (latest version)
+- **TypeScript**
+- **RxJS** for reactive programming
+- **Angular Material / PrimeNG** (if applicable for UI components)
+- **HTTP Client** to communicate with the backend API
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Installation
 
-## Running end-to-end tests
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/cimr-project-tracker-frontend.git
+cd cimr-project-tracker-frontend
+````
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+2. Install dependencies:
 
-## Further help
+```bash
+npm install
+```
+3. Run the development server:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+ng serve
+```
+4. Navigate to `http://localhost:4200/` in your browser.
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── components/   # Angular components
+│   ├── services/     # Services for API calls
+│   ├── models/       # TypeScript interfaces/models
+│   └── app.module.ts
+├── assets/           # Static assets
+└── environments/     # Environment configurations
+```
+
+## Future Enhancements
+
+* Dynamic dashboards for better project insights
+* Advanced search and filter options
+* Improved role-based access control
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
+
+## License
+
+This project is licensed under the MIT License.
+
+```
+
+If you want, I can also create a **shorter, more flashy version** of the README that’s **front-end developer portfolio ready**, highlighting **Angular skills** for GitHub visitors.  
+
+Do you want me to do that?
+```
